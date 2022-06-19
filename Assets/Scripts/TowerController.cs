@@ -1,14 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class TowerController : MonoBehaviour
 {
     // 攻撃範囲を管理する子スクリプト
     TowerRangeController rangeController;
-
-    // アクティブになるまでのパンチ数を表示するテキスト
-    [SerializeField] TextMeshPro LeftCountText;
 
     // 敵が攻撃範囲内にいるか示す変数
     bool enemiesInRange = false;
@@ -77,7 +73,6 @@ public class TowerController : MonoBehaviour
                 GameObject bullet = Instantiate(bulletPrefab, transform.position + new Vector3(0, 2f, 0), Quaternion.identity);
                 bullet.GetComponent<BulletController>().SetTarget(targetEnemyList[0]);
                 timeFromLastShot = 0f;
-                Debug.Log("shot");
             }
         }
     }
@@ -88,8 +83,6 @@ public class TowerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Hammer"))
         {
             leftToActivate--;
-            LeftCountText.text = leftToActivate.ToString();
-            Debug.Log(leftToActivate);
         }
     }
 }

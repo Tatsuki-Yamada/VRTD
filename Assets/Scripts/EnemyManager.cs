@@ -17,9 +17,4 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
 
     }
 
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Space))
-            CreateEnemy();
-    }
 }

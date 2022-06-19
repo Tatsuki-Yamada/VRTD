@@ -35,9 +35,9 @@ public class GameFieldManager : SingletonMonoBehaviour<GameFieldManager>
     public int playerBasePosY = 0;
 
     // タイルを並べる際のオフセット。
-    public float createFieldOffsetX = -4f;
-    public float createFieldOffsetY = -1.5f;
-    public float createFieldOffsetZ = -3f;
+    [System.NonSerialized] public float createFieldOffsetX = -4f;
+    [System.NonSerialized] public float createFieldOffsetY = -0.2f;
+    [System.NonSerialized] public float createFieldOffsetZ = -3f;
 
 
     // 敵が通る経路を探索する関数。
