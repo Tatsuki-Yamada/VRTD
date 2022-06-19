@@ -20,20 +20,6 @@ public class EnemyController : MonoBehaviour
     bool isActive = false;
 
 
-    void FixedUpdate()
-    {
-        if (HP <= 0 && isActive)
-        {
-            moveSequence.Kill();
-            isActive = false;
-
-            transform.position = new Vector3(50, 50, 50);
-
-            Debug.Log("Destroyed");
-        }
-    }
-
-
     void OnCollisionEnter(Collision collision)
     {
         if (isActive)
@@ -50,7 +36,14 @@ public class EnemyController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         HP -= damage;
-        Debug.Log("Damaged HP: " + HP);
+
+        if (HP <= 0 && isActive)
+        {
+            moveSequence.Kill();
+            isActive = false;
+
+            transform.position = new Vector3(50, 50, 50);
+        }
     }
 
 

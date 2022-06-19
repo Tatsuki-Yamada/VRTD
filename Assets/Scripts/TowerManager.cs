@@ -3,7 +3,7 @@ using UnityEngine;
 public class TowerManager : SingletonMonoBehaviour<TowerManager>
 {
     [SerializeField] GameObject towerPrefab;
-    float buildOffsetY = 1f;
+    float buildOffsetY = 0.5f;
 
 
     public void CreateTower(Vector3 tilePos)

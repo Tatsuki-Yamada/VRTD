@@ -6,22 +6,35 @@ public class BulletController : MonoBehaviour
     Transform target;
 
     // 自身のRigidbody
-    Rigidbody rigidbody;
+    Rigidbody rig;
 
     // 弾の速度
     [SerializeField] float moveSpeed = 3f;
 
+    // 有効かを示すフラグ
+    bool isActive = true;
+
 
     void Awake()
     {
-        rigidbody = GetComponent<Rigidbody>();    
+        rig = GetComponent<Rigidbody>();    
     }
 
 
     void FixedUpdate()
     {
-        transform.LookAt(target.position);
-        rigidbody.AddRelativeForce(Vector3.forward * moveSpeed);
+        if (isActive)
+        {
+            transform.LookAt(target.position);
+            rig.AddRelativeForce(Vector3.forward * moveSpeed);
+
+            if (target.position == new Vector3(50, 50, 50))
+            {
+                isActive = false;
+                Destroy(gameObject);
+
+            }
+        }
     }
 
 
@@ -31,10 +44,11 @@ public class BulletController : MonoBehaviour
     }
 
 
-    void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy"))
         {
+            other.GetComponent<EnemyController>().TakeDamage(1);
             Destroy(gameObject);
         }
     }

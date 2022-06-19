@@ -3,7 +3,7 @@ using UnityEngine;
 public class TowerRangeController : MonoBehaviour
 {
     // 親のスクリプト
-    TowerController towerController;
+    TowerFloorController towerFloorController;
 
     // タワーが有効になっているか
     public bool isTowerActive = false;
@@ -11,7 +11,7 @@ public class TowerRangeController : MonoBehaviour
 
     void Awake()
     {
-        towerController = transform.parent.GetComponent<TowerController>();
+        towerFloorController = transform.parent.GetComponent<TowerFloorController>();
     }
 
 
@@ -21,7 +21,7 @@ public class TowerRangeController : MonoBehaviour
         {
             if (other.gameObject.CompareTag("Enemy"))
             {
-                towerController.SetTargetEnemy(other.gameObject);
+                towerFloorController.SetTargetEnemy(other.gameObject);
                 Debug.Log("Enter");
             }
         }
@@ -34,7 +34,7 @@ public class TowerRangeController : MonoBehaviour
         {
             if (other.gameObject.CompareTag("Enemy"))
             {
-                towerController.RemoveTargetEnemy(other.gameObject);
+                towerFloorController.RemoveTargetEnemy(other.gameObject);
                 Debug.Log("Exit");
             }
         }
