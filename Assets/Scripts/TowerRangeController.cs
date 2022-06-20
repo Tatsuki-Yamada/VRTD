@@ -22,7 +22,6 @@ public class TowerRangeController : MonoBehaviour
             if (other.gameObject.CompareTag("Enemy"))
             {
                 towerFloorController.SetTargetEnemy(other.gameObject);
-                Debug.Log("Enter");
             }
         }
     }
@@ -35,7 +34,6 @@ public class TowerRangeController : MonoBehaviour
             if (other.gameObject.CompareTag("Enemy"))
             {
                 towerFloorController.RemoveTargetEnemy(other.gameObject);
-                Debug.Log("Exit");
             }
         }
     }

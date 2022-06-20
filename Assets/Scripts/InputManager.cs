@@ -20,13 +20,17 @@ public class InputManager : MonoBehaviour
     // CompareTags関数で使用する、タイルの全タグリスト
     string[] tileTags = { "Tile", "Tile_None", "Tile_Road", "Tile_CanBuild", "Tile_EnemyBase", "Tile_PlayerBase" };
 
+    // 同じく、タワーの全タグリスト
+    string[] towerTags = { "Tower" };
+
+
     // コールバックの関係で移動時に使う一時変数
     Vector3 tempMovePos;
 
 
     void Update()
     {
-        // 各レーザーオブジェクトの移動
+        // 各ポインターオブジェクトの移動
         leftRayObject.positionCount = 2;
         leftRayObject.SetPosition(0, leftController.transform.position);
         leftRayObject.SetPosition(1, leftController.transform.position + leftController.transform.forward * 20f);
@@ -35,7 +39,7 @@ public class InputManager : MonoBehaviour
         rightRayObject.SetPosition(0, rightController.transform.position);
         rightRayObject.SetPosition(1, rightController.transform.position + rightController.transform.forward * 20f);
 
-
+        // 右人差し指ボタン
         if (OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger))
         {
             RaycastHit[] hits;
@@ -43,19 +47,23 @@ public class InputManager : MonoBehaviour
 
             foreach (RaycastHit hit in hits)
             {
-                if (!CompareTags(tileTags, hit.collider.tag))
+                if (!(CompareTags(tileTags, hit.collider.tag) || CompareTags(towerTags, hit.collider.tag)))
                     continue;
 
                 if (hit.collider.CompareTag("Tile_None") || hit.collider.CompareTag("Tile_CanBuild"))
                 {
-                    Debug.Log("Touch to Tile_CanBuild");
                     hit.collider.GetComponent<TileController>().StartBuild();
+                }
+                else if (hit.collider.CompareTag("Tower"))
+                {
+                    hit.collider.GetComponent<TowerFloorController>().StartBuild();
                 }
 
                 break;
             }
         }
 
+        // 左人差し指ボタン
         if (OVRInput.GetDown(OVRInput.RawButton.LIndexTrigger))
         {
             RaycastHit[] hits;
@@ -73,6 +81,7 @@ public class InputManager : MonoBehaviour
             }
         }
 
+        // 右スティック左右
         if (OVRInput.GetDown(OVRInput.RawButton.RThumbstickRight) || OVRInput.GetDown(OVRInput.RawButton.RThumbstickLeft))
         {
             Vector2 temp = OVRInput.Get(OVRInput.RawAxis2D.RThumbstick);
@@ -143,9 +152,9 @@ public class InputManager : MonoBehaviour
             VRPlayer.transform.Translate(-moveRatio, 0, 0);
         if (Input.GetKey(KeyCode.D))
             VRPlayer.transform.Translate(moveRatio, 0, 0);
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) || OVRInput.Get(OVRInput.RawButton.LThumbstickUp))
             VRPlayer.transform.Translate(0, moveRatio, 0, Space.World);
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) || OVRInput.Get(OVRInput.RawButton.LThumbstickDown))
             VRPlayer.transform.Translate(0, -moveRatio, 0, Space.World);
 
 
@@ -156,6 +165,12 @@ public class InputManager : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.P))
+        {
+            EnemyManager.Instance.CreateEnemy();
+        }
+
+
+        if (OVRInput.GetDown(OVRInput.RawButton.B))
         {
             EnemyManager.Instance.CreateEnemy();
         }

@@ -2,7 +2,6 @@
 
 using UnityEngine;
 
-
 public class UIPointer : OVRCursor
 {
     [SerializeField] private GameObject _pointerObj;

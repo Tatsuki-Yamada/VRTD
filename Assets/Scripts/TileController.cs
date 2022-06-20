@@ -1,18 +1,9 @@
 using UnityEngine;
 using TMPro;
 
-public class TileController : MonoBehaviour
+public class TileController : BuildableObject
 {
-    [SerializeField] TextMeshPro buildCounter;
-    BuildCounterController bcc;
     [SerializeField] Material[] tileMaterials = new Material[5];
-
-    bool isBuilding = false;
-
-    private void Awake()
-    {
-        bcc = buildCounter.gameObject.GetComponent<BuildCounterController>();
-    }
 
 
     /// <summary>
@@ -26,15 +17,18 @@ public class TileController : MonoBehaviour
     }
 
 
-    public void StartBuild()
+    public override void StartBuild()
     {
+        if (isBuilding)
+            return;
+
+        base.StartBuild();
+
         switch (tag)
         {
             case "Tile_None":
                 bcc.SetCount(15);
                 bcc.onCompleteBuild.AddListener(CompleteBuild);
-                
-                isBuilding = true;
                 break;
 
             case "Tile_CanBuild":
@@ -48,8 +42,10 @@ public class TileController : MonoBehaviour
     /// <summary>
     /// カウンターが0になった時、コールバックされる関数。
     /// </summary>
-    void CompleteBuild()
+    public override void CompleteBuild()
     {
+        base.CompleteBuild();
+
         switch (tag)
         {
             case "Tile_None":
@@ -66,14 +62,4 @@ public class TileController : MonoBehaviour
     }
 
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (!isBuilding)
-            return;
-
-        if (other.CompareTag("Hammer"))
-        {
-            buildCounter.gameObject.GetComponent<BuildCounterController>().DecreaseCount();
-        }
-    }
 }

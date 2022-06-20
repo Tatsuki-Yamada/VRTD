@@ -1,13 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class TowerFloorController : MonoBehaviour
+public class TowerFloorController : BuildableObject
 {
     // î≠éÀÇ∑ÇÈíeÇÃPrefab
     [SerializeField] GameObject bulletPrefab;
 
     // î≠éÀÇ∑ÇÈñCêgÇÃTransform
     [SerializeField] Transform barrelTransform;
+
+    // åöê›íiäKÇ∆äÆê¨å„ÇÃMaterial
+    [SerializeField] Material[] towerFloorMaterials = new Material[2];
 
     // ìGÇ™çUåÇîÕàÕì‡Ç…Ç¢ÇÈÇ©é¶Ç∑ïœêî
     bool enemiesInRange = false;
@@ -25,14 +28,20 @@ public class TowerFloorController : MonoBehaviour
     TowerRangeController rangeController;
 
 
-    void Awake()
+
+
+    public override void Awake()
     {
+        base.Awake();
         rangeController = transform.GetChild(0).GetComponent<TowerRangeController>();
     }
 
 
     void Update()
     {
+        if (isBuilding)
+            return;
+
         if (enemiesInRange)
         {
             if (!(targetEnemyList[0].transform.position == new Vector3(50, 50, 50)))
@@ -71,7 +80,6 @@ public class TowerFloorController : MonoBehaviour
 
     void Shoot()
     {
-        
         timeFromLastShot += Time.deltaTime;
 
         if (enemiesInRange)
@@ -83,6 +91,28 @@ public class TowerFloorController : MonoBehaviour
                 timeFromLastShot = 0f;
             }
         }
-        
+    }
+
+
+    public override void StartBuild()
+    {
+        if (isBuilding)
+            return;
+
+        base.StartBuild();
+
+        transform.GetChild(0).GetComponent<Renderer>().material = towerFloorMaterials[0];
+        bcc.SetCount(10);
+        bcc.onCompleteBuild.AddListener(CompleteBuild);
+    }
+
+
+    public override void CompleteBuild()
+    {
+        base.CompleteBuild();
+
+        transform.GetChild(0).GetComponent<Renderer>().material = towerFloorMaterials[1];
+
+        reloadTime -= 0.24f;
     }
 }
