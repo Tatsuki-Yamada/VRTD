@@ -144,17 +144,17 @@ public class InputManager : MonoBehaviour
             VRPlayer.transform.Rotate(new Vector3(-rotRatio, 0, 0));
         if (Input.GetKey(KeyCode.DownArrow))
             VRPlayer.transform.Rotate(new Vector3(rotRatio, 0, 0));
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) || OVRInput.Get(OVRInput.RawButton.LThumbstickUp))
             VRPlayer.transform.Translate(0, 0, moveRatio);
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.S) || OVRInput.Get(OVRInput.RawButton.LThumbstickDown))
             VRPlayer.transform.Translate(0, 0, -moveRatio);
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A) || OVRInput.Get(OVRInput.RawButton.LThumbstickLeft))
             VRPlayer.transform.Translate(-moveRatio, 0, 0);
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) || OVRInput.Get(OVRInput.RawButton.LThumbstickRight))
             VRPlayer.transform.Translate(moveRatio, 0, 0);
-        if (Input.GetKey(KeyCode.Space) || OVRInput.Get(OVRInput.RawButton.LThumbstickUp))
+        if (Input.GetKey(KeyCode.Space) || OVRInput.Get(OVRInput.RawButton.Y))
             VRPlayer.transform.Translate(0, moveRatio, 0, Space.World);
-        if (Input.GetKey(KeyCode.LeftShift) || OVRInput.Get(OVRInput.RawButton.LThumbstickDown))
+        if (Input.GetKey(KeyCode.LeftShift) || OVRInput.Get(OVRInput.RawButton.X))
             VRPlayer.transform.Translate(0, -moveRatio, 0, Space.World);
 
 
