@@ -3,34 +3,34 @@ using System.Linq;
 
 public class InputManager : MonoBehaviour
 {
-    // —¼ƒRƒ“ƒgƒ[ƒ‰[
+    // ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½[
     [SerializeField] GameObject rightController;
     [SerializeField] GameObject leftController;
 
-    // ƒRƒ“ƒgƒ[ƒ‰[‚©‚ço‚éƒŒ[ƒU[
+    // ï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½oï¿½éƒŒï¿½[ï¿½Uï¿½[
     [SerializeField] LineRenderer leftRayObject;
     [SerializeField] LineRenderer rightRayObject;
 
-    // ƒvƒŒƒCƒ„[
+    // ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[
     [SerializeField] GameObject VRPlayer;
 
-    // ˆê“x‚Ì‰EƒXƒeƒBƒbƒN“ü—Í‚Å‰ñ“]‚·‚éŠp“x
+    // ï¿½ï¿½xï¿½Ì‰Eï¿½Xï¿½eï¿½Bï¿½bï¿½Nï¿½ï¿½ï¿½Í‚Å‰ï¿½]ï¿½ï¿½ï¿½ï¿½pï¿½x
     [SerializeField] int rotateRatio = 45;
 
-    // CompareTagsŠÖ”‚Åg—p‚·‚éAƒ^ƒCƒ‹‚Ì‘Sƒ^ƒOƒŠƒXƒg
+    // CompareTagsï¿½Öï¿½ï¿½Ågï¿½pï¿½ï¿½ï¿½ï¿½Aï¿½^ï¿½Cï¿½ï¿½ï¿½Ì‘Sï¿½^ï¿½Oï¿½ï¿½ï¿½Xï¿½g
     string[] tileTags = { "Tile", "Tile_None", "Tile_Road", "Tile_CanBuild", "Tile_EnemyBase", "Tile_PlayerBase" };
 
-    // “¯‚¶‚­Aƒ^ƒ[‚Ì‘Sƒ^ƒOƒŠƒXƒg
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½^ï¿½ï¿½ï¿½[ï¿½Ì‘Sï¿½^ï¿½Oï¿½ï¿½ï¿½Xï¿½g
     string[] towerTags = { "Tower" };
 
 
-    // ƒR[ƒ‹ƒoƒbƒN‚ÌŠÖŒW‚ÅˆÚ“®‚Ég‚¤ˆê•Ï”
+    // ï¿½Rï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½Nï¿½ÌŠÖŒWï¿½ÅˆÚ“ï¿½ï¿½ï¿½ï¿½Égï¿½ï¿½ï¿½êï¿½Ïï¿½
     Vector3 tempMovePos;
 
 
     void Update()
     {
-        // Šeƒ|ƒCƒ“ƒ^[ƒIƒuƒWƒFƒNƒg‚ÌˆÚ“®
+        // ï¿½eï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½[ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ÌˆÚ“ï¿½
         leftRayObject.positionCount = 2;
         leftRayObject.SetPosition(0, leftController.transform.position);
         leftRayObject.SetPosition(1, leftController.transform.position + leftController.transform.forward * 20f);
@@ -39,7 +39,7 @@ public class InputManager : MonoBehaviour
         rightRayObject.SetPosition(0, rightController.transform.position);
         rightRayObject.SetPosition(1, rightController.transform.position + rightController.transform.forward * 20f);
 
-        // ‰El·‚µwƒ{ƒ^ƒ“
+        // ï¿½Eï¿½lï¿½ï¿½ï¿½ï¿½ï¿½wï¿½{ï¿½^ï¿½ï¿½
         if (OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger))
         {
             RaycastHit[] hits;
@@ -63,7 +63,7 @@ public class InputManager : MonoBehaviour
             }
         }
 
-        // ¶l·‚µwƒ{ƒ^ƒ“
+        // ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½wï¿½{ï¿½^ï¿½ï¿½
         if (OVRInput.GetDown(OVRInput.RawButton.LIndexTrigger))
         {
             RaycastHit[] hits;
@@ -81,7 +81,7 @@ public class InputManager : MonoBehaviour
             }
         }
 
-        // ‰EƒXƒeƒBƒbƒN¶‰E
+        // ï¿½Eï¿½Xï¿½eï¿½Bï¿½bï¿½Nï¿½ï¿½ï¿½E
         if (OVRInput.GetDown(OVRInput.RawButton.RThumbstickRight) || OVRInput.GetDown(OVRInput.RawButton.RThumbstickLeft))
         {
             Vector2 temp = OVRInput.Get(OVRInput.RawAxis2D.RThumbstick);
@@ -101,7 +101,7 @@ public class InputManager : MonoBehaviour
 
 
     /// <summary>
-    /// ˆÚ“®ˆ—‚ÅƒR[ƒ‹ƒoƒbƒN‚ğg‚¤‚½‚ß‚É•ª—£‚µ‚½ŠÖ”B
+    /// ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÅƒRï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½Nï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ß‚É•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½ï¿½B
     /// </summary>
     void PlayerMove()
     {
@@ -110,7 +110,7 @@ public class InputManager : MonoBehaviour
 
 
     /// <summary>
-    /// •¡”ƒ^ƒO‚Ì‚Ç‚ê‚©‚Éˆê’v‚·‚é‚©’²‚×‚éŠÖ”B
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½Oï¿½Ì‚Ç‚ê‚©ï¿½Éˆï¿½vï¿½ï¿½ï¿½é‚©ï¿½ï¿½ï¿½×‚ï¿½Öï¿½ï¿½B
     /// </summary>
     /// <param name="tag"></param>
     /// <returns></returns>
@@ -128,11 +128,11 @@ public class InputManager : MonoBehaviour
 
 
     /// <summary>
-    /// PCƒfƒoƒbƒO—p‚ÌƒL[“ü—Í‚ğ‚Ü‚Æ‚ß‚½ŠÖ”B
+    /// PCï¿½fï¿½oï¿½bï¿½Oï¿½pï¿½ÌƒLï¿½[ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ü‚Æ‚ß‚ï¿½ï¿½Öï¿½ï¿½B
     /// </summary>
     void DebugKeyInput()
     {
-        // ƒvƒŒƒCƒ„[‚ÌˆÚ“®ü‚è
+        // ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ÌˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½
         float moveRatio = 0.025f;
         float rotRatio = 1f;
 
@@ -158,7 +158,7 @@ public class InputManager : MonoBehaviour
             VRPlayer.transform.Translate(0, -moveRatio, 0, Space.World);
 
 
-        // ƒQ[ƒ€‚ÌƒfƒoƒbƒOƒRƒ}ƒ“ƒh
+        // ï¿½Qï¿½[ï¿½ï¿½ï¿½Ìƒfï¿½oï¿½bï¿½Oï¿½Rï¿½}ï¿½ï¿½ï¿½h
         if (Input.GetKeyDown(KeyCode.F))
         {
             FadeManager.Instance.Fade();
@@ -174,6 +174,8 @@ public class InputManager : MonoBehaviour
         {
             EnemyManager.Instance.CreateEnemy();
         }
+
+        
     }
 
 }

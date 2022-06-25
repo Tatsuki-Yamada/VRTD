@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    // ‘ÎÛ‚Ì“G
+    // ï¿½ÎÛ‚Ì“G
     Transform target;
 
-    // ©g‚ÌRigidbody
+    // ï¿½ï¿½ï¿½gï¿½ï¿½Rigidbody
     Rigidbody rig;
 
-    // ’e‚Ì‘¬“x
+    // ï¿½eï¿½Ì‘ï¿½ï¿½x
     [SerializeField] float moveSpeed = 3f;
 
-    // —LŒø‚©‚ğ¦‚·ƒtƒ‰ƒO
-    bool isActive = true;
+    // ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O
+    public bool isActive = true;
 
 
     void Awake()
@@ -51,5 +51,12 @@ public class BulletController : MonoBehaviour
             other.GetComponent<EnemyController>().TakeDamage(1);
             Destroy(gameObject);
         }
+    }
+
+
+    public void Reset(GameObject obj)
+    {
+        SetTarget(obj);
+
     }
 }
