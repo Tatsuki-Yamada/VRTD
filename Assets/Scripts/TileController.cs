@@ -1,13 +1,14 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using TMPro;
 
 public class TileController : BuildableObject
 {
+    // ã‚¿ã‚¤ãƒ«ãŒå¤‰åŒ–ã™ã‚‹éš›ã«ä»˜ã‘ã‚‹ãƒãƒ†ãƒªã‚¢ãƒ«ã®ãƒªã‚¹ãƒˆ
     [SerializeField] Material[] tileMaterials = new Material[5];
 
 
     /// <summary>
-    /// ƒ^ƒCƒ‹‚ÌÀ•W‚ÉƒIƒtƒZƒbƒg‚ğ‰Á‚¦‚½’l‚ğ•Ô‚·ŠÖ”B
+    /// ã‚¿ã‚¤ãƒ«ã®åº§æ¨™ã«ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’åŠ ãˆãŸå€¤ã‚’è¿”ã™é–¢æ•°ã€‚
     /// </summary>
     /// <returns></returns>
     public Vector3 GetPos()
@@ -40,7 +41,7 @@ public class TileController : BuildableObject
 
 
     /// <summary>
-    /// ƒJƒEƒ“ƒ^[‚ª0‚É‚È‚Á‚½AƒR[ƒ‹ƒoƒbƒN‚³‚ê‚éŠÖ”B
+    /// ã‚«ã‚¦ãƒ³ã‚¿ãƒ¼ãŒ0ã«ãªã£ãŸæ™‚ã€ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã•ã‚Œã‚‹é–¢æ•°ã€‚
     /// </summary>
     public override void CompleteBuild()
     {

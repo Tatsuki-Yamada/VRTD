@@ -1,7 +1,7 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 /// <summary>
-/// ƒvƒŒƒCƒ„[‚Ì•ûŒü‚É‰ñ“]‚·‚é‚¾‚¯‚ÌƒXƒNƒŠƒvƒgB
+/// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ–¹å‘ã«å›è»¢ã™ã‚‹ã ã‘ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã€‚
 /// </summary>
 public class RotateToPlayer : MonoBehaviour
 {

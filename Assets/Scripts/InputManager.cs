@@ -1,36 +1,36 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Linq;
 
 public class InputManager : MonoBehaviour
 {
-    // ���R���g���[���[
+    // 左右のコントローラー
     [SerializeField] GameObject rightController;
     [SerializeField] GameObject leftController;
 
-    // �R���g���[���[����o�郌�[�U�[
+    // 左右のコントローラーから出るLineRenderer
     [SerializeField] LineRenderer leftRayObject;
     [SerializeField] LineRenderer rightRayObject;
 
-    // �v���C���[
+    // プレイヤーオブジェクト
     [SerializeField] GameObject VRPlayer;
 
-    // ��x�̉E�X�e�B�b�N���͂ŉ�]����p�x
+    // 右スティック左右で回転する角度
     [SerializeField] int rotateRatio = 45;
 
-    // CompareTags�֐��Ŏg�p����A�^�C���̑S�^�O���X�g
+    // CompareTagsで比較対象になるタイルのタグリスト
     string[] tileTags = { "Tile", "Tile_None", "Tile_Road", "Tile_CanBuild", "Tile_EnemyBase", "Tile_PlayerBase" };
 
-    // �������A�^���[�̑S�^�O���X�g
+    // CompareTagsで比較対象になるタワーのタグリスト
     string[] towerTags = { "Tower" };
 
 
-    // �R�[���o�b�N�̊֌W�ňړ����Ɏg���ꎞ�ϐ�
+    // 移動でコールバックを使うための一時変数
     Vector3 tempMovePos;
 
 
     void Update()
     {
-        // �e�|�C���^�[�I�u�W�F�N�g�̈ړ�
+        // Rayを移動する
         leftRayObject.positionCount = 2;
         leftRayObject.SetPosition(0, leftController.transform.position);
         leftRayObject.SetPosition(1, leftController.transform.position + leftController.transform.forward * 20f);
@@ -39,7 +39,7 @@ public class InputManager : MonoBehaviour
         rightRayObject.SetPosition(0, rightController.transform.position);
         rightRayObject.SetPosition(1, rightController.transform.position + rightController.transform.forward * 20f);
 
-        // �E�l�����w�{�^��
+        // 右人差し指トリガー
         if (OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger))
         {
             RaycastHit[] hits;
@@ -63,7 +63,7 @@ public class InputManager : MonoBehaviour
             }
         }
 
-        // ���l�����w�{�^��
+        // 左人差し指トリガー
         if (OVRInput.GetDown(OVRInput.RawButton.LIndexTrigger))
         {
             RaycastHit[] hits;
@@ -81,7 +81,7 @@ public class InputManager : MonoBehaviour
             }
         }
 
-        // �E�X�e�B�b�N���E
+        // 右スティック左右
         if (OVRInput.GetDown(OVRInput.RawButton.RThumbstickRight) || OVRInput.GetDown(OVRInput.RawButton.RThumbstickLeft))
         {
             Vector2 temp = OVRInput.Get(OVRInput.RawAxis2D.RThumbstick);
@@ -101,7 +101,7 @@ public class InputManager : MonoBehaviour
 
 
     /// <summary>
-    /// �ړ������ŃR�[���o�b�N���g�����߂ɕ��������֐��B
+    /// コールバックで呼ばれる関数
     /// </summary>
     void PlayerMove()
     {
@@ -110,7 +110,7 @@ public class InputManager : MonoBehaviour
 
 
     /// <summary>
-    /// �����^�O�̂ǂꂩ�Ɉ�v���邩���ׂ�֐��B
+    /// 複数タグのどれかに一致するか調べる関数
     /// </summary>
     /// <param name="tag"></param>
     /// <returns></returns>
@@ -128,11 +128,11 @@ public class InputManager : MonoBehaviour
 
 
     /// <summary>
-    /// PC�f�o�b�O�p�̃L�[���͂��܂Ƃ߂��֐��B
+    /// PCデバッグ用のキー入力をまとめた関数
     /// </summary>
     void DebugKeyInput()
     {
-        // �v���C���[�̈ړ�����
+        // デバッグ移動の移動量と回転量
         float moveRatio = 0.025f;
         float rotRatio = 1f;
 
@@ -158,7 +158,7 @@ public class InputManager : MonoBehaviour
             VRPlayer.transform.Translate(0, -moveRatio, 0, Space.World);
 
 
-        // �Q�[���̃f�o�b�O�R�}���h
+        // フェードのテスト
         if (Input.GetKeyDown(KeyCode.F))
         {
             FadeManager.Instance.Fade();

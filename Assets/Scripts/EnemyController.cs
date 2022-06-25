@@ -1,22 +1,22 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using DG.Tweening;
 using System;
 
 public class EnemyController : MonoBehaviour
 {
-    // ˆÚ“®ƒV[ƒNƒGƒ“ƒX
+    // ç§»å‹•ã‚·ãƒ¼ã‚¯ã‚¨ãƒ³ã‚¹
     Sequence moveSequence;
 
-    // 1ƒ^ƒCƒ‹‚ğ‰½•b‚©‚¯‚ÄˆÚ“®‚·‚é‚©
+    // 1ã‚¿ã‚¤ãƒ«ã‚’ä½•ç§’ã‹ã‘ã¦ç§»å‹•ã™ã‚‹ã‹
     float moveSpeed = 2f;
 
-    // ‰ñ“]‚É‰½•b‚©‚¯‚é‚©
+    // å›è»¢ã«ä½•ç§’ã‹ã‘ã‚‹ã‹
     float rotateSpeed = 0.5f;
 
-    // “G‚ÌHP
+    // æ•µã®HP
     public int HP = 5;
 
-    // “G‚ª¶‚«‚Ä‚¢‚é‚©¦‚·•Ï”
+    // æ•µãŒç”Ÿãã¦ã„ã‚‹ã‹ç¤ºã™å¤‰æ•°
     bool isActive = false;
 
 
@@ -32,7 +32,7 @@ public class EnemyController : MonoBehaviour
     }
 
 
-    // UŒ‚‚ğó‚¯‚éŠÖ”
+    // æ”»æ’ƒã‚’å—ã‘ã‚‹é–¢æ•°
     public void TakeDamage(int damage)
     {
         HP -= damage;
@@ -47,7 +47,7 @@ public class EnemyController : MonoBehaviour
     }
 
 
-    // ¶¬‚Ü‚½‚ÍÄ—˜—p‚És‚¤‰Šú‰»ˆ—
+    // ç”Ÿæˆæ™‚ã¾ãŸã¯å†åˆ©ç”¨æ™‚ã«è¡Œã†åˆæœŸåŒ–å‡¦ç†
     public void Reset(int enemyBaseX, int enemyBaseY, int[,] enemyPath)
     {
         isActive = true;
@@ -65,7 +65,7 @@ public class EnemyController : MonoBehaviour
 
         while (true)
         {
-            // ‰E•ûŒü
+            // å³æ–¹å‘
             if (path[y, x + 1] == 1)
             {
                 if (lastDirection != "Right")
@@ -91,7 +91,7 @@ public class EnemyController : MonoBehaviour
                 x++;
                 lastDirection = "Right";
             }
-            // ¶•ûŒü
+            // å·¦æ–¹å‘
             else if(path[y, x - 1] == 1)
             {
                 if (lastDirection != "Left")
@@ -116,7 +116,7 @@ public class EnemyController : MonoBehaviour
                 x--;
                 lastDirection = "Left";
             }
-            // ã•ûŒü
+            // ä¸Šæ–¹å‘
             else if (path[y + 1, x] == 1)
             {
                 if (lastDirection != "Up")
@@ -141,7 +141,7 @@ public class EnemyController : MonoBehaviour
                 y++;
                 lastDirection = "Up";
             }
-            // ‰º•ûŒü
+            // ä¸‹æ–¹å‘
             else if (path[y - 1, x] == 1)
             {
                 if (lastDirection != "Down")
@@ -166,7 +166,7 @@ public class EnemyController : MonoBehaviour
                 y--;
                 lastDirection = "Down";
             }
-            // ã‰º¶‰E‚És‚«æ‚ª–³‚­‚È‚Á‚½‚çI—¹
+            // ä¸Šä¸‹å·¦å³ã«è¡Œãå…ˆãŒç„¡ããªã£ãŸã‚‰çµ‚äº†
             else
             {
                 break;

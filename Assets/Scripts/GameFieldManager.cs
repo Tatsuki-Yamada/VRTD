@@ -1,16 +1,16 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 
 public class GameFieldManager : SingletonMonoBehaviour<GameFieldManager>
 {
-    // ƒ^ƒCƒ‹‚ÌPrefab‚½‚¿‚ğŠi”[‚·‚é•Ï”
+    // ã‚¿ã‚¤ãƒ«ã®PrefabãŸã¡ã‚’æ ¼ç´ã™ã‚‹å¤‰æ•°
     [SerializeField] GameObject[] Tile_Prefabs = new GameObject[5];
 
     [SerializeField] GameObject TilesParent;
 
     /// <summary>
-    /// ƒtƒB[ƒ‹ƒh‚ğ’è‹`‚·‚éB
-    /// 0‚ª–³‚µA1‚ª“¹A2‚ªİ’u‰Â”\A3‚ª“G‹’“_A4‚ª©‹’“_B
+    /// ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’å®šç¾©ã™ã‚‹ã€‚
+    /// 0ãŒç„¡ã—ã€1ãŒé“ã€2ãŒè¨­ç½®å¯èƒ½ã€3ãŒæ•µæ‹ ç‚¹ã€4ãŒè‡ªæ‹ ç‚¹ã€‚
     /// </summary>
     int[,] field =
     {
@@ -23,27 +23,34 @@ public class GameFieldManager : SingletonMonoBehaviour<GameFieldManager>
         {9, 9, 9, 9, 9, 9, 9, 9, 9, },
     };
 
-    // “G‚ª’Ê‚éŒo˜H‚ªfield‚Æ“¯‚¶Œ`‚Å“ü‚é•Ï”B
+    // æ•µãŒé€šã‚‹çµŒè·¯ãŒfieldã¨åŒã˜å½¢ã§å…¥ã‚‹å¤‰æ•°ã€‚
     public int[,] enemyPath;
 
-    // “G‹’“_‚ÌÀ•W‚ª“ü‚é•Ï”B
+    // æ•µæ‹ ç‚¹ã®åº§æ¨™ãŒå…¥ã‚‹å¤‰æ•°ã€‚
     public int enemyBasePosX = 0;
     public int enemyBasePosY = 0;
 
-    // ©‹’“_‚ÌÀ•W‚ª“ü‚é•Ï”B
+    // è‡ªæ‹ ç‚¹ã®åº§æ¨™ãŒå…¥ã‚‹å¤‰æ•°ã€‚
     public int playerBasePosX = 0;
     public int playerBasePosY = 0;
 
-    // ƒ^ƒCƒ‹‚ğ•À‚×‚éÛ‚ÌƒIƒtƒZƒbƒgB
+    // ã‚¿ã‚¤ãƒ«ã‚’ä¸¦ã¹ã‚‹éš›ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆã€‚
     [System.NonSerialized] public float createFieldOffsetX = -4f;
     [System.NonSerialized] public float createFieldOffsetY = -0.2f;
     [System.NonSerialized] public float createFieldOffsetZ = -3f;
 
 
-    // “G‚ª’Ê‚éŒo˜H‚ğ’Tõ‚·‚éŠÖ”B
+    void Start()
+    {
+        SearchPath();
+        CreateField();
+    }
+
+
+    // æ•µãŒé€šã‚‹çµŒè·¯ã‚’æ¢ç´¢ã™ã‚‹é–¢æ•°ã€‚
     public void SearchPath()
     {
-        // n“_i“G‹’“_j‚ÆI“_i©‹’“_j‚ğ’T‚·B
+        // å§‹ç‚¹ï¼ˆæ•µæ‹ ç‚¹ï¼‰ã¨çµ‚ç‚¹ï¼ˆè‡ªæ‹ ç‚¹ï¼‰ã‚’æ¢ã™ã€‚
         for (int y = 0; y < field.GetLength(0); y++)
         {
             for (int x = 0; x < field.GetLength(1); x++)
@@ -61,15 +68,15 @@ public class GameFieldManager : SingletonMonoBehaviour<GameFieldManager>
             }
         }
 
-        // enemyPath‚ğ‰Šú‰»‚·‚éB
+        // enemyPathã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
         enemyPath = new int[field.GetLength(0), field.GetLength(1)];
 
-        // “G‹’“_‚Én“_‚Ì1‚ğ“o˜^‚·‚éB
+        // æ•µæ‹ ç‚¹ã«å§‹ç‚¹ã®1ã‚’ç™»éŒ²ã™ã‚‹ã€‚
         enemyPath[enemyBasePosY, enemyBasePosX] = 1;
 
         int distance = 1; 
 
-        // “G‹’“_‚©‚çŠeƒ}ƒX‚Ì‹——£‚ğ‘ª‚éB
+        // æ•µæ‹ ç‚¹ã‹ã‚‰å„ãƒã‚¹ã®è·é›¢ã‚’æ¸¬ã‚‹ã€‚
         while (true)
         {
             distance++;
@@ -80,10 +87,10 @@ public class GameFieldManager : SingletonMonoBehaviour<GameFieldManager>
                 {
                     if (enemyPath[y, x] == 0)
                     {
-                        // ‚»‚±‚ª“¹‚È‚ç
+                        // ãã“ãŒé“ãªã‚‰
                         if (field[y, x] == 1 || field[y, x] == 4)
                         {
-                            // ã‰º¶‰E‚ªŒo˜H‚Ìæ’[‚È‚ç
+                            // ä¸Šä¸‹å·¦å³ãŒçµŒè·¯ã®å…ˆç«¯ãªã‚‰
                             if (enemyPath[y - 1, x] == distance - 1 ||
                                 enemyPath[y + 1, x] == distance - 1 ||
                                 enemyPath[y, x - 1] == distance - 1 ||
@@ -95,14 +102,14 @@ public class GameFieldManager : SingletonMonoBehaviour<GameFieldManager>
                         }
                         else if (field[y, x] != 3 && field[y, x] != 4)
                         {
-                            // ˆÚ“®•s‰Âƒ}ƒX‚ªŒo˜H‚É‘I‚Î‚ê‚È‚¢‚æ‚¤‚ÉA‹——£99‚ğƒZƒbƒg‚·‚éB
+                            // ç§»å‹•ä¸å¯ãƒã‚¹ãŒçµŒè·¯ã«é¸ã°ã‚Œãªã„ã‚ˆã†ã«ã€è·é›¢99ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
                             enemyPath[y, x] = 99;
                         }
                     }
                 }
             }
 
-            // Œo˜H‚ª©‹’“_‚Ü‚ÅL‚Ñ‚½‚çI—¹‚·‚éB
+            // çµŒè·¯ãŒè‡ªæ‹ ç‚¹ã¾ã§ä¼¸ã³ãŸã‚‰çµ‚äº†ã™ã‚‹ã€‚
             if (enemyPath[playerBasePosY, playerBasePosX] != 0)
             {
                 break;
@@ -112,7 +119,7 @@ public class GameFieldManager : SingletonMonoBehaviour<GameFieldManager>
 
         int tempX = playerBasePosX;
         int tempY = playerBasePosY;
-        // ‹——£‚©‚çÅ’ZŒo˜H‚ğ1‚ÅŒq‚®B
+        // è·é›¢ã‹ã‚‰æœ€çŸ­çµŒè·¯ã‚’1ã§ç¹‹ãã€‚
         while (distance > 1)
         {
             enemyPath[tempY, tempX] = 1;
@@ -132,7 +139,7 @@ public class GameFieldManager : SingletonMonoBehaviour<GameFieldManager>
 
 
     /// <summary>
-    /// ƒ^ƒCƒ‹‚ğ•À‚×‚éŠÖ”B
+    /// ã‚¿ã‚¤ãƒ«ã‚’ä¸¦ã¹ã‚‹é–¢æ•°ã€‚
     /// </summary>
     public void CreateField()
     {
@@ -153,6 +160,9 @@ public class GameFieldManager : SingletonMonoBehaviour<GameFieldManager>
     }
 
 
+    /// <summary>
+    /// ãƒ‡ãƒãƒƒã‚°ç”¨ã€æ•µã®çµŒè·¯ã‚’è¦–è¦šåŒ–ã™ã‚‹é–¢æ•°
+    /// /// </summary>
     private void Debug_ShowEnemyPath()
     {
         GameObject testCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -172,9 +182,5 @@ public class GameFieldManager : SingletonMonoBehaviour<GameFieldManager>
     }
 
 
-    void Start()
-    {
-        SearchPath();
-        CreateField();
-    }
+
 }

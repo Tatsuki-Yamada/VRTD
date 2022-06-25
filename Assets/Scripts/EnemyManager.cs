@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
 {
@@ -6,10 +6,10 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
 
     [SerializeField] Transform enemyParent;
 
-    // ËŒ‚‚µ‚Ä‚©‚çŒo‰ß‚µ‚½ŠÔ
+    // å°„æ’ƒã—ã¦ã‹ã‚‰çµŒéã—ãŸæ™‚é–“
     float timeFromLastSpawn = 0f;
 
-    // •‘•‚ÌƒŠƒ[ƒh‚É‚©‚©‚éŠÔ
+    // æ­¦è£…ã®ãƒªãƒ­ãƒ¼ãƒ‰ã«ã‹ã‹ã‚‹æ™‚é–“
     float spawnIntervalTime = 5f;
 
 
@@ -38,5 +38,4 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         tempObj.GetComponent<EnemyController>().Reset(GameFieldManager.Instance.enemyBasePosX, GameFieldManager.Instance.enemyBasePosY, GameFieldManager.Instance.enemyPath);
 
     }
-
 }

@@ -1,31 +1,31 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
 public class FadeManager : SingletonMonoBehaviour<FadeManager>
 {
-    // —LŒø‚©‚ğ¦‚·ƒtƒ‰ƒO
+    // æœ‰åŠ¹ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°
     bool isActive = false;
 
-    // ƒŠƒZƒbƒg‚³‚ê‚Ä‚©‚çŒo‰ß‚µ‚½ŠÔ
+    // ãƒªã‚»ãƒƒãƒˆã•ã‚Œã¦ã‹ã‚‰çµŒéã—ãŸæ™‚é–“
     float elapsedTime = 0f;
 
-    // ŠeƒAƒjƒ[ƒVƒ‡ƒ“‚ÌŠ—vŠÔ
+    // å„ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®æ‰€è¦æ™‚é–“
     float fadeInTime = 0f;
     float waitTime = 0f;
     float fadeOutTime = 0f;
 
-    // ƒtƒF[ƒh‚Ég‚¤•‚¢‰æ‘œ
+    // ãƒ•ã‚§ãƒ¼ãƒ‰ã«ä½¿ã†é»’ã„ç”»åƒ
     [SerializeField] Image FadeImage;
 
-    // ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ì“ü‚ê•¨
+    // ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ã®å…¥ã‚Œç‰©
     [System.NonSerialized] public UnityEvent onFadeInComplete = new UnityEvent();
     [System.NonSerialized] public UnityEvent onWaitComplete = new UnityEvent();
     [System.NonSerialized] public UnityEvent onFadeOutComplete = new UnityEvent();
 
 
     /// <summary>
-    /// ƒAƒNƒeƒBƒu’†‚ÍƒAƒjƒ[ƒVƒ‡ƒ“ˆ—‚ğs‚¤B
+    /// ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ä¸­ã¯ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³å‡¦ç†ã‚’è¡Œã†ã€‚
     /// </summary>
     void Update()
     {
@@ -33,23 +33,23 @@ public class FadeManager : SingletonMonoBehaviour<FadeManager>
         {
             elapsedTime += Time.deltaTime;
 
-            // ƒtƒF[ƒhƒCƒ“’†‚Ìˆ—
+            // ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³ä¸­ã®å‡¦ç†
             if (elapsedTime < fadeInTime)
             {
                 FadeImage.color = new Color(0, 0, 0, 1 * (elapsedTime / fadeInTime));
             }
-            // ƒtƒF[ƒhƒCƒ“Š®—¹Œã‚Ì‘Ò‹@ŠÔ’†‚Ìˆ—
+            // ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³å®Œäº†å¾Œã®å¾…æ©Ÿæ™‚é–“ä¸­ã®å‡¦ç†
             else if(elapsedTime < fadeInTime + waitTime)
             {
                 onFadeInComplete.Invoke();
             }
-            // ƒtƒF[ƒhƒAƒEƒg’†‚Ìˆ—
+            // ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆä¸­ã®å‡¦ç†
             else if (elapsedTime < fadeInTime + waitTime + fadeOutTime)
             {
                 FadeImage.color = new Color(0, 0, 0, 1 - (1 * (elapsedTime / (fadeInTime + waitTime + fadeOutTime))));
                 onWaitComplete.Invoke();
             }
-            // ‘S‚Ä‚Ì—¬‚ê‚ªI—¹‚µ‚½‚Æ‚«‚Ìˆ—
+            // å…¨ã¦ã®æµã‚ŒãŒçµ‚äº†ã—ãŸã¨ãã®å‡¦ç†
             else
             {
                 onFadeOutComplete.Invoke();
@@ -60,14 +60,14 @@ public class FadeManager : SingletonMonoBehaviour<FadeManager>
 
 
     /// <summary>
-    /// ƒtƒF[ƒh‚ğn‚ß‚éŠÖ”BŠeƒAƒjƒ[ƒVƒ‡ƒ“‚ÌŠÔ‚ğw’è‚·‚é‚±‚Æ‚à‰ÂB
+    /// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚’å§‹ã‚ã‚‹é–¢æ•°ã€‚å„ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®æ™‚é–“ã‚’æŒ‡å®šã™ã‚‹ã“ã¨ã‚‚å¯ã€‚
     /// </summary>
     /// <param name="fadeInTime"></param>
     /// <param name="waitTime"></param>
     /// <param name="fadeOutTime"></param>
     public void Fade(float fadeInTime = 0.5f, float waitTime = 0.25f, float fadeOutTime = 0.5f)
     {
-        // ŠÔŠÖŒW‚ÌƒŠƒZƒbƒg
+        // æ™‚é–“é–¢ä¿‚ã®ãƒªã‚»ãƒƒãƒˆ
         elapsedTime = 0f;
         this.fadeInTime = fadeInTime;
         this.waitTime = waitTime;

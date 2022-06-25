@@ -1,33 +1,28 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections.Generic;
 
 public class TowerFloorController : BuildableObject
 {
-    // ”­Ë‚·‚é’e‚ÌPrefab
-    [SerializeField] GameObject bulletPrefab;
-
-    // ”­Ë‚·‚é–Cg‚ÌTransform
+    // ç™ºå°„ã™ã‚‹ç ²èº«ã®Transform
     [SerializeField] Transform barrelTransform;
 
-    // Œšİ’iŠK‚ÆŠ®¬Œã‚ÌMaterial
+    // å»ºè¨­æ®µéšã¨å®Œæˆå¾Œã®Material
     [SerializeField] Material[] towerFloorMaterials = new Material[2];
 
-    // “G‚ªUŒ‚”ÍˆÍ“à‚É‚¢‚é‚©¦‚·•Ï”
+    // æ•µãŒæ”»æ’ƒç¯„å›²å†…ã«ã„ã‚‹ã‹ç¤ºã™å¤‰æ•°
     bool enemiesInRange = false;
 
-    // ËŒ‚‚µ‚Ä‚©‚çŒo‰ß‚µ‚½ŠÔ
+    // å°„æ’ƒã—ã¦ã‹ã‚‰çµŒéã—ãŸæ™‚é–“
     float timeFromLastShot = 0f;
 
-    // •‘•‚ÌƒŠƒ[ƒh‚É‚©‚©‚éŠÔ
+    // æ­¦è£…ã®ãƒªãƒ­ãƒ¼ãƒ‰ã«ã‹ã‹ã‚‹æ™‚é–“
     float reloadTime = 1f;
 
-    // UŒ‚”ÍˆÍ“à‚É‚¢‚é“G‚ÌƒŠƒXƒg
+    // æ”»æ’ƒç¯„å›²å†…ã«ã„ã‚‹æ•µã®ãƒªã‚¹ãƒˆ
     List<GameObject> targetEnemyList = new List<GameObject>();
 
-    // UŒ‚”ÍˆÍ‚ğŠÇ—‚·‚éqƒXƒNƒŠƒvƒg
+    // æ”»æ’ƒç¯„å›²ã‚’ç®¡ç†ã™ã‚‹å­ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
     TowerRangeController rangeController;
-
-
 
 
     public override void Awake()
@@ -55,7 +50,7 @@ public class TowerFloorController : BuildableObject
     }
 
 
-    // UŒ‚‰Â”\ƒŠƒXƒg‚É’Ç‰Á‚·‚éˆ—
+    // æ”»æ’ƒå¯èƒ½ãƒªã‚¹ãƒˆã«è¿½åŠ ã™ã‚‹å‡¦ç†
     public void SetTargetEnemy(GameObject enemy)
     {
         enemiesInRange = true;
@@ -63,7 +58,7 @@ public class TowerFloorController : BuildableObject
     }
 
 
-    // UŒ‚‰Â”\ƒŠƒXƒg‚©‚çœŠO‚·‚éˆ—
+    // æ”»æ’ƒå¯èƒ½ãƒªã‚¹ãƒˆã‹ã‚‰é™¤å¤–ã™ã‚‹å‡¦ç†
     public void RemoveTargetEnemy(GameObject enemy)
     {
         int i = targetEnemyList.IndexOf(enemy);
@@ -78,6 +73,10 @@ public class TowerFloorController : BuildableObject
         }
     }
 
+
+    /// <summary>
+    /// ãƒªãƒ­ãƒ¼ãƒ‰æ™‚é–“ã®ç®¡ç†ã¨å¼¾ã‚’ç™ºå°„ã™ã‚‹ã¾ã§ã®å‡¦ç†ã‚’è¡Œã†é–¢æ•°
+    /// </summary>
     void Shoot()
     {
         timeFromLastShot += Time.deltaTime;
@@ -86,14 +85,17 @@ public class TowerFloorController : BuildableObject
         {
             if (timeFromLastShot > reloadTime)
             {
-                GameObject bullet = Instantiate(bulletPrefab, barrelTransform.position, transform.rotation);
-                bullet.GetComponent<BulletController>().SetTarget(targetEnemyList[0]);
+                BulletManager.Instance.CreateBullet(barrelTransform.position, targetEnemyList[0]);
+
                 timeFromLastShot = 0f;
             }
         }
     }
 
 
+    /// <summary>
+    /// æ”¹é€ ã‚’å§‹ã‚ã‚‹é–¢æ•°
+    /// </summary>
     public override void StartBuild()
     {
         if (isBuilding)
@@ -107,6 +109,9 @@ public class TowerFloorController : BuildableObject
     }
 
 
+    /// <summary>
+    /// æ”¹é€ ãŒçµ‚ã‚ã£ãŸã¨ãã€ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã•ã‚Œã‚‹é–¢æ•°
+    /// </summary>
     public override void CompleteBuild()
     {
         base.CompleteBuild();

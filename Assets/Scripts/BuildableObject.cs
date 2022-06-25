@@ -1,12 +1,20 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
+/// <summary>
+/// 建設・改造可能なオブジェクトの基底クラス
+/// </summary>
 public class BuildableObject : MonoBehaviour
 {
+    // 残りの叩く回数を示すテキスト
     [SerializeField] protected TextMeshPro buildCounter;
+
+    // 良く呼ぶクラスの一次保存変数
     protected BuildCounterController bcc;
 
+    // 建設・改造中かを示すフラグ
     protected bool isBuilding = false;
+
 
     public virtual void Awake()
     {
@@ -14,6 +22,9 @@ public class BuildableObject : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// 建設を開始するフラグをセットする関数
+    /// </summary>
     public virtual void StartBuild() 
     {
         if (!isBuilding)
@@ -21,6 +32,9 @@ public class BuildableObject : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// 建設を終了するフラグをセットする関数
+    /// </summary>
     public virtual void CompleteBuild() 
     {
         isBuilding = false;

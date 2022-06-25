@@ -1,7 +1,10 @@
-// Ref: https://developers.10antz.co.jp/archives/1441
+﻿// Ref: https://developers.10antz.co.jp/archives/1441
 
 using UnityEngine;
 
+/// <summary>
+/// UIを操作する際にポインターを表示するクラスだが、必要かは不明
+/// </summary>
 public class UIPointer : OVRCursor
 {
     [SerializeField] private GameObject _pointerObj;

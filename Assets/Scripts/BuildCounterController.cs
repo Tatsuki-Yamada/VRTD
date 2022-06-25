@@ -1,19 +1,19 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using TMPro;
 using UnityEngine.Events;
 
 public class BuildCounterController : MonoBehaviour
 {
-    // •\¦‚·‚éƒeƒLƒXƒg
+    // è¡¨ç¤ºã™ã‚‹ãƒ†ã‚­ã‚¹ãƒˆ
     TextMeshPro textMesh;
 
-    // c‚èƒJƒEƒ“ƒg
+    // æ®‹ã‚Šã‚«ã‚¦ãƒ³ãƒˆ
     int counter;
 
-    // —LŒø‚©‚ğ¦‚·ƒtƒ‰ƒO
+    // æœ‰åŠ¹ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°
     bool isActive = false;
 
-    // ƒJƒEƒ“ƒ^[‚ª0‚É‚È‚Á‚½‚ÉŒÄ‚Î‚ê‚éƒR[ƒ‹ƒoƒbƒN
+    // ã‚«ã‚¦ãƒ³ã‚¿ãƒ¼ãŒ0ã«ãªã£ãŸæ™‚ã«å‘¼ã°ã‚Œã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯
     [System.NonSerialized] public UnityEvent onCompleteBuild = new UnityEvent();
 
     void Awake()
@@ -23,12 +23,12 @@ public class BuildCounterController : MonoBehaviour
 
 
     /// <summary>
-    /// ƒJƒEƒ“ƒ^[‚ğƒŠƒZƒbƒg‚·‚éŠÖ”B
+    /// ã‚«ã‚¦ãƒ³ã‚¿ãƒ¼ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹é–¢æ•°ã€‚
     /// </summary>
     /// <param name="num"></param>
     public void SetCount(int num)
     {
-        // ƒJƒEƒ“ƒ^[‚ÌƒŠƒZƒbƒg‚ÆƒeƒLƒXƒg•\¦
+        // ã‚«ã‚¦ãƒ³ã‚¿ãƒ¼ã®ãƒªã‚»ãƒƒãƒˆã¨ãƒ†ã‚­ã‚¹ãƒˆè¡¨ç¤º
         counter = num;
         textMesh.text = counter.ToString();
         GetComponent<Renderer>().enabled = true;
@@ -38,7 +38,7 @@ public class BuildCounterController : MonoBehaviour
 
 
     /// <summary>
-    /// ƒJƒEƒ“ƒ^[‚ğŒ¸‚ç‚·ŠÖ”Bw’è‚µ‚È‚¢ê‡‚Í1‚¸‚ÂŒ¸‚ç‚·B
+    /// ã‚«ã‚¦ãƒ³ã‚¿ãƒ¼ã‚’æ¸›ã‚‰ã™é–¢æ•°ã€‚æŒ‡å®šã—ãªã„å ´åˆã¯1ãšã¤æ¸›ã‚‰ã™ã€‚
     /// </summary>
     /// <param name="num"></param>
     public void DecreaseCount(int num = 1)
@@ -55,7 +55,5 @@ public class BuildCounterController : MonoBehaviour
                 isActive = false;
             }
         }
-
-
     }
 }
