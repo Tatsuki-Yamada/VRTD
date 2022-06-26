@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 9061990308711268253}
   m_Layer: 0
   m_Name: AttackRange
-  m_TagString: Untagged
+  m_TagString: AttackRange
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 5020890585271621095}
   m_Layer: 0
   m_Name: TowerFloor_Basic
-  m_TagString: Tower
+  m_TagString: TowerFloor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -253,7 +253,7 @@ Transform:
   m_GameObject: {fileID: 8617540975670318129}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.75, y: 1, z: 0.75}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8617540976332760956}
@@ -275,7 +275,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildCounter: {fileID: 5821174962469451911}
-  bulletPrefab: {fileID: 288686992522695364, guid: db26b4939102077459575d633982c565, type: 3}
   barrelTransform: {fileID: 3709170335094684351}
   towerFloorMaterials:
   - {fileID: 2100000, guid: 3427aaac95273e3489735c6da50a0668, type: 2}

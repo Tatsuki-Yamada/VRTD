@@ -15,6 +15,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile_PlayerBase
       objectReference: {fileID: 0}
+    - target: {fileID: 2743428709380466486, guid: ced55daca2bc85641a684c3ff15b9b55, type: 3}
+      propertyPath: m_TagString
+      value: Tile_PlayerBase
+      objectReference: {fileID: 0}
     - target: {fileID: 6921160945338729047, guid: ced55daca2bc85641a684c3ff15b9b55, type: 3}
       propertyPath: m_RootOrder
       value: 0

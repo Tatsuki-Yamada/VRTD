@@ -55,6 +55,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile_EnemyBase
       objectReference: {fileID: 0}
+    - target: {fileID: 4824994196657784799, guid: f07124ed240ca47449d110ddc8ebaa23, type: 3}
+      propertyPath: m_TagString
+      value: Tile_EnemyBase
+      objectReference: {fileID: 0}
     - target: {fileID: 4901257482975125053, guid: f07124ed240ca47449d110ddc8ebaa23, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

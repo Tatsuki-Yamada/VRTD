@@ -59,5 +59,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile_CanBuild
       objectReference: {fileID: 0}
+    - target: {fileID: 3259953359545002710, guid: 26939e5194b1b2e4890f8205e266763d, type: 3}
+      propertyPath: m_TagString
+      value: Tile_CanBuild
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26939e5194b1b2e4890f8205e266763d, type: 3}

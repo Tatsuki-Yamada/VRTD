@@ -15,6 +15,9 @@ TagManager:
   - Tile_PlayerBase
   - Tile_Built
   - Tower
+  - TowerFloor
+  - ConstructionSite
+  - AttackRange
   layers:
   - Default
   - TransparentFX
