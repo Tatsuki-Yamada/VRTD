@@ -30,6 +30,6 @@ public class UICanvasController : MonoBehaviour
     /// <param name="floorNum"></param>
     public void OnUpgradeClick(int floorNum)
     {
-        targetTC.GetTFCs()[floorNum].StartBuild();
+        targetTC.UpgradeFloor(floorNum);
     }
 }

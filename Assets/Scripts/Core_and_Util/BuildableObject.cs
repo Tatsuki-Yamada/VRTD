@@ -10,7 +10,7 @@ public class BuildableObject : MonoBehaviour
     [SerializeField] protected TextMeshPro buildCounter;
 
     // 良く呼ぶクラスの一次保存変数
-    protected BuildCounterController bcc;
+    public BuildCounterController bcc;
 
     // 建設・改造中かを示すフラグ
     protected bool isBuilding = false;

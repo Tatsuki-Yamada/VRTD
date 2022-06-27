@@ -38,9 +38,6 @@ public class InputManager : MonoBehaviour
     // CompareTagsで比較対象になるタワーのタグリスト
     string[] towerTags = { "Tower" };
 
-    // Rayを透過するオブジェクトのタグリスト
-    string[] canThroughTags = { "Enemy", "Hammer", "AttackRange" };
-
     // 移動でコールバックを使うための一時変数
     Vector3 tempMovePos;
 
@@ -92,6 +89,9 @@ public class InputManager : MonoBehaviour
             {
                 if (Utils.CompareTags(hit.collider.tag, tileTags))
                 {
+                    if (!hit.collider.GetComponent<TileController>().isMovable)
+                        return;
+
                     tempMovePos = hit.collider.GetComponent<TileController>().GetPos();
                     FadeManager.Instance.onFadeInComplete.AddListener(PlayerMove);
                     FadeManager.Instance.Fade();
@@ -169,7 +169,7 @@ public class InputManager : MonoBehaviour
             leftLinePointerObject.transform.position = hit.point;
 
             // Rayが当たった先がタイルなら
-            if (Utils.CompareTags(hit.collider.tag, tileTags))
+            if (Utils.CompareTags(hit.collider.tag, tileTags) && hit.collider.GetComponent<TileController>().isMovable)
             {
                 leftSelector.SetActive(true);
                 leftSelector.transform.position = hit.collider.GetComponent<TileController>().GetPos(0);
@@ -231,26 +231,6 @@ public class InputManager : MonoBehaviour
         // Interpolate along line S2: Q1 - Q0
         Vector3 Q2 = Vector3.Lerp(Q0, Q1, t);
         return Q2; // Q2 is a point on the curve at time t
-    }
-
-
-    /// <summary>
-    /// Rayが貫通するオブジェクトかを調べる関数
-    /// </summary>
-    /// <param name="tag"></param>
-    /// <returns></returns>
-    bool CheckRayThroughObject(Collider col)
-    {
-        foreach (string t in canThroughTags)
-        {
-            if (col.tag == t)
-                return true;
-
-            if (col.name == "Model")
-                return true;
-        }
-
-        return false;
     }
 
 

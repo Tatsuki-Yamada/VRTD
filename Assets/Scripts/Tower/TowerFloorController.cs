@@ -24,11 +24,20 @@ public class TowerFloorController : BuildableObject
     // 攻撃範囲を管理する子スクリプト
     TowerRangeController rangeController;
 
+    // このフロアを管理しているスクリプト
+    TowerController tc;
+
+    // 有効かを示すフラグ
+    public bool isActive { get; set; } = true;
+
+
+
 
     public override void Awake()
     {
         base.Awake();
-        rangeController = transform.GetChild(0).GetComponent<TowerRangeController>();
+        tc = transform.parent.GetComponent<TowerController>();
+        //rangeController = transform.GetChild(0).GetComponent<TowerRangeController>();
     }
 
 
@@ -37,15 +46,8 @@ public class TowerFloorController : BuildableObject
         if (isBuilding)
             return;
 
-        if (enemiesInRange)
-        {
-            if (!(targetEnemyList[0].transform.position == new Vector3(50, 50, 50)))
-            {
-                transform.LookAt(targetEnemyList[0].transform.position);
-                transform.rotation = Quaternion.Euler(new Vector3(0, transform.eulerAngles.y, transform.eulerAngles.z));
-            }
-        }
-
+        
+        RotateToEnemy();
         Shoot();
     }
 
@@ -75,11 +77,35 @@ public class TowerFloorController : BuildableObject
 
 
     /// <summary>
+    /// 敵に砲身を向ける関数
+    /// </summary>
+    void RotateToEnemy()
+    {
+        if (!isActive)
+            return;
+
+
+        if (enemiesInRange)
+        {
+            if (!(targetEnemyList[0].transform.position == new Vector3(50, 50, 50)))
+            {
+                transform.LookAt(targetEnemyList[0].transform.position);
+                transform.rotation = Quaternion.Euler(new Vector3(0, transform.eulerAngles.y, transform.eulerAngles.z));
+            }
+        }
+    }
+
+
+
+    /// <summary>
     /// リロード時間の管理と弾を発射するまでの処理を行う関数
     /// </summary>
     void Shoot()
     {
         timeFromLastShot += Time.deltaTime;
+
+        if (!isActive)
+            return;
 
         if (enemiesInRange)
         {
@@ -98,7 +124,7 @@ public class TowerFloorController : BuildableObject
     /// </summary>
     public override void StartBuild()
     {
-        if (isBuilding)
+        if (isBuilding || !isActive)
             return;
 
         base.StartBuild();
@@ -106,6 +132,8 @@ public class TowerFloorController : BuildableObject
         transform.GetChild(0).GetComponent<Renderer>().material = towerFloorMaterials[0];
         bcc.SetCount(10);
         bcc.onCompleteBuild.AddListener(CompleteBuild);
+
+        tc.SetAllFloorsActive(false);
     }
 
 
@@ -118,6 +146,9 @@ public class TowerFloorController : BuildableObject
 
         transform.GetChild(0).GetComponent<Renderer>().material = towerFloorMaterials[1];
 
+        tc.SetAllFloorsActive(true);
+
+        // 試験用のアップグレード内容
         reloadTime -= 0.24f;
     }
 }
