@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3748470475907536745}
   - component: {fileID: 5710457753219827760}
   - component: {fileID: 2369892852270759636}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 6921160945338729047}
   - component: {fileID: 1042501597396279746}
   - component: {fileID: 7613131118656031603}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tile_Half_Template
   m_TagString: Tile
   m_Icon: {fileID: 0}
@@ -161,6 +161,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RotaterToPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 6085235832305939215, guid: 981c4b0894bb92842a0842ad7bf84d21, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 9030834991557349866, guid: 981c4b0894bb92842a0842ad7bf84d21, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -222,6 +226,10 @@ PrefabInstance:
     - target: {fileID: 166134234105451929, guid: b3c50b68acbe1e84185984845afaef60, type: 3}
       propertyPath: m_Name
       value: BuildCounter
+      objectReference: {fileID: 0}
+    - target: {fileID: 166134234105451929, guid: b3c50b68acbe1e84185984845afaef60, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 166134234105451931, guid: b3c50b68acbe1e84185984845afaef60, type: 3}
       propertyPath: m_Enabled
