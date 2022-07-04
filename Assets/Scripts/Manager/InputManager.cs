@@ -280,5 +280,10 @@ public class InputManager : MonoBehaviour
         {
             EnemyManager.Instance.CreateEnemy();
         }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            SoundManager.Instance.PlaySound(transform.position, 1);
+        }
     }
 }

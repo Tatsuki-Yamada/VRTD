@@ -6,11 +6,18 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
 
     [SerializeField] Transform enemyParent;
 
-    // 射撃してから経過した時間
+    // 最後にスポーンしてから経過した時間
     float timeFromLastSpawn = 0f;
 
-    // 武装のリロードにかかる時間
-    float spawnIntervalTime = 5f;
+    // 次のスポーンまでの間隔
+    float spawnIntervalTime = 2f;
+
+
+
+    private void Awake()
+    {
+        timeFromLastSpawn += 2;
+    }
 
 
     void Update()

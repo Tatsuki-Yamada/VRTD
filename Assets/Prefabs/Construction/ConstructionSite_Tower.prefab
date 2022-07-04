@@ -1662,7 +1662,7 @@ GameObject:
   - component: {fileID: -7542176361139538979}
   m_Layer: 0
   m_Name: ConstructionSite_Tower
-  m_TagString: Untagged
+  m_TagString: ConstructionSite
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

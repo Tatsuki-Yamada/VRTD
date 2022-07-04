@@ -81,6 +81,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6684348541665426088, guid: b189701b30a34e94db74d4f4095aefe7, type: 3}
+      propertyPath: bulletType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7372716806450708006, guid: b189701b30a34e94db74d4f4095aefe7, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.5

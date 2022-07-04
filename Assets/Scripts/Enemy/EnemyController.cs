@@ -20,18 +20,6 @@ public class EnemyController : MonoBehaviour
     bool isActive = false;
 
 
-    void OnCollisionEnter(Collision collision)
-    {
-        if (isActive)
-        {
-            if (collision.gameObject.CompareTag("Bullet"))
-            {
-                TakeDamage(1);
-            }
-        }
-    }
-
-
     // 攻撃を受ける関数
     public void TakeDamage(int damage)
     {

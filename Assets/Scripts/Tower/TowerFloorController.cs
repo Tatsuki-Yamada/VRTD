@@ -3,11 +3,20 @@ using System.Collections.Generic;
 
 public class TowerFloorController : BuildableObject
 {
+    enum BulletType
+    {
+        Bullet, ShockWave
+    }
+
+
     // 発射する砲身のTransform
     [SerializeField] Transform barrelTransform;
 
     // 建設段階と完成後のMaterial
     [SerializeField] Material[] towerFloorMaterials = new Material[2];
+
+    // 発射する弾の種類
+    [SerializeField] BulletType bulletType;
 
     // 敵が攻撃範囲内にいるか示す変数
     bool enemiesInRange = false;
@@ -111,7 +120,17 @@ public class TowerFloorController : BuildableObject
         {
             if (timeFromLastShot > reloadTime)
             {
-                BulletManager.Instance.CreateBullet(barrelTransform.position, targetEnemyList[0]);
+                switch (bulletType)
+                {
+                    case BulletType.Bullet:
+                        BulletManager.Instance.CreateBullet(barrelTransform.position, targetEnemyList[0]);
+                        break;
+
+                    case BulletType.ShockWave:
+                        BulletManager.Instance.CreateShockWave(transform.position);
+                        break;
+
+                }
 
                 timeFromLastShot = 0f;
             }
