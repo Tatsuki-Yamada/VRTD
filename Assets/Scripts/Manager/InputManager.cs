@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Linq;
 using TMPro;
 
@@ -39,7 +40,28 @@ public class InputManager : MonoBehaviour
     string[] towerTags = { "Tower" };
 
     // 移動でコールバックを使うための一時変数
-    Vector3 tempMovePos;
+    Vector3 callBackMovePos;
+
+    // デバッグ用にRayを非表示にするフラグ
+    bool hideRay = false;
+
+    // デバッグ時に非表示にするコントローラー
+    [SerializeField] GameObject[] controllers = new GameObject[2];
+
+    // マウスRayの発射元のカメラ
+    [SerializeField] Camera leftEyeCamera;
+
+    // ScreenPointがズレる対処用のポインター
+    [SerializeField] GameObject pointerObj;
+
+
+    void Start()
+    {
+        if (!OVRManager.instance.isUserPresent)
+        {
+            Debug_HideControllers();
+        }
+    }
 
 
     void Update()
@@ -48,68 +70,123 @@ public class InputManager : MonoBehaviour
         DebugKeyInput();
 
         DrawRay();
+        Debug_DrawScreenPointer();
     }
 
 
     /// <summary>
-    /// コールバックで呼ばれる関数
+    /// フェード終了後にコールバックで呼ばれる関数
     /// </summary>
-    void PlayerMove()
+    void OnFadeComplete()
     {
-        VRPlayer.transform.position = tempMovePos;
+        VRPlayer.transform.position = callBackMovePos;
     }
 
 
+    /// <summary>
+    /// コントローラーの入力状態を判定する関数
+    /// </summary>
     void CheckKey()
     {
         // 右人差し指ボタン
         if (OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger))
         {
-            RaycastHit hit;
-
-            if (Physics.Raycast(rightController.transform.position, rightController.transform.forward, out hit, 100f, rayLayerMask))
+            if (Physics.Raycast(rightController.transform.position, rightController.transform.forward, out RaycastHit hit, 100f, rayLayerMask))
             {
-                if (hit.collider.CompareTag("Tile_None") || hit.collider.CompareTag("Tile_CanBuild"))
-                {
-                    hit.collider.GetComponent<TileController>().StartBuild();
-                }
-                else if (hit.collider.CompareTag("Tower"))
-                {
-                    hit.collider.GetComponent<TowerController>().OnSelected();
-                }
+                RIndex(hit);
             }
         }
 
         // 左人差し指ボタン
         if (OVRInput.GetDown(OVRInput.RawButton.LIndexTrigger))
         {
-            RaycastHit hit;
-
-            if (Physics.Raycast(leftController.transform.position, leftController.transform.forward, out hit, 100f, rayLayerMask))
+            if (Physics.Raycast(leftController.transform.position, leftController.transform.forward, out RaycastHit hit, 100f, rayLayerMask))
             {
-                if (Utils.CompareTags(hit.collider.tag, tileTags))
-                {
-                    if (!hit.collider.GetComponent<TileController>().isMovable)
-                        return;
-
-                    tempMovePos = hit.collider.GetComponent<TileController>().GetPos();
-                    FadeManager.Instance.onFadeInComplete.AddListener(PlayerMove);
-                    FadeManager.Instance.Fade();
-                }
+                LIndex(hit);
             }
         }
 
         // 右スティック左右
         if (OVRInput.GetDown(OVRInput.RawButton.RThumbstickRight) || OVRInput.GetDown(OVRInput.RawButton.RThumbstickLeft))
         {
-            Vector2 temp = OVRInput.Get(OVRInput.RawAxis2D.RThumbstick);
-            if (temp.x > 0)
-                temp.x = 1f;
-            else
-                temp.x = -1f;
-
-            VRPlayer.transform.Rotate(new Vector3(0f, temp.x * rotateRatio, 0f));
+            RThumbStick();
         }
+    }
+
+
+    /// <summary>
+    /// 右人差し指ボタンの処理をまとめた関数
+    /// </summary>
+    /// <param name="hit"></param>
+    void RIndex(RaycastHit hit, bool Debug_isHammer = false, bool Debug_CanTouchUI = false)
+    {
+        if (hit.collider.CompareTag("Tile_None") || hit.collider.CompareTag("Tile_CanBuild"))
+        {
+            hit.collider.GetComponent<TileController>().StartBuild();
+        }
+        else if (hit.collider.CompareTag("Tower"))
+        {
+            hit.collider.GetComponent<TowerController>().OnSelected();
+        }
+
+        // フラグがTrueのとき、ハンマーで叩いたときと同じ処理をする
+        if (Debug_isHammer)
+        {
+            if (hit.collider.CompareTag("ConstructionSite"))
+            {
+                hit.collider.GetComponent<ConstructionSiteController>().Hit();
+            }
+        }
+  
+        // フラグがTrueのとき、ボタンのOnClick()を直接呼び出す
+        if (Debug_CanTouchUI)
+        {
+            if (hit.collider.GetComponent<Button>())
+            {
+                hit.collider.GetComponent<Button>().onClick.Invoke();
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// 左人差し指ボタンの処理をまとめた関数
+    /// </summary>
+    /// <param name="hit"></param>
+    void LIndex(RaycastHit hit)
+    {
+        if (Utils.CompareTags(hit.collider.tag, tileTags))
+        {
+            if (!hit.collider.GetComponent<TileController>().isMovable)
+                return;
+
+            callBackMovePos = hit.collider.GetComponent<TileController>().GetPos();
+            FadeManager.Instance.onFadeInComplete.AddListener(OnFadeComplete);
+            FadeManager.Instance.Fade();
+        }
+    }
+
+
+    /// <summary>
+    /// 右スティックの処理をまとめた関数、回転デバッグ用の処理も搭載
+    /// </summary>
+    /// <param name="pcDebugFlag"></param>
+    /// <param name="debugRotateX"></param>
+    void RThumbStick(bool pcDebugFlag = false, float debugRotateX = 0)
+    {
+        if (pcDebugFlag)
+        {
+            VRPlayer.transform.Rotate(new Vector3(0f, debugRotateX * rotateRatio, 0f));
+            return;
+        }
+
+        Vector2 temp = OVRInput.Get(OVRInput.RawAxis2D.RThumbstick);
+        if (temp.x > 0)
+            temp.x = 1f;
+        else
+            temp.x = -1f;
+
+        VRPlayer.transform.Rotate(new Vector3(0f, temp.x * rotateRatio, 0f), Space.World);
     }
 
 
@@ -118,10 +195,17 @@ public class InputManager : MonoBehaviour
     /// </summary>
     void DrawRay()
     {
-        RaycastHit hit;
+        if (hideRay)
+        {
+            rightLineRenderer.enabled = false;
+            leftLineRenderer.enabled = false;
+            moveLineRenderer.enabled = false;
+
+            return;
+        }
 
         // 右手側の処理↓↓↓
-        if (Physics.Raycast(rightController.transform.position, rightController.transform.forward, out hit, 100f, rayLayerMask))
+        if (Physics.Raycast(rightController.transform.position, rightController.transform.forward, out RaycastHit hit, 100f, rayLayerMask))
         {
             // LineRendererとLineの先端を表示する
             rightLineRenderer.enabled = true;
@@ -151,8 +235,6 @@ public class InputManager : MonoBehaviour
             rightLineRenderer.enabled = false;
             rightLinePointerObject.SetActive(false);
         }
-
-        hit = new RaycastHit();
 
         // 左手側の処理↓↓↓
         if (Physics.Raycast(leftController.transform.position, leftController.transform.forward, out hit, 100f, rayLayerMask))
@@ -243,14 +325,18 @@ public class InputManager : MonoBehaviour
         float moveRatio = 0.025f;
         float rotRatio = 1f;
 
+        /*
         if (Input.GetKey(KeyCode.RightArrow))
             VRPlayer.transform.Rotate(new Vector3(0, rotRatio, 0), Space.World);
         if (Input.GetKey(KeyCode.LeftArrow))
             VRPlayer.transform.Rotate(new Vector3(0, -rotRatio, 0), Space.World);
-        if (Input.GetKey(KeyCode.UpArrow))
-            VRPlayer.transform.Rotate(new Vector3(-rotRatio, 0, 0));
-        if (Input.GetKey(KeyCode.DownArrow))
-            VRPlayer.transform.Rotate(new Vector3(rotRatio, 0, 0));
+        */
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+            VRPlayer.transform.Rotate(new Vector3(-rotRatio * 20, 0, 0));
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+            VRPlayer.transform.Rotate(new Vector3(rotRatio * 20, 0, 0));
+        
+
         if (Input.GetKey(KeyCode.W) || OVRInput.Get(OVRInput.RawButton.LThumbstickUp))
             VRPlayer.transform.Translate(0, 0, moveRatio);
         if (Input.GetKey(KeyCode.S) || OVRInput.Get(OVRInput.RawButton.LThumbstickDown))
@@ -265,25 +351,69 @@ public class InputManager : MonoBehaviour
             VRPlayer.transform.Translate(0, -moveRatio, 0, Space.World);
 
 
-        // フェードのテスト
-        if (Input.GetKeyDown(KeyCode.F))
+        // 左右回転
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            FadeManager.Instance.Fade();
+            RThumbStick(true, 1f);
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            RThumbStick(true, -1f);
         }
 
-        if (Input.GetKeyDown(KeyCode.P))
+
+        // コントローラーの非表示
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Debug_HideControllers();
+        }
+
+        // 敵の出現
+        if (Input.GetKeyDown(KeyCode.P) || OVRInput.GetDown(OVRInput.RawButton.B))
         {
             EnemyManager.Instance.CreateEnemy();
         }
 
-        if (OVRInput.GetDown(OVRInput.RawButton.B))
+
+        // マウスで左右人差し指ボタンの再現
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
-            EnemyManager.Instance.CreateEnemy();
+            Ray ray = leftEyeCamera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out RaycastHit hit, 100f, rayLayerMask))
+            {
+                if (Input.GetMouseButtonDown(0))
+                    RIndex(hit, true, true);
+                else if (Input.GetMouseButtonDown(1))
+                    LIndex(hit);
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.L))
+    }
+
+
+    /// <summary>
+    /// ScreenPointを表示する関数
+    /// </summary>
+    void Debug_DrawScreenPointer()
+    {
+        pointerObj.transform.position = leftEyeCamera.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 0.2f));
+    }
+
+
+    /// <summary>
+    /// コントローラーとRayを非表示にする関数
+    /// </summary>
+    void Debug_HideControllers()
+    {
+        foreach (GameObject obj in controllers)
         {
-            SoundManager.Instance.PlaySound(transform.position, 1);
+            obj.SetActive(!obj.activeSelf);
         }
+
+        hideRay = !hideRay;
+
+        rightSelector.SetActive(!rightSelector.activeSelf);
+        leftSelector.SetActive(!leftSelector.activeSelf);
     }
 }
