@@ -40,6 +40,25 @@ public class TowerFloorController : BuildableObject
     public bool isActive { get; set; } = true;
 
 
+    [SerializeField] GameObject outlineObject;
+
+
+    /// <summary>
+    /// アウトラインの表示・非表示を設定する
+    /// </summary>
+    public bool outline 
+    {
+        get
+        {
+            return outline;
+        }
+        
+        set
+        {
+            outlineObject.SetActive(value);
+        }
+    }
+
 
 
     public override void Awake()
@@ -170,4 +189,6 @@ public class TowerFloorController : BuildableObject
         // 試験用のアップグレード内容
         reloadTime -= 0.24f;
     }
+
+
 }

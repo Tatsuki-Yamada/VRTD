@@ -6,15 +6,30 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
 
     [SerializeField] GameObject HandyUICnavas;
 
+    TowerController selectedTowerController;
+    
 
-    Vector3 offset = new Vector3(0, 0, 1f);
 
 
-
-    public void ActiveUI(GameObject tower)
+    public void SetTowerController(TowerController tower)
     {
+        ResetHighlights();
+
+        selectedTowerController = tower;
+        selectedTowerController.SetAllFloorsOutline(true);
+
         HandyUICnavas.SetActive(true);
         HandyUICnavas.GetComponent<UICanvasController>().SetTargetTower(tower);
 
+    }
+
+
+    /// <summary>
+    /// オブジェクトのハイライトを消す関数
+    /// </summary>
+    void ResetHighlights()
+    {
+        if (selectedTowerController != null)
+            selectedTowerController.SetAllFloorsOutline(false);
     }
 }

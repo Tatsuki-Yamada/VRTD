@@ -1,20 +1,27 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 using System;
 
 public class EnemyController : MonoBehaviour
 {
+    // HPバー
+    [SerializeField] Image HPGauge;
+
     // 移動シークエンス
     Sequence moveSequence;
 
     // 1タイルを何秒かけて移動するか
-    float moveSpeed = 2f;
+    float moveSpeed = 1.5f;
 
     // 回転に何秒かけるか
     float rotateSpeed = 0.5f;
 
-    // 敵のHP
-    public int HP = 5;
+    // 最大HP
+    public int MaxHP = 100;
+
+    // 現在のHP
+    public int CurrentHP = 100;
 
     // 敵が生きているか示す変数
     bool isActive = false;
@@ -23,23 +30,47 @@ public class EnemyController : MonoBehaviour
     // 攻撃を受ける関数
     public void TakeDamage(int damage)
     {
-        HP -= damage;
+        CurrentHP -= damage;
 
-        if (HP <= 0 && isActive)
+        UpdateHPGauge();
+
+        if (CurrentHP <= 0 && isActive)
         {
-            moveSequence.Kill();
-            isActive = false;
-
-            transform.position = new Vector3(50, 50, 50);
+            Kill();
         }
     }
 
 
     // 生成時または再利用時に行う初期化処理
-    public void Reset(int enemyBaseX, int enemyBaseY, int[,] enemyPath)
+    public void Init(int enemyBaseX, int enemyBaseY, int[,] enemyPath)
     {
         isActive = true;
 
+        SetPath(enemyBaseX, enemyBaseY, enemyPath);
+    }
+
+
+
+    void UpdateHPGauge()
+    {
+        //TODO
+        HPGauge.fillAmount = (float)CurrentHP / MaxHP;
+    }
+
+
+
+    void Kill()
+    {
+        moveSequence.Kill();
+        isActive = false;
+
+        transform.position = new Vector3(50, 50, 50);
+    }
+
+
+    // 敵が辿る経路をセットする関数
+    void SetPath(int enemyBaseX, int enemyBaseY, int[,] enemyPath)
+    {
         int x = enemyBaseX;
         int y = enemyBaseY;
 
@@ -74,13 +105,13 @@ public class EnemyController : MonoBehaviour
                 moveSequence.Append(
                     transform.DOMoveX(1f, moveSpeed).SetRelative().SetEase(Ease.Linear)
                 );
-                
+
                 path[y, x] = 0;
                 x++;
                 lastDirection = "Right";
             }
             // 左方向
-            else if(path[y, x - 1] == 1)
+            else if (path[y, x - 1] == 1)
             {
                 if (lastDirection != "Left")
                 {
@@ -112,7 +143,7 @@ public class EnemyController : MonoBehaviour
                     if (firstRotation)
                     {
                         transform.rotation = Quaternion.Euler(new Vector3(0, 180f, 0));
-                        firstRotation= false;
+                        firstRotation = false;
                     }
                     else
                     {

@@ -36,6 +36,19 @@ public class TowerController : MonoBehaviour
 
 
     /// <summary>
+    /// 全フロアのoutlineを変更する関数
+    /// </summary>
+    /// <param name="b"></param>
+    public void SetAllFloorsOutline(bool b)
+    {
+        foreach (TowerFloorController tf in tfc)
+        {
+            tf.outline = b;
+        }
+    }
+
+
+    /// <summary>
     /// 全フロアのTowerFloorControllerを返す関数
     /// </summary>
     /// <returns></returns>
@@ -50,10 +63,6 @@ public class TowerController : MonoBehaviour
     /// </summary>
     public void OnSelected()
     {
-        UIManager.Instance.ActiveUI(gameObject);
-    }
-
-
-
-
+        UIManager.Instance.SetTowerController(this);
+    }  
 }

@@ -18,6 +18,9 @@ public class BulletController : MonoBehaviour
     public bool isActive = true;
 
 
+    int damage = 5;
+
+
     void Awake()
     {
         rig = GetComponent<Rigidbody>();
@@ -55,7 +58,7 @@ public class BulletController : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            other.GetComponent<EnemyController>().TakeDamage(1);
+            other.GetComponent<EnemyController>().TakeDamage(damage);
             Delete();
         }
     }

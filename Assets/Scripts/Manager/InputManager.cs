@@ -57,7 +57,7 @@ public class InputManager : MonoBehaviour
 
     void Start()
     {
-        if (!OVRManager.instance.isUserPresent)
+        if (OVRManager.instance == null || !OVRManager.instance.isUserPresent)
         {
             Debug_HideControllers();
         }
@@ -371,7 +371,7 @@ public class InputManager : MonoBehaviour
         // 敵の出現
         if (Input.GetKeyDown(KeyCode.P) || OVRInput.GetDown(OVRInput.RawButton.B))
         {
-            EnemyManager.Instance.CreateEnemy();
+            EnemyManager.Instance.CreateEnemy(0);
         }
 
 

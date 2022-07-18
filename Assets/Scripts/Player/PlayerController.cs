@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (!OVRManager.instance.isUserPresent && !posSetFlag)
+        if ((OVRManager.instance == null || !OVRManager.instance.isUserPresent) && !posSetFlag)
         {
             Vector3 pos = trackingSpace.transform.position;
             Vector3 angle = transform.eulerAngles;
@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
             posSetFlag = true;
         }
 
-        else if (OVRManager.instance.isUserPresent && posSetFlag)
+        else if ((OVRManager.instance != null && OVRManager.instance.isUserPresent) && posSetFlag)
         {
             trackingSpace.transform.localPosition = Vector3.zero;
             trackingSpace.transform.eulerAngles = Vector3.zero;

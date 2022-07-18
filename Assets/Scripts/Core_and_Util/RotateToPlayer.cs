@@ -5,6 +5,8 @@
 /// </summary>
 public class RotateToPlayer : MonoBehaviour
 {
+    [SerializeField] bool isReverse = false;
+
     Camera targetCamera;
 
     void Awake()
@@ -15,5 +17,8 @@ public class RotateToPlayer : MonoBehaviour
     void Update()
     {
         transform.LookAt(targetCamera.transform.position);
+
+        if (isReverse)
+            transform.Rotate(0, 180, 0);
     }
 }

@@ -18,9 +18,9 @@ public class UICanvasController : MonoBehaviour
     /// 対象のTowerControllerを取得する関数
     /// </summary>
     /// <param name="target"></param>
-    public void SetTargetTower(GameObject target)
+    public void SetTargetTower(TowerController tc)
     {
-        targetTC = target.GetComponent<TowerController>();
+        targetTC = tc;
     }
 
 
