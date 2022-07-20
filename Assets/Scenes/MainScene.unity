@@ -1381,7 +1381,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0750801a5b39b48478bcbdd451c6719e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 288686992522695364, guid: db26b4939102077459575d633982c565, type: 3}
+  bulletPrefabs:
+  - {fileID: 288686992522695364, guid: db26b4939102077459575d633982c565, type: 3}
+  - {fileID: 5543738655034409619, guid: 6ebcde2df913cc0459431ebd85f67b48, type: 3}
   shockWavePrefab: {fileID: 3815382849782080369, guid: 3b0648dffb7294d4f84f7831c4a132ab, type: 3}
   BulletsParent: {fileID: 173633999}
 --- !u!1 &529337158

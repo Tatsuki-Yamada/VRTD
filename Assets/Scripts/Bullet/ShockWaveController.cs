@@ -11,8 +11,10 @@ public class ShockWaveController : MonoBehaviour
     }
 
 
-    public void Reset()
+    public void Init(Vector3 pos)
     {
+        transform.position = pos;
+
         animator.SetTrigger("AnimTrigger");
 
         isActive = true;

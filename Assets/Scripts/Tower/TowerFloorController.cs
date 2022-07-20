@@ -5,7 +5,7 @@ public class TowerFloorController : BuildableObject
 {
     enum BulletType
     {
-        Bullet, ShockWave
+        NormalBullet, ExplosionBullet, ShockWave
     }
 
 
@@ -141,8 +141,12 @@ public class TowerFloorController : BuildableObject
             {
                 switch (bulletType)
                 {
-                    case BulletType.Bullet:
-                        BulletManager.Instance.CreateBullet(barrelTransform.position, targetEnemyList[0]);
+                    case BulletType.NormalBullet:
+                        BulletManager.Instance.CreateNormalBullet(targetEnemyList[0], barrelTransform.position);
+                        break;
+
+                    case BulletType.ExplosionBullet:
+                        BulletManager.Instance.CreateExplosionBullet(targetEnemyList[0], barrelTransform.position);
                         break;
 
                     case BulletType.ShockWave:

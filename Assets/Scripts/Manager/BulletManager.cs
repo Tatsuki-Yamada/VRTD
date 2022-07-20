@@ -4,42 +4,71 @@ using UnityEngine;
 public class BulletManager : SingletonMonoBehaviour<BulletManager>
 {
     // 生成する弾のPrefab
-    [SerializeField] GameObject bulletPrefab;
+    [SerializeField] GameObject[] bulletPrefabs;
     [SerializeField] GameObject shockWavePrefab;
 
     // 弾の親オブジェクト
     [SerializeField] Transform BulletsParent;
 
     // 生成した弾を管理するリスト
-    List<BulletController> bullets = new List<BulletController>();
+    List<NormalBulletController> normals = new List<NormalBulletController>();
+    List<ExplosionBulletController> explosions = new List<ExplosionBulletController>();
     List<ShockWaveController> shockWaves = new List<ShockWaveController>();
-    
+
 
     /// <summary>
-    /// 弾を生成・再利用する関数
+    /// 通常弾を作る関数
     /// </summary>
     /// <param name="barrel"></param>
     /// <param name="target"></param>
-    public void CreateBullet(Vector3 barrel, GameObject target)
+    public void CreateNormalBullet(GameObject target, Vector3 barrel)
     {
         // 無効状態の弾があれば再利用する
-        foreach (BulletController b in bullets)
+        foreach (NormalBulletController n in normals)
         {
-            if (!b.isActive)
+            if (!n.isActive)
             {
-                b.transform.position = barrel;
-                b.Reset(target);
+                n.Init(target, barrel);
                 return;
             }
         }
 
         // 無効状態の弾が無ければ新規作成してリストに加える
-        BulletController bc = Instantiate(bulletPrefab, barrel, Quaternion.identity, BulletsParent).GetComponent<BulletController>();
-        bc.SetTarget(target);
-        bullets.Add(bc);
+        NormalBulletController nb = Instantiate(bulletPrefabs[0], barrel, Quaternion.identity, BulletsParent).GetComponent<NormalBulletController>();
+        nb.Init(target, barrel);
+        normals.Add(nb);
+
     }
 
 
+    /// <summary>
+    /// 爆発弾を作る関数
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="barrel"></param>
+    public void CreateExplosionBullet(GameObject target, Vector3 barrel)
+    {
+        // 無効状態の弾があれば再利用する
+        foreach (ExplosionBulletController e in explosions)
+        {
+            if (!e.isActive)
+            {
+                e.Init(target, barrel);
+                return;
+            }
+        }
+
+        // 無効状態の弾が無ければ新規作成してリストに加える
+        ExplosionBulletController eb = Instantiate(bulletPrefabs[1], barrel, Quaternion.identity, BulletsParent).GetComponent<ExplosionBulletController>();
+        eb.Init(target, barrel);
+        explosions.Add(eb);
+    }
+
+
+    /// <summary>
+    /// 衝撃波を作る関数
+    /// </summary>
+    /// <param name="basePos"></param>
     public void CreateShockWave(Vector3 basePos)
     {
         // 無効状態の衝撃派があれば再利用する
@@ -47,14 +76,13 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
         {
             if (!s.isActive)
             {
-                s.transform.position = basePos;
-                s.Reset();
+                s.Init(basePos);
                 return;
             }
         }
 
-        ShockWaveController sc = Instantiate(shockWavePrefab, basePos, Quaternion.identity, BulletsParent).GetComponent<ShockWaveController>();
-        sc.Reset();
-        shockWaves.Add(sc);
+        ShockWaveController sw = Instantiate(shockWavePrefab, basePos, Quaternion.identity, BulletsParent).GetComponent<ShockWaveController>();
+        sw.Init(basePos);
+        shockWaves.Add(sw);
     }
 }

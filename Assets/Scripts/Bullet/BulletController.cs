@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// 敵に向かって飛んでいくタイプの弾の基底クラス
+/// </summary>
 public class BulletController : MonoBehaviour
 {
     // ターゲットのTransform
@@ -11,14 +14,17 @@ public class BulletController : MonoBehaviour
     // 自分のCollider
     Collider col;
 
+    // 敵に与えるダメージ
+    [SerializeField] protected int damage = 5;
+
     // 移動スピード
     [SerializeField] float moveSpeed = 3f;
 
     // 有効かを示すフラグ
     public bool isActive = true;
 
-
-    int damage = 5;
+    // 敵を貫通するか
+    bool isThroughEnemy = false;
 
 
     void Awake()
@@ -28,13 +34,27 @@ public class BulletController : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// 生成・再利用時の初期化処理を行う関数
+    /// </summary>
+    /// <param name="tgt"></param>
+    public void Init(GameObject tgt, Vector3 pos)
+    {
+        target = tgt.transform;
+        transform.position = pos;
+
+        col.enabled = true;
+        rig.isKinematic = false;
+
+        isActive = true;
+    }
+
+
     void FixedUpdate()
     {
         if (isActive)
         {
-            transform.LookAt(target.position);
-            rig.AddRelativeForce(Vector3.forward * moveSpeed);
-
+            Move();
 
             if (target.position == new Vector3(50, 50, 50))
             {
@@ -44,37 +64,39 @@ public class BulletController : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// 飛んでいく先のオブジェクトを設定する関数
-    /// </summary>
-    /// <param name="obj"></param>
-    public void SetTarget(GameObject obj)
-    {
-        target = obj.transform;
-    }
-
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
         {
-            other.GetComponent<EnemyController>().TakeDamage(damage);
-            Delete();
+            Hit(other);
+
+            if (!isThroughEnemy)
+            {
+                Delete();
+            }
         }
     }
 
 
     /// <summary>
-    /// 無効状態のオブジェクトを有効にして再利用する関数
+    /// 目標に向かって移動する関数
     /// </summary>
-    /// <param name="obj"></param>
-    public void Reset(GameObject obj)
+    void Move()
     {
-        SetTarget(obj);
-        col.enabled = true;
-        rig.isKinematic = false;
+        transform.LookAt(target.position);
+        rig.AddRelativeForce(Vector3.forward * moveSpeed);
+    }
 
-        isActive = true;
+
+    /// <summary>
+    /// 当たった敵にダメージを与える関数
+    /// </summary>
+    /// <param name="hitEnemy"></param>
+    virtual protected void Hit(Collider hitEnemy)
+    {
+        hitEnemy.GetComponent<EnemyController>().TakeDamage(damage);
+
     }
 
 
