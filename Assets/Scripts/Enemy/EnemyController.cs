@@ -18,47 +18,80 @@ public class EnemyController : MonoBehaviour
     float rotateSpeed = 0.5f;
 
     // 最大HP
-    public int MaxHP = 100;
+    public int maxHP = 100;
 
     // 現在のHP
-    public int CurrentHP = 100;
+    public int currentHP = 100;
 
     // 敵が生きているか示す変数
-    bool isActive = false;
+    public bool isActive = false;
 
 
-    // 攻撃を受ける関数
+    /// <summary>
+    /// 生成時または再利用時に行う初期化処理
+    /// </summary>
+    /// <param name="enemyBaseX"></param>
+    /// <param name="enemyBaseY"></param>
+    /// <param name="enemyPath"></param>
+    public void Init(int enemyBaseX, int enemyBaseY, int[,] enemyPath)
+    {
+        SetPath(enemyBaseX, enemyBaseY, enemyPath);
+
+        currentHP = maxHP;
+        UpdateHPGauge();
+
+        isActive = true;
+    }
+
+
+    /// <summary>
+    /// 攻撃を受ける関数
+    /// </summary>
+    /// <param name="damage"></param>
     public void TakeDamage(int damage)
     {
-        CurrentHP -= damage;
+        currentHP -= damage;
 
         UpdateHPGauge();
 
-        if (CurrentHP <= 0 && isActive)
+        if (currentHP <= 0 && isActive)
         {
             Kill();
         }
     }
 
 
-    // 生成時または再利用時に行う初期化処理
-    public void Init(int enemyBaseX, int enemyBaseY, int[,] enemyPath)
+    /// <summary>
+    /// 移動速度を割合で減少させる関数
+    /// </summary>
+    /// <param name="rate"></param>
+    public void TakeSlow(float rate)
     {
-        isActive = true;
-
-        SetPath(enemyBaseX, enemyBaseY, enemyPath);
+        moveSequence.timeScale = rate;
     }
 
 
+    /// <summary>
+    /// 移動速度を元に戻す関数
+    /// </summary>
+    public void CureSlow()
+    {
+        TakeSlow(1f);
+    }
 
+
+    /// <summary>
+    /// HPバーを更新する関数
+    /// </summary>
     void UpdateHPGauge()
     {
-        //TODO
-        HPGauge.fillAmount = (float)CurrentHP / MaxHP;
+        HPGauge.fillAmount = (float)currentHP / maxHP;
     }
 
 
-
+    /// <summary>
+    /// この敵が死ぬ関数
+    /// </summary>
     void Kill()
     {
         moveSequence.Kill();
@@ -68,7 +101,23 @@ public class EnemyController : MonoBehaviour
     }
 
 
-    // 敵が辿る経路をセットする関数
+    /// <summary>
+    /// 敵が自拠点に到達したときの処理
+    /// </summary>
+    void ReachPlayerBase()
+    {
+        GameManager.Instance.PlayerBaseTakeDamage();
+
+        Kill();
+    }
+
+
+    /// <summary>
+    /// 敵が辿る経路をセットする関数
+    /// </summary>
+    /// <param name="enemyBaseX"></param>
+    /// <param name="enemyBaseY"></param>
+    /// <param name="enemyPath"></param>
     void SetPath(int enemyBaseX, int enemyBaseY, int[,] enemyPath)
     {
         int x = enemyBaseX;
@@ -81,6 +130,7 @@ public class EnemyController : MonoBehaviour
         bool firstRotation = true;
 
         moveSequence = DOTween.Sequence();
+        moveSequence.OnComplete(ReachPlayerBase);
 
         while (true)
         {

@@ -21,10 +21,10 @@ public class ConstructionSiteController : MonoBehaviour
     /// <summary>
     /// ハンマーで叩いたときの処理をまとめた関数
     /// </summary>
-    public void Hit()
+    public void Hit(int hitCount = 1)
     {
-        targetBcc.DecreaseCount();
-        count--;
+        targetBcc.DecreaseCount(hitCount);
+        count -= hitCount;
         if (count <= 0)
         {
             Destroy(gameObject);

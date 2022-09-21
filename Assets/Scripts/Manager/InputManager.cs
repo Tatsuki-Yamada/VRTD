@@ -134,7 +134,7 @@ public class InputManager : MonoBehaviour
         {
             if (hit.collider.CompareTag("ConstructionSite"))
             {
-                hit.collider.GetComponent<ConstructionSiteController>().Hit();
+                hit.collider.GetComponent<ConstructionSiteController>().Hit(10);
             }
         }
   

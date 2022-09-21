@@ -5,7 +5,7 @@ public class TowerFloorController : BuildableObject
 {
     enum BulletType
     {
-        NormalBullet, ExplosionBullet, ShockWave
+        NormalBullet, ExplosionBullet, ShockWave, SlowField
     }
 
 
@@ -27,6 +27,9 @@ public class TowerFloorController : BuildableObject
     // 武装のリロードにかかる時間
     float reloadTime = 1f;
 
+    // アップグレードを行った回数
+    public int upgradeCount = 0;
+
     // 攻撃範囲内にいる敵のリスト
     List<GameObject> targetEnemyList = new List<GameObject>();
 
@@ -39,8 +42,10 @@ public class TowerFloorController : BuildableObject
     // 有効かを示すフラグ
     public bool isActive { get; set; } = true;
 
-
+    // アウトライン
     [SerializeField] GameObject outlineObject;
+
+    // 
 
 
     /// <summary>
@@ -135,6 +140,13 @@ public class TowerFloorController : BuildableObject
         if (!isActive)
             return;
 
+        if (bulletType == BulletType.SlowField)
+        {
+
+        }
+
+
+
         if (enemiesInRange)
         {
             if (timeFromLastShot > reloadTime)
@@ -153,6 +165,9 @@ public class TowerFloorController : BuildableObject
                         BulletManager.Instance.CreateShockWave(transform.position);
                         break;
 
+                    case BulletType.SlowField:
+                        BulletManager.Instance.CreateSlowField(transform.position);
+                        break;
                 }
 
                 timeFromLastShot = 0f;
@@ -188,11 +203,15 @@ public class TowerFloorController : BuildableObject
 
         transform.GetChild(0).GetComponent<Renderer>().material = towerFloorMaterials[1];
 
+        // 試験用のアップグレード内容
+        reloadTime -= 0.1f;
+
         tc.SetAllFloorsActive(true);
 
-        // 試験用のアップグレード内容
-        reloadTime -= 0.24f;
+        bcc.onCompleteBuild.RemoveAllListeners();
+
+        UIManager.Instance.UpdateInfo();
+
+        upgradeCount += 1;
     }
-
-
 }

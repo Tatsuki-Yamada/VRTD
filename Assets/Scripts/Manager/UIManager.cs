@@ -4,7 +4,7 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
 {
     [SerializeField] Camera centerEyeCamera;
 
-    [SerializeField] GameObject HandyUICnavas;
+    [SerializeField] UICanvasController handyUICnavas;
 
     TowerController selectedTowerController;
     
@@ -18,9 +18,8 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
         selectedTowerController = tower;
         selectedTowerController.SetAllFloorsOutline(true);
 
-        HandyUICnavas.SetActive(true);
-        HandyUICnavas.GetComponent<UICanvasController>().SetTargetTower(tower);
-
+        handyUICnavas.gameObject.SetActive(true);
+        handyUICnavas.GetComponent<UICanvasController>().SetTargetTower(tower);
     }
 
 
@@ -31,5 +30,14 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
     {
         if (selectedTowerController != null)
             selectedTowerController.SetAllFloorsOutline(false);
+    }
+
+
+    /// <summary>
+    /// UIに更新の指示を出す関数
+    /// </summary>
+    public void UpdateInfo()
+    {
+        handyUICnavas.UpdateInfo();
     }
 }

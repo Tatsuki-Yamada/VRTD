@@ -14,7 +14,10 @@ public class TowerController : MonoBehaviour
     }
 
 
-    
+    /// <summary>
+    /// 指定したフロアのアップグレードを開始する
+    /// </summary>
+    /// <param name="floorNum"></param>
     public void UpgradeFloor(int floorNum)
     {
         tfc[floorNum - 1].StartBuild();
@@ -55,6 +58,17 @@ public class TowerController : MonoBehaviour
     public TowerFloorController[] GetTFCs()
     {
         return tfc;
+    }
+
+
+    /// <summary>
+    /// 全フロアのアップグレード回数を配列で返す関数
+    /// </summary>
+    /// <returns></returns>
+    public int[] GetAllFloorsUpgradeCount()
+    {
+        int[] r = { tfc[0].upgradeCount, tfc[1].upgradeCount, tfc[2].upgradeCount };
+        return r;
     }
 
 

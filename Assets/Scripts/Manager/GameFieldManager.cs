@@ -178,9 +178,15 @@ public class GameFieldManager : SingletonMonoBehaviour<GameFieldManager>
                 }
             }
         }
-
     }
 
 
+    // 敵が生成される位置を取得する関数
+    public Vector3 GetEnemySpawnPos()
+    {
+        // Yの+0.5fはタイルに被らないためのオフセット
+        Vector3 pos = new Vector3(enemyBasePosX + createFieldOffsetX, createFieldOffsetY + 0.5f, enemyBasePosY + createFieldOffsetZ);
 
+        return pos;
+    }
 }

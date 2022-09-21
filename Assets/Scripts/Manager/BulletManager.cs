@@ -6,6 +6,7 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
     // 生成する弾のPrefab
     [SerializeField] GameObject[] bulletPrefabs;
     [SerializeField] GameObject shockWavePrefab;
+    [SerializeField] GameObject[] energyFieldPrefabs;
 
     // 弾の親オブジェクト
     [SerializeField] Transform BulletsParent;
@@ -14,6 +15,7 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
     List<NormalBulletController> normals = new List<NormalBulletController>();
     List<ExplosionBulletController> explosions = new List<ExplosionBulletController>();
     List<ShockWaveController> shockWaves = new List<ShockWaveController>();
+    List<SlowFieldController> slows = new List<SlowFieldController>();
 
 
     /// <summary>
@@ -84,5 +86,27 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
         ShockWaveController sw = Instantiate(shockWavePrefab, basePos, Quaternion.identity, BulletsParent).GetComponent<ShockWaveController>();
         sw.Init(basePos);
         shockWaves.Add(sw);
+    }
+
+
+    /// <summary>
+    /// 衝撃波を作る関数
+    /// </summary>
+    /// <param name="basePos"></param>
+    public void CreateSlowField(Vector3 basePos)
+    {
+        // 無効状態の衝撃派があれば再利用する
+        foreach (SlowFieldController s in slows)
+        {
+            if (!s.isActive)
+            {
+                s.Init(basePos);
+                return;
+            }
+        }
+
+        SlowFieldController sl = Instantiate(energyFieldPrefabs[0], basePos, Quaternion.identity, BulletsParent).GetComponent<SlowFieldController>();
+        sl.Init(basePos);
+        slows.Add(sl);
     }
 }

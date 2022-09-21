@@ -1,4 +1,4 @@
-// This file was @generated with LibOVRPlatform/codegen/main. Do not modify it!
+﻿// This file was @generated with LibOVRPlatform/codegen/main. Do not modify it!
 
 namespace Oculus.Platform.Models
 {
