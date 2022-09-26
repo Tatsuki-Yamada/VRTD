@@ -3,9 +3,12 @@ using System.Collections.Generic;
 
 public class TowerFloorController : BuildableObject
 {
-    enum BulletType
+    public enum BulletType
     {
-        NormalBullet, ExplosionBullet, ShockWave, SlowField
+        NormalBullet = 0,
+        ExplosionBullet = 1,
+        ShockWave = 2,
+        SlowField = 3
     }
 
 
@@ -16,7 +19,7 @@ public class TowerFloorController : BuildableObject
     [SerializeField] Material[] towerFloorMaterials = new Material[2];
 
     // 発射する弾の種類
-    [SerializeField] BulletType bulletType;
+    public BulletType bulletType;
 
     // 敵が攻撃範囲内にいるか示す変数
     bool enemiesInRange = false;
@@ -28,7 +31,7 @@ public class TowerFloorController : BuildableObject
     float reloadTime = 1f;
 
     // アップグレードを行った回数
-    public int upgradeCount = 0;
+    public int towerLevel = 1;
 
     // 攻撃範囲内にいる敵のリスト
     List<GameObject> targetEnemyList = new List<GameObject>();
@@ -45,7 +48,11 @@ public class TowerFloorController : BuildableObject
     // アウトライン
     [SerializeField] GameObject outlineObject;
 
-    // 
+    // 出しているフィールド
+    GameObject field;
+
+    // フィールドを出したか示すフラグ
+    bool isFieldActive = false;
 
 
     /// <summary>
@@ -79,9 +86,21 @@ public class TowerFloorController : BuildableObject
         if (isBuilding)
             return;
 
-        
+        if (!isActive)
+            return;
+
+
         RotateToEnemy();
-        Shoot();
+
+        // 弾の種類で動作を変える
+        if(bulletType == BulletType.SlowField)
+        {
+            GenerateField();
+        }
+        else
+        {
+            Shoot();
+        }
     }
 
 
@@ -114,10 +133,6 @@ public class TowerFloorController : BuildableObject
     /// </summary>
     void RotateToEnemy()
     {
-        if (!isActive)
-            return;
-
-
         if (enemiesInRange)
         {
             if (!(targetEnemyList[0].transform.position == new Vector3(50, 50, 50)))
@@ -137,16 +152,6 @@ public class TowerFloorController : BuildableObject
     {
         timeFromLastShot += Time.deltaTime;
 
-        if (!isActive)
-            return;
-
-        if (bulletType == BulletType.SlowField)
-        {
-
-        }
-
-
-
         if (enemiesInRange)
         {
             if (timeFromLastShot > reloadTime)
@@ -165,13 +170,23 @@ public class TowerFloorController : BuildableObject
                         BulletManager.Instance.CreateShockWave(transform.position);
                         break;
 
-                    case BulletType.SlowField:
-                        BulletManager.Instance.CreateSlowField(transform.position);
-                        break;
                 }
 
                 timeFromLastShot = 0f;
             }
+        }
+    }
+
+
+    /// <summary>
+    /// 1度しか発射しないフィールドを生成する
+    /// </summary>
+    void GenerateField()
+    {
+        if (!isFieldActive)
+        {
+            BulletManager.Instance.CreateSlowField(transform.position);
+            isFieldActive = true;
         }
     }
 
@@ -186,7 +201,7 @@ public class TowerFloorController : BuildableObject
 
         base.StartBuild();
 
-        transform.GetChild(0).GetComponent<Renderer>().material = towerFloorMaterials[0];
+        // transform.GetChild(0).GetComponent<Renderer>().material = towerFloorMaterials[0];
         bcc.SetCount(10);
         bcc.onCompleteBuild.AddListener(CompleteBuild);
 
@@ -201,7 +216,7 @@ public class TowerFloorController : BuildableObject
     {
         base.CompleteBuild();
 
-        transform.GetChild(0).GetComponent<Renderer>().material = towerFloorMaterials[1];
+        // transform.GetChild(0).GetComponent<Renderer>().material = towerFloorMaterials[1];
 
         // 試験用のアップグレード内容
         reloadTime -= 0.1f;
@@ -212,6 +227,6 @@ public class TowerFloorController : BuildableObject
 
         UIManager.Instance.UpdateInfo();
 
-        upgradeCount += 1;
+        towerLevel += 1;
     }
 }

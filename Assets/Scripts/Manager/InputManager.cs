@@ -120,13 +120,23 @@ public class InputManager : MonoBehaviour
     /// <param name="hit"></param>
     void RIndex(RaycastHit hit, bool Debug_isHammer = false, bool Debug_CanTouchUI = false)
     {
-        if (hit.collider.CompareTag("Tile_None") || hit.collider.CompareTag("Tile_CanBuild"))
-        {
-            hit.collider.GetComponent<TileController>().StartBuild();
-        }
-        else if (hit.collider.CompareTag("Tower"))
+        // タワー以外を選択したときにUIの非表示が絡むため、この書き方にしている
+        if (hit.collider.CompareTag("Tower"))
         {
             hit.collider.GetComponent<TowerController>().OnSelected();
+        }
+        else
+        {
+            if (hit.collider.CompareTag("Tile_None") || hit.collider.CompareTag("Tile_CanBuild"))
+            {
+                hit.collider.GetComponent<TileController>().StartBuild();
+            }
+
+            // UI以外を選択したとき
+            if (!hit.collider.CompareTag("UI"))
+            {
+                UIManager.Instance.SelectOutsideOfTower();
+            }
         }
 
         // フラグがTrueのとき、ハンマーで叩いたときと同じ処理をする

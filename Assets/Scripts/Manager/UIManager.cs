@@ -2,15 +2,19 @@
 
 public class UIManager : SingletonMonoBehaviour<UIManager>
 {
-    [SerializeField] Camera centerEyeCamera;
+    // タワーのアップグレード関係のUI
+    [SerializeField] UpgradeUIController towerUICanvas;
+    [SerializeField] UpgradeStatusUIController[] towerStatusUICanvases;
+    [SerializeField] UpgradeEvolveUIController[] towerEvolveUICanvas;
 
-    [SerializeField] UICanvasController handyUICnavas;
-
+    // 選択しているタワーコントローラー
     TowerController selectedTowerController;
     
 
-
-
+    /// <summary>
+    /// タワーを選択したときに呼ばれる関数
+    /// </summary>
+    /// <param name="tower"></param>
     public void SetTowerController(TowerController tower)
     {
         ResetHighlights();
@@ -18,8 +22,18 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
         selectedTowerController = tower;
         selectedTowerController.SetAllFloorsOutline(true);
 
-        handyUICnavas.gameObject.SetActive(true);
-        handyUICnavas.GetComponent<UICanvasController>().SetTargetTower(tower);
+        towerUICanvas.gameObject.SetActive(true);
+        towerUICanvas.GetComponent<UpgradeUIController>().SetTargetTower(tower);
+    }
+
+
+    /// <summary>
+    /// タワー以外を選択したときの処理をまとめた関数
+    /// </summary>
+    public void SelectOutsideOfTower()
+    {
+        ResetHighlights();
+        InvisibleUI();
     }
 
 
@@ -38,6 +52,25 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
     /// </summary>
     public void UpdateInfo()
     {
-        handyUICnavas.UpdateInfo();
+        towerUICanvas.UpdateInfo();
+    }
+
+
+    /// <summary>
+    /// UIを非表示にする関数
+    /// </summary>
+    void InvisibleUI()
+    {
+        towerUICanvas.gameObject.SetActive (false);
+
+        foreach (UpgradeStatusUIController ui in towerStatusUICanvases)
+        {
+            ui.gameObject.SetActive(false);
+        }
+
+        foreach (UpgradeEvolveUIController ev in towerEvolveUICanvas)
+        {
+            ev.gameObject.SetActive(false);
+        }
     }
 }
