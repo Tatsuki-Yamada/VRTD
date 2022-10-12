@@ -89,8 +89,8 @@ public class UpgradeUIController : MonoBehaviour
 
         if (towerLevels[floorNum] >= 6)
         {
-            upgradeEvolveUIControllers[(int)targetTFCs[floorNum].bulletType].gameObject.SetActive(true);
-            upgradeEvolveUIControllers[(int)targetTFCs[floorNum].bulletType].ShowEvovleUI(targetTC, floorNum);
+            upgradeEvolveUIControllers[floorNum].gameObject.SetActive(true);
+            upgradeEvolveUIControllers[floorNum].ShowEvovleUI(targetTC, floorNum);
         }
         else
         {
