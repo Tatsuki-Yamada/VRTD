@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4576,6 +4576,7 @@ MonoBehaviour:
   bulletPrefabs:
   - {fileID: 288686992522695364, guid: db26b4939102077459575d633982c565, type: 3}
   - {fileID: 5543738655034409619, guid: 6ebcde2df913cc0459431ebd85f67b48, type: 3}
+  - {fileID: 7841682775103363296, guid: 1c36f5f8cd966d141ad0f38eb2929225, type: 3}
   shockWavePrefab: {fileID: 3815382849782080369, guid: 3b0648dffb7294d4f84f7831c4a132ab, type: 3}
   energyFieldPrefabs:
   - {fileID: 5454252456356335048, guid: 294437d103d9b47dfb86337b3c77b7f4, type: 3}
@@ -14934,7 +14935,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1576482856}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.5}
   m_LocalScale: {x: 0.005, y: 0.005, z: 0.005}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -19629,7 +19630,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3520427931166280555, guid: 795fb022bc6da2d4884c9955938a7eb5, type: 3}
       propertyPath: m_Name
-      value: Tower
+      value: TestTower
       objectReference: {fileID: 0}
     - target: {fileID: 3520427931166280556, guid: 795fb022bc6da2d4884c9955938a7eb5, type: 3}
       propertyPath: m_RootOrder
@@ -19674,6 +19675,34 @@ PrefabInstance:
     - target: {fileID: 3520427931166280556, guid: 795fb022bc6da2d4884c9955938a7eb5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5137680635048913659, guid: 795fb022bc6da2d4884c9955938a7eb5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5137680635295208793, guid: 795fb022bc6da2d4884c9955938a7eb5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5137680635649709651, guid: 795fb022bc6da2d4884c9955938a7eb5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7789117495643748554, guid: 795fb022bc6da2d4884c9955938a7eb5, type: 3}
+      propertyPath: bulletType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7789117497454855266, guid: 795fb022bc6da2d4884c9955938a7eb5, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7789117497454855266, guid: 795fb022bc6da2d4884c9955938a7eb5, type: 3}
+      propertyPath: bulletType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7789117497709525952, guid: 795fb022bc6da2d4884c9955938a7eb5, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7789117497709525952, guid: 795fb022bc6da2d4884c9955938a7eb5, type: 3}
       propertyPath: bulletType

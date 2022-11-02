@@ -8,7 +8,8 @@ public class TowerFloorController : BuildableObject
         NormalBullet = 0,
         ExplosionBullet = 1,
         ShockWave = 2,
-        SlowField = 3
+        SlowField = 3,
+        PiercingBullet = 4,
     }
 
 
@@ -164,6 +165,10 @@ public class TowerFloorController : BuildableObject
 
                     case BulletType.ExplosionBullet:
                         BulletManager.Instance.CreateExplosionBullet(targetEnemyList[0], barrelTransform.position);
+                        break;
+
+                    case BulletType.PiercingBullet:
+                        BulletManager.Instance.CreatePiercingBullet(targetEnemyList[0], barrelTransform.position);
                         break;
 
                     case BulletType.ShockWave:

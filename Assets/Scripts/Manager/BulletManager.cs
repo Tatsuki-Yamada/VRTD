@@ -16,6 +16,7 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
     List<ExplosionBulletController> explosions = new List<ExplosionBulletController>();
     List<ShockWaveController> shockWaves = new List<ShockWaveController>();
     List<SlowFieldController> slows = new List<SlowFieldController>();
+    List<PiercingBulletController> piercings = new List<PiercingBulletController>();
 
 
     /// <summary>
@@ -64,6 +65,30 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
         ExplosionBulletController eb = Instantiate(bulletPrefabs[1], barrel, Quaternion.identity, BulletsParent).GetComponent<ExplosionBulletController>();
         eb.Init(target, barrel);
         explosions.Add(eb);
+    }
+
+
+    /// <summary>
+    /// 貫通弾を作る関数
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="barrel"></param>
+    public void CreatePiercingBullet(GameObject target, Vector3 barrel)
+    {
+        // 無効状態の弾があれば再利用する
+        foreach (PiercingBulletController p in piercings)
+        {
+            if (!p.isActive)
+            {
+                p.Init(target, barrel);
+                return;
+            }
+        }
+
+        // 無効状態の弾が無ければ新規作成してリストに加える
+        PiercingBulletController pb = Instantiate(bulletPrefabs[2], barrel, Quaternion.identity, BulletsParent).GetComponent<PiercingBulletController>();
+        pb.Init(target, barrel);
+        piercings.Add(pb);
     }
 
 
