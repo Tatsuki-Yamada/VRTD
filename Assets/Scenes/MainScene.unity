@@ -7579,7 +7579,12 @@ MonoBehaviour:
   towerUICanvas: {fileID: 878690569}
   towerStatusUICanvases:
   - {fileID: 1261116937}
+  - {fileID: 2080790208}
+  - {fileID: 1794666940}
+  - {fileID: 1579392020}
   towerEvolveUICanvas:
+  - {fileID: 1697095449}
+  - {fileID: 1473799734}
   - {fileID: 490220958}
 --- !u!1001 &768738808
 PrefabInstance:
@@ -8555,7 +8560,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &878690568
 RectTransform:
   m_ObjectHideFlags: 0
