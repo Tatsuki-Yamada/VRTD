@@ -127,5 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f7630898ee1c7f4a9ad46b7f0c50aef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myCollider_toSwitchEnable: {fileID: 1986415150095904173}
+  damage: 5
   moveSpeed: 3
   isActive: 1

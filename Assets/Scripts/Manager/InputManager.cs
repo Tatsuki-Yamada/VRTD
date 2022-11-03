@@ -147,7 +147,7 @@ public class InputManager : MonoBehaviour
                 hit.collider.GetComponent<ConstructionSiteController>().Hit(10);
             }
         }
-  
+
         // フラグがTrueのとき、ボタンのOnClick()を直接呼び出す
         if (Debug_CanTouchUI)
         {
@@ -345,7 +345,7 @@ public class InputManager : MonoBehaviour
             VRPlayer.transform.Rotate(new Vector3(-rotRatio * 20, 0, 0));
         if (Input.GetKeyDown(KeyCode.DownArrow))
             VRPlayer.transform.Rotate(new Vector3(rotRatio * 20, 0, 0));
-        
+
 
         if (Input.GetKey(KeyCode.W) || OVRInput.Get(OVRInput.RawButton.LThumbstickUp))
             VRPlayer.transform.Translate(0, 0, moveRatio);
@@ -399,8 +399,30 @@ public class InputManager : MonoBehaviour
             }
         }
 
+
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            DebugFunc<int>();
+        }
+
     }
 
+    void DebugFunc<T>()
+    {
+        System.Collections.Generic.List<System.Object> bulletList_toReuse = new System.Collections.Generic.List<System.Object>();
+        bulletList_toReuse.Add(1);
+        bulletList_toReuse.Add("a");
+        bulletList_toReuse.Add(2);
+
+
+        System.Collections.Generic.List<T> oneTypeList_toSearchDisableBullet = bulletList_toReuse.OfType<T>().ToList();
+
+        Debug.Log(bulletList_toReuse[0]);
+        Debug.Log(bulletList_toReuse[1]);
+        Debug.Log(oneTypeList_toSearchDisableBullet[0]);
+        Debug.Log(oneTypeList_toSearchDisableBullet[1]);
+    }
 
     /// <summary>
     /// ScreenPointを表示する関数

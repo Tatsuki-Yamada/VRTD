@@ -1,28 +1,31 @@
 ﻿using UnityEngine;
 
-public class PiercingBulletController : BulletController
+namespace Bullet
 {
-    float aliveTime = 5f;
-
-    protected override void Awake()
+    public class PiercingBulletController : BulletController
     {
-        base.Awake();
-        isThroughEnemy = true;
-    }
+        float aliveTime = 5f;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            isThroughEnemy_toBranchDeleteFunc = true;
+        }
 
 
-    public override void Init(GameObject tgt, Vector3 pos)
-    {
-        base.Init(tgt, pos);
+        public override void Init(TowerFloorController tfc_toGetEnemyAndBarrelData)
+        {
+            base.Init(tfc_toGetEnemyAndBarrelData);
 
-        transform.LookAt(tgt.transform);
+            transform.LookAt(tfc_toGetEnemyAndBarrelData.GetFirstTargetableEnemy().transform);
 
-        Invoke("Delete", aliveTime);
-        
-    }
+            Invoke("Delete", aliveTime);
 
-    protected override void Move()
-    {
-        rig.AddRelativeForce(Vector3.forward * moveSpeed);
+        }
+
+        protected override void Move()
+        {
+            myRigidbody_toMove.AddRelativeForce(Vector3.forward * moveSpeed_toMultiplyMoveVec);
+        }
     }
 }

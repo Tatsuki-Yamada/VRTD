@@ -1,16 +1,19 @@
 ﻿using UnityEngine;
 
-public class ExplosionBulletController : BulletController
+namespace Bullet
 {
-    // 爆発範囲を示すオブジェクトのコントローラー
-    [SerializeField] ExplosionRangeController rangeController;
-
-
-    override protected void Hit(Collider hitEnemy)
+    public class ExplosionBulletController : BulletController
     {
-        foreach(GameObject enemy in rangeController.inRangedEnemies)
+        // 爆発範囲を示すオブジェクトのコントローラー
+        [SerializeField] ExplosionRangeController rangeController;
+
+
+        override protected void Hit(Collider hitEnemy)
         {
-            enemy.GetComponent<EnemyController>().TakeDamage(damage);
+            foreach (GameObject enemy in rangeController.inRangedEnemies)
+            {
+                enemy.GetComponent<EnemyController>().TakeDamage(damage_toDealEnemy);
+            }
         }
     }
 }

@@ -1,41 +1,35 @@
 ﻿using UnityEngine;
 
-public class ShockWaveController : MonoBehaviour
+namespace Bullet
 {
-    Animator animator;
-    public bool isActive = true;
-
-    private void Awake()
+    public class ShockWaveController : BulletController
     {
-        animator = GetComponent<Animator>();
-    }
+        Animator animator;
 
-
-    public void Init(Vector3 pos)
-    {
-        transform.position = pos;
-
-        animator.SetTrigger("AnimTrigger");
-
-        isActive = true;
-    }
-
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
+        protected override void Awake()
         {
-            other.GetComponent<EnemyController>().TakeDamage(1);
+            base.Awake();
+            animator = GetComponent<Animator>();
+            isThroughEnemy_toBranchDeleteFunc = true;
         }
+
+        protected override void FixedUpdate() { }
+
+
+        public override void Init(TowerFloorController tfc_toGetEnemyAndBarrelData)
+        {
+            transform.position = tfc_toGetEnemyAndBarrelData.transform.position;
+
+            animator.SetTrigger("AnimTrigger");
+
+            isActive_toActivateUpdate = true;
+        }
+
+
+        public void OnAnimationEnd()
+        {
+            Delete();
+        }
+
     }
-
-
-    public void OnAnimationEnd()
-    {
-        transform.position = new Vector3(250, 250, 250);
-
-        isActive = false;
-    }
-
-
 }

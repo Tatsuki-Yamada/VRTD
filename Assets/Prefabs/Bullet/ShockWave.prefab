@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 3815382849782080381}
   - component: {fileID: 3815382849782080380}
   - component: {fileID: 3815382849782080371}
-  - component: {fileID: -8932447946823080037}
   - component: {fileID: 5719371131357677168}
   - component: {fileID: 3679296737181437772}
+  - component: {fileID: -8932447946823080037}
   m_Layer: 0
   m_Name: ShockWave
   m_TagString: Bullet
@@ -101,19 +101,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &-8932447946823080037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3815382849782080369}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcdb1003188fa5d44a264f4cd9024e16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isActive: 1
 --- !u!95 &5719371131357677168
 Animator:
   serializedVersion: 4
@@ -150,3 +137,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-8932447946823080037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3815382849782080369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcdb1003188fa5d44a264f4cd9024e16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myCollider_toSwitchEnable: {fileID: 3815382849782080371}
+  damage_toDealEnemy: 5
+  moveSpeed_toMultiplyMoveVec: 3
+  isActive_toActivateUpdate: 1

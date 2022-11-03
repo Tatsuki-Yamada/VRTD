@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 public class TowerFloorController : BuildableObject
 {
@@ -7,14 +8,15 @@ public class TowerFloorController : BuildableObject
     {
         NormalBullet = 0,
         ExplosionBullet = 1,
-        ShockWave = 2,
-        SlowField = 3,
-        PiercingBullet = 4,
+        PiercingBullet = 2,
+        ShockWave = 3,
+        SlowField = 4,
     }
 
 
     // 発射する砲身のTransform
-    [SerializeField] Transform barrelTransform;
+    [FormerlySerializedAs("barrelTransform")]
+    [SerializeField] Transform muzzleTransform_toSetFirePos;
 
     // 建設段階と完成後のMaterial
     [SerializeField] Material[] towerFloorMaterials = new Material[2];
@@ -59,13 +61,13 @@ public class TowerFloorController : BuildableObject
     /// <summary>
     /// アウトラインの表示・非表示を設定する
     /// </summary>
-    public bool outline 
+    public bool outline
     {
         get
         {
             return outline;
         }
-        
+
         set
         {
             outlineObject.SetActive(value);
@@ -94,7 +96,7 @@ public class TowerFloorController : BuildableObject
         RotateToEnemy();
 
         // 弾の種類で動作を変える
-        if(bulletType == BulletType.SlowField)
+        if (bulletType == BulletType.SlowField)
         {
             GenerateField();
         }
@@ -160,19 +162,19 @@ public class TowerFloorController : BuildableObject
                 switch (bulletType)
                 {
                     case BulletType.NormalBullet:
-                        BulletManager.Instance.CreateNormalBullet(targetEnemyList[0], barrelTransform.position);
+                        BulletManager.Instance.CreateNormalBullet(this);
                         break;
 
                     case BulletType.ExplosionBullet:
-                        BulletManager.Instance.CreateExplosionBullet(targetEnemyList[0], barrelTransform.position);
+                        BulletManager.Instance.CreateExplosionBullet(this);
                         break;
 
                     case BulletType.PiercingBullet:
-                        BulletManager.Instance.CreatePiercingBullet(targetEnemyList[0], barrelTransform.position);
+                        BulletManager.Instance.CreatePiercingBullet(this);
                         break;
 
                     case BulletType.ShockWave:
-                        BulletManager.Instance.CreateShockWave(transform.position);
+                        BulletManager.Instance.CreateShockWave(this);
                         break;
 
                 }
@@ -190,9 +192,21 @@ public class TowerFloorController : BuildableObject
     {
         if (!isFieldActive)
         {
-            BulletManager.Instance.CreateSlowField(transform.position);
+            BulletManager.Instance.CreateSlowField(this);
             isFieldActive = true;
         }
+    }
+
+
+    public GameObject GetFirstTargetableEnemy()
+    {
+        return targetEnemyList[0];
+    }
+
+
+    public Vector3 GetMuzzlePosition()
+    {
+        return muzzleTransform_toSetFirePos.position;
     }
 
 

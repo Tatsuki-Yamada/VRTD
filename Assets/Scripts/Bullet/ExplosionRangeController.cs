@@ -1,27 +1,29 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ExplosionRangeController : MonoBehaviour
+namespace Bullet
 {
-    public List<GameObject> inRangedEnemies { get; private set; } = new List<GameObject>();
-
-
-    private void OnTriggerEnter(Collider other)
+    public class ExplosionRangeController : MonoBehaviour
     {
-        if (other.CompareTag("Enemy"))
+        public List<GameObject> inRangedEnemies { get; private set; } = new List<GameObject>();
+
+
+        private void OnTriggerEnter(Collider other)
         {
-            inRangedEnemies.Add(other.gameObject);
+            if (other.CompareTag("Enemy"))
+            {
+                inRangedEnemies.Add(other.gameObject);
+            }
         }
-    }
 
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
+        private void OnTriggerExit(Collider other)
         {
-            inRangedEnemies.Remove(other.gameObject);
+            if (other.CompareTag("Enemy"))
+            {
+                inRangedEnemies.Remove(other.gameObject);
+            }
         }
+
     }
-
-
 }

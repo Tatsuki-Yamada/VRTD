@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NormalBulletController : BulletController
+namespace Bullet
 {
-    
+    public class NormalBulletController : BulletController
+    {
+
+    }
 }

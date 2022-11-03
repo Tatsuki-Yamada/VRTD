@@ -1,23 +1,36 @@
 ﻿using UnityEngine;
 
-public class SlowFieldController : EnergyFieldController
+namespace Bullet
 {
-    // 範囲内に入った敵をスローにする
-    void OnTriggerEnter(Collider other)
+    public class SlowFieldController : BulletController
     {
-        if (other.CompareTag("Enemy"))
+        public override void Init(TowerFloorController tfc_toGetEnemyAndBarrelData)
         {
-            other.GetComponent<EnemyController>().TakeSlow(0.5f);
+            transform.position = tfc_toGetEnemyAndBarrelData.transform.position;
+
+            isActive_toActivateUpdate = true;
         }
-    }
+
+        protected override void FixedUpdate() { }
 
 
-    // 範囲外に出た敵のスローを解除する
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
+        // 範囲内に入った敵をスローにする
+        protected override void OnTriggerEnter(Collider other)
         {
-            other.GetComponent<EnemyController>().CureSlow();
+            if (other.CompareTag("Enemy"))
+            {
+                other.GetComponent<EnemyController>().TakeSlow(0.5f);
+            }
+        }
+
+
+        // 範囲外に出た敵のスローを解除する
+        void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("Enemy"))
+            {
+                other.GetComponent<EnemyController>().CureSlow();
+            }
         }
     }
 }

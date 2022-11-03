@@ -1,137 +1,85 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
+using Bullet;
 
 public class BulletManager : SingletonMonoBehaviour<BulletManager>
 {
-    // 生成する弾のPrefab
-    [SerializeField] GameObject[] bulletPrefabs;
-    [SerializeField] GameObject shockWavePrefab;
-    [SerializeField] GameObject[] energyFieldPrefabs;
+    // 生成する弾のPrefabリスト
+    [SerializeField] GameObject[] bulletPrefabList_toInstantiate;
 
-    // 弾の親オブジェクト
-    [SerializeField] Transform BulletsParent;
+    // 生成した弾をまとめる親オブジェクト
+    [SerializeField] Transform bulletsParent_toGroup;
 
-    // 生成した弾を管理するリスト
-    List<NormalBulletController> normals = new List<NormalBulletController>();
-    List<ExplosionBulletController> explosions = new List<ExplosionBulletController>();
-    List<ShockWaveController> shockWaves = new List<ShockWaveController>();
-    List<SlowFieldController> slows = new List<SlowFieldController>();
-    List<PiercingBulletController> piercings = new List<PiercingBulletController>();
+    // 生成した弾をまとめるリスト
+    List<Object> bulletList_toReuse = new List<Object>();
 
 
-    /// <summary>
-    /// 通常弾を作る関数
-    /// </summary>
-    /// <param name="barrel"></param>
-    /// <param name="target"></param>
-    public void CreateNormalBullet(GameObject target, Vector3 barrel)
+    public void CreateNormalBullet(TowerFloorController tfc_toGetEnemyAndBarrelData)
     {
-        // 無効状態の弾があれば再利用する
-        foreach (NormalBulletController n in normals)
-        {
-            if (!n.isActive)
-            {
-                n.Init(target, barrel);
-                return;
-            }
-        }
+        CreateBullet<NormalBulletController>(tfc_toGetEnemyAndBarrelData);
+    }
 
-        // 無効状態の弾が無ければ新規作成してリストに加える
-        NormalBulletController nb = Instantiate(bulletPrefabs[0], barrel, Quaternion.identity, BulletsParent).GetComponent<NormalBulletController>();
-        nb.Init(target, barrel);
-        normals.Add(nb);
+    public void CreateExplosionBullet(TowerFloorController tfc_toGetEnemyAndBarrelData)
+    {
+        CreateBullet<ExplosionBulletController>(tfc_toGetEnemyAndBarrelData);
+    }
 
+    public void CreatePiercingBullet(TowerFloorController tfc_toGetEnemyAndBarrelData)
+    {
+        CreateBullet<PiercingBulletController>(tfc_toGetEnemyAndBarrelData);
+    }
+
+    public void CreateShockWave(TowerFloorController tfc_toGetEnemyAndBarrelData)
+    {
+        CreateBullet<ShockWaveController>(tfc_toGetEnemyAndBarrelData);
+    }
+
+    public void CreateSlowField(TowerFloorController tfc_toGetEnemyAndBarrelData)
+    {
+        CreateBullet<SlowFieldController>(tfc_toGetEnemyAndBarrelData);
     }
 
 
     /// <summary>
-    /// 爆発弾を作る関数
+    /// 一般化した、弾を生成するメソッド。
     /// </summary>
-    /// <param name="target"></param>
-    /// <param name="barrel"></param>
-    public void CreateExplosionBullet(GameObject target, Vector3 barrel)
+    /// <param name="tfc_toGetEnemyAndBarrelData"></param>
+    /// <typeparam name="T"></typeparam>
+    void CreateBullet<T>(TowerFloorController tfc_toGetEnemyAndBarrelData) where T : BulletController
     {
-        // 無効状態の弾があれば再利用する
-        foreach (ExplosionBulletController e in explosions)
+        // bulletListからTだけのリストを作成する。
+        List<T> oneTypeList_toSearchDisableBullet = bulletList_toReuse.OfType<T>().ToList();
+
+        // 無効状態の弾があれば再利用する。
+        foreach (T type in oneTypeList_toSearchDisableBullet)
         {
-            if (!e.isActive)
+            if (type.isActive_toActivateUpdate == false)
             {
-                e.Init(target, barrel);
+                type.Init(tfc_toGetEnemyAndBarrelData);
                 return;
             }
         }
 
-        // 無効状態の弾が無ければ新規作成してリストに加える
-        ExplosionBulletController eb = Instantiate(bulletPrefabs[1], barrel, Quaternion.identity, BulletsParent).GetComponent<ExplosionBulletController>();
-        eb.Init(target, barrel);
-        explosions.Add(eb);
-    }
+        GameObject toInstantiateObj = null;
 
-
-    /// <summary>
-    /// 貫通弾を作る関数
-    /// </summary>
-    /// <param name="target"></param>
-    /// <param name="barrel"></param>
-    public void CreatePiercingBullet(GameObject target, Vector3 barrel)
-    {
-        // 無効状態の弾があれば再利用する
-        foreach (PiercingBulletController p in piercings)
+        // TをアタッチしたPrefabを探す。
+        foreach (GameObject obj_toSearchHasTypeComponent in bulletPrefabList_toInstantiate)
         {
-            if (!p.isActive)
+            if (obj_toSearchHasTypeComponent.TryGetComponent<T>(out T temp))
             {
-                p.Init(target, barrel);
-                return;
+                toInstantiateObj = obj_toSearchHasTypeComponent;
+                break;
             }
         }
 
-        // 無効状態の弾が無ければ新規作成してリストに加える
-        PiercingBulletController pb = Instantiate(bulletPrefabs[2], barrel, Quaternion.identity, BulletsParent).GetComponent<PiercingBulletController>();
-        pb.Init(target, barrel);
-        piercings.Add(pb);
+        // TをアタッチしたPrefabが見つからなかったらエラー
+        if (toInstantiateObj == null)
+            Debug.LogError("BulletManager: toInstantiateObj = null");
+
+        T typeObj_toAddList = Instantiate(toInstantiateObj, parent: bulletsParent_toGroup).GetComponent<T>();
+        typeObj_toAddList.Init(tfc_toGetEnemyAndBarrelData);
+        bulletList_toReuse.Add(typeObj_toAddList);
     }
 
-
-    /// <summary>
-    /// 衝撃波を作る関数
-    /// </summary>
-    /// <param name="basePos"></param>
-    public void CreateShockWave(Vector3 basePos)
-    {
-        // 無効状態の衝撃派があれば再利用する
-        foreach (ShockWaveController s in shockWaves)
-        {
-            if (!s.isActive)
-            {
-                s.Init(basePos);
-                return;
-            }
-        }
-
-        ShockWaveController sw = Instantiate(shockWavePrefab, basePos, Quaternion.identity, BulletsParent).GetComponent<ShockWaveController>();
-        sw.Init(basePos);
-        shockWaves.Add(sw);
-    }
-
-
-    /// <summary>
-    /// 衝撃波を作る関数
-    /// </summary>
-    /// <param name="basePos"></param>
-    public void CreateSlowField(Vector3 basePos)
-    {
-        // 無効状態の衝撃派があれば再利用する
-        foreach (SlowFieldController s in slows)
-        {
-            if (!s.isActive)
-            {
-                s.Init(basePos);
-                return;
-            }
-        }
-
-        SlowFieldController sl = Instantiate(energyFieldPrefabs[0], basePos, Quaternion.identity, BulletsParent).GetComponent<SlowFieldController>();
-        sl.Init(basePos);
-        slows.Add(sl);
-    }
 }

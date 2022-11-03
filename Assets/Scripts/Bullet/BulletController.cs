@@ -1,115 +1,120 @@
 ﻿using UnityEngine;
 
+
 /// <summary>
 /// 敵に向かって飛んでいくタイプの弾の基底クラス
 /// </summary>
-public class BulletController : MonoBehaviour
+namespace Bullet
 {
-    // ターゲットのTransform
-    Transform target;
-
-    // 自分のRigidbody
-    protected Rigidbody rig;
-
-    // 自分のCollider
-    [SerializeField] Collider col;
-
-    // 敵に与えるダメージ
-    [SerializeField] protected int damage = 5;
-
-    // 移動スピード
-    [SerializeField] protected float moveSpeed = 3f;
-
-    // 有効かを示すフラグ
-    public bool isActive = true;
-
-    // 敵を貫通するか
-    protected bool isThroughEnemy = false;
-
-
-    protected virtual void Awake()
+    public class BulletController : MonoBehaviour
     {
-        rig = GetComponent<Rigidbody>();
-        col = GetComponent<Collider>();
-    }
+        // ターゲットのTransform
+        GameObject targetEnemy_toFly;
 
 
-    /// <summary>
-    /// 生成・再利用時の初期化処理を行う関数
-    /// </summary>
-    /// <param name="tgt"></param>
-    public virtual void Init(GameObject tgt, Vector3 pos)
-    {
-        target = tgt.transform;
-        transform.position = pos;
+        // 自分のRigidbody
+        protected Rigidbody myRigidbody_toMove;
 
-        col.enabled = true;
-        rig.isKinematic = false;
+        // 自分のCollider
+        protected Collider myCollider_toSwitchEnable;
 
-        isActive = true;
-    }
+        // 敵に与えるダメージ
+        [SerializeField] protected int damage_toDealEnemy = 5;
+
+        // 移動スピード
+        [SerializeField] protected float moveSpeed_toMultiplyMoveVec = 3f;
+
+        // 有効かを示すフラグ
+        public bool isActive_toActivateUpdate = true;
+
+        // 敵を貫通するか
+        protected bool isThroughEnemy_toBranchDeleteFunc = false;
 
 
-    void FixedUpdate()
-    {
-        if (isActive)
+        protected virtual void Awake()
         {
-            Move();
+            myRigidbody_toMove = GetComponent<Rigidbody>();
+            myCollider_toSwitchEnable = GetComponent<Collider>();
+        }
 
-            if (target.position == new Vector3(50, 50, 50))
+
+        /// <summary>
+        /// 生成・再利用時の初期化処理を行う関数
+        /// </summary>
+        /// <param name="targetEnemy_toSetTarget"></param>
+        public virtual void Init(TowerFloorController tfc_toGetEnemyAndBarrelData)
+        {
+            targetEnemy_toFly = tfc_toGetEnemyAndBarrelData.GetFirstTargetableEnemy();
+            transform.position = tfc_toGetEnemyAndBarrelData.GetMuzzlePosition();
+
+            myCollider_toSwitchEnable.enabled = true;
+            myRigidbody_toMove.isKinematic = false;
+
+            isActive_toActivateUpdate = true;
+        }
+
+
+        protected virtual void FixedUpdate()
+        {
+            if (isActive_toActivateUpdate)
             {
-                Delete();
+                Move();
+
+                if (targetEnemy_toFly.transform.position == new Vector3(50, 50, 50))
+                {
+                    Delete();
+                }
             }
         }
-    }
 
 
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
+        protected virtual void OnTriggerEnter(Collider other)
         {
-            Hit(other);
-
-            if (!isThroughEnemy)
+            if (other.CompareTag("Enemy"))
             {
-                Delete();
+                Hit(other);
+
+                if (!isThroughEnemy_toBranchDeleteFunc)
+                {
+                    Delete();
+                }
             }
         }
-    }
 
 
-    /// <summary>
-    /// 目標に向かって移動する関数
-    /// </summary>
-    protected virtual void Move()
-    {
-        transform.LookAt(target.position);
-        rig.AddRelativeForce(Vector3.forward * moveSpeed);
-    }
+        /// <summary>
+        /// 目標に向かって移動する関数
+        /// </summary>
+        protected virtual void Move()
+        {
+            transform.LookAt(targetEnemy_toFly.transform.position);
+            myRigidbody_toMove.AddRelativeForce(Vector3.forward * moveSpeed_toMultiplyMoveVec);
+        }
 
 
-    /// <summary>
-    /// 当たった敵にダメージを与える関数
-    /// </summary>
-    /// <param name="hitEnemy"></param>
-    protected virtual void Hit(Collider hitEnemy)
-    {
-        hitEnemy.GetComponent<EnemyController>().TakeDamage(damage);
+        /// <summary>
+        /// 当たった敵にダメージを与える関数
+        /// </summary>
+        /// <param name="hitEnemy"></param>
+        protected virtual void Hit(Collider hitEnemy)
+        {
+            hitEnemy.GetComponent<EnemyController>().TakeDamage(damage_toDealEnemy);
 
-    }
+        }
 
 
-    /// <summary>
-    /// オブジェクトを無効状態にする関数
-    /// </summary>
-    protected void Delete()
-    {
-        col.enabled = false;
-        rig.isKinematic = true;
-        transform.position = new Vector3(100, 100, 100);
-        rig.velocity = new Vector3(0, 0, 0);
+        /// <summary>
+        /// オブジェクトを無効状態にする関数
+        /// </summary>
+        protected void Delete()
+        {
+            myCollider_toSwitchEnable.enabled = false;
+            myRigidbody_toMove.isKinematic = true;
+            transform.position = new Vector3(100, 100, 100);
+            myRigidbody_toMove.velocity = new Vector3(0, 0, 0);
 
-        isActive = false;
+            isActive_toActivateUpdate = false;
+        }
     }
 }
