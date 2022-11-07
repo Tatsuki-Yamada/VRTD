@@ -4,7 +4,7 @@ namespace Bullet
 {
     public class PiercingBulletController : BulletController
     {
-        float aliveTime = 5f;
+        float aliveTime_toDelete = 5f;
 
         protected override void Awake()
         {
@@ -19,7 +19,7 @@ namespace Bullet
 
             transform.LookAt(tfc_toGetEnemyAndBarrelData.GetFirstTargetableEnemy().transform);
 
-            Invoke("Delete", aliveTime);
+            Invoke("Disable", aliveTime_toDelete);
 
         }
 

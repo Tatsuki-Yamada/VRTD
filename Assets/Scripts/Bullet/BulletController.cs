@@ -1,36 +1,35 @@
 ﻿using UnityEngine;
 
-
 /// <summary>
-/// 敵に向かって飛んでいくタイプの弾の基底クラス
+/// 弾すべての基底クラス
 /// </summary>
 namespace Bullet
 {
     public class BulletController : MonoBehaviour
     {
-        // ターゲットのTransform
+        // 攻撃目標となる敵のオブジェクト
         GameObject targetEnemy_toFly;
 
-
-        // 自分のRigidbody
+        // 自身ののRigidbody
         protected Rigidbody myRigidbody_toMove;
 
-        // 自分のCollider
+        // 自身のCollider
         protected Collider myCollider_toSwitchEnable;
 
         // 敵に与えるダメージ
         [SerializeField] protected int damage_toDealEnemy = 5;
 
-        // 移動スピード
+        // 弾が飛翔するスピード
         [SerializeField] protected float moveSpeed_toMultiplyMoveVec = 3f;
 
-        // 有効かを示すフラグ
+        // 弾が生きているかを示すフラグ
         public bool isActive_toActivateUpdate = true;
 
-        // 敵を貫通するか
+        // 弾が敵を貫通するかを示すフラグ
         protected bool isThroughEnemy_toBranchDeleteFunc = false;
 
 
+        // Awake
         protected virtual void Awake()
         {
             myRigidbody_toMove = GetComponent<Rigidbody>();
@@ -42,10 +41,10 @@ namespace Bullet
         /// 生成・再利用時の初期化処理を行う関数
         /// </summary>
         /// <param name="targetEnemy_toSetTarget"></param>
-        public virtual void Init(TowerFloorController tfc_toGetEnemyAndBarrelData)
+        public virtual void Init(TowerFloorController tfc_toGetEnemyAndMuzzleData)
         {
-            targetEnemy_toFly = tfc_toGetEnemyAndBarrelData.GetFirstTargetableEnemy();
-            transform.position = tfc_toGetEnemyAndBarrelData.GetMuzzlePosition();
+            targetEnemy_toFly = tfc_toGetEnemyAndMuzzleData.GetFirstTargetableEnemy();
+            transform.position = tfc_toGetEnemyAndMuzzleData.GetMuzzlePosition();
 
             myCollider_toSwitchEnable.enabled = true;
             myRigidbody_toMove.isKinematic = false;
@@ -54,6 +53,8 @@ namespace Bullet
         }
 
 
+        // FixedUpdate
+        // フレーム数で飛翔速度が変わらないようにFixedにしている。
         protected virtual void FixedUpdate()
         {
             if (isActive_toActivateUpdate)
@@ -62,29 +63,30 @@ namespace Bullet
 
                 if (targetEnemy_toFly.transform.position == new Vector3(50, 50, 50))
                 {
-                    Delete();
+                    Disable();
                 }
             }
         }
 
 
-
+        // OnTriggerEnter
         protected virtual void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Enemy"))
             {
                 Hit(other);
 
-                if (!isThroughEnemy_toBranchDeleteFunc)
+                if (isThroughEnemy_toBranchDeleteFunc == false)
                 {
-                    Delete();
+                    Disable();
                 }
             }
         }
 
 
         /// <summary>
-        /// 目標に向かって移動する関数
+        /// 目標に向かって飛翔する関数
+        /// AddRelativeForceはオブジェクトの向いているZ軸方向に1が出る。
         /// </summary>
         protected virtual void Move()
         {
@@ -94,7 +96,7 @@ namespace Bullet
 
 
         /// <summary>
-        /// 当たった敵にダメージを与える関数
+        /// この弾が当たった敵にダメージを与える関数
         /// </summary>
         /// <param name="hitEnemy"></param>
         protected virtual void Hit(Collider hitEnemy)
@@ -107,7 +109,7 @@ namespace Bullet
         /// <summary>
         /// オブジェクトを無効状態にする関数
         /// </summary>
-        protected void Delete()
+        protected void Disable()
         {
             myCollider_toSwitchEnable.enabled = false;
             myRigidbody_toMove.isKinematic = true;

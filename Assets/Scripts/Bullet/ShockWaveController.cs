@@ -4,12 +4,12 @@ namespace Bullet
 {
     public class ShockWaveController : BulletController
     {
-        Animator animator;
+        Animator myAnimator_toChangeSize;
 
         protected override void Awake()
         {
             base.Awake();
-            animator = GetComponent<Animator>();
+            myAnimator_toChangeSize = GetComponent<Animator>();
             isThroughEnemy_toBranchDeleteFunc = true;
         }
 
@@ -20,7 +20,7 @@ namespace Bullet
         {
             transform.position = tfc_toGetEnemyAndBarrelData.transform.position;
 
-            animator.SetTrigger("AnimTrigger");
+            myAnimator_toChangeSize.SetTrigger("AnimTrigger");
 
             isActive_toActivateUpdate = true;
         }
@@ -28,7 +28,7 @@ namespace Bullet
 
         public void OnAnimationEnd()
         {
-            Delete();
+            Disable();
         }
 
     }

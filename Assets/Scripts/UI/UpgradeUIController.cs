@@ -51,12 +51,16 @@ public class UpgradeUIController : MonoBehaviour
                     floorImages[i].color = floorColors[1];
                     break;
 
-                case TowerFloorController.BulletType.ShockWave:
+                case TowerFloorController.BulletType.PiercingBullet:
                     floorImages[i].color = floorColors[2];
                     break;
 
-                case TowerFloorController.BulletType.SlowField:
+                case TowerFloorController.BulletType.ShockWave:
                     floorImages[i].color = floorColors[3];
+                    break;
+
+                case TowerFloorController.BulletType.SlowField:
+                    floorImages[i].color = floorColors[4];
                     break;
 
             }
@@ -76,7 +80,7 @@ public class UpgradeUIController : MonoBehaviour
                 upgradeButtons[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "アップグレード";
             }
         }
- 
+
     }
 
     /// <summary>

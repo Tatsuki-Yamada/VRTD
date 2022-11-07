@@ -128,11 +128,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d9d2fcf81bdd174ca65f7a0cec0afe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myCollider_toSwitchEnable: {fileID: 7424173501816826287}
-  damage: 30
-  moveSpeed: 3
-  isActive: 1
-  rangeController: {fileID: 4844598044579405015}
+  damage_toDealEnemy: 5
+  moveSpeed_toMultiplyMoveVec: 3
+  isActive_toActivateUpdate: 1
+  rangeController_toSpreadDamage: {fileID: 4844598044579405015}
 --- !u!1 &7702486375661952570
 GameObject:
   m_ObjectHideFlags: 0

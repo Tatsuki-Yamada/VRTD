@@ -26,7 +26,7 @@ public class WaveController : MonoBehaviour
         switch (waveIndex)
         {
             case 1:
-                AddQueue("normal : 3, wait : 3, normal : 2 ");
+                AddQueue("normal : 1, walk : 1, fly : 1, wait : 3, normal : 2 ");
                 break;
         }
     }
@@ -60,6 +60,20 @@ public class WaveController : MonoBehaviour
                         waveQueue.Enqueue(1);
                     }
                     break;
+
+                case "walk":
+                    for (int i = 0; i < second; i++)
+                    {
+                        waveQueue.Enqueue(2);
+                    }
+                    break;
+
+                case "fly":
+                    for (int i = 0; i < second; i++)
+                    {
+                        waveQueue.Enqueue(3);
+                    }
+                    break;
             }
         }
 
@@ -81,8 +95,8 @@ public class WaveController : MonoBehaviour
             DoQueue(waveQueue.Dequeue());
         }
     }
-    
-    
+
+
     /// <summary>
     /// 引数で指定された行動を行う関数
     /// </summary>
@@ -103,6 +117,16 @@ public class WaveController : MonoBehaviour
 
             case 1:
                 EnemyManager.Instance.CreateEnemy(0);
+                waitTime = 1f;
+                break;
+
+            case 2:
+                EnemyManager.Instance.CreateEnemy(1);
+                waitTime = 1f;
+                break;
+
+            case 3:
+                EnemyManager.Instance.CreateEnemy(2);
                 waitTime = 1f;
                 break;
         }
