@@ -2,64 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine.Serialization;
 
-public class TowerFloorController : BuildableObject
+public class TowerFloorController : MonoBehaviour
 {
-    public enum BulletType
-    {
-        NormalBullet = 0,
-        ExplosionBullet = 1,
-        PiercingBullet = 2,
-        ShockWave = 3,
-        SlowField = 4,
-    }
-
-
-    // 発射する砲身のTransform
-    [FormerlySerializedAs("barrelTransform")]
-    [SerializeField] Transform muzzleTransform_toSetFirePos;
-
-    // 建設段階と完成後のMaterial
-    [SerializeField] Material[] towerFloorMaterials = new Material[2];
-
     // 発射する弾の種類
-    public BulletType bulletType;
+    [FormerlySerializedAs("bulletType")]
+    [SerializeField] public BulletManager.BulletType bulletType_toChangeShot;
 
-    // 敵が攻撃範囲内にいるか示す変数
-    bool enemiesInRange = false;
-
-    // 射撃してから経過した時間
-    float timeFromLastShot = 0f;
-
-    // 武装のリロードにかかる時間
-    float reloadTime = 1f;
-
-    // アップグレードを行った回数
-    public int towerLevel = 1;
-
-    // 攻撃範囲内にいる敵のリスト
-    List<GameObject> targetEnemyList = new List<GameObject>();
-
-    // 攻撃範囲を管理する子スクリプト
-    TowerRangeController rangeController;
-
-    // このフロアを管理しているスクリプト
-    TowerController tc;
-
-    // 有効かを示すフラグ
-    public bool isActive { get; set; } = true;
+    [SerializeField] Transform muzzleTransform_toSetFirePos;
 
     // アウトライン
     [SerializeField] GameObject outlineObject;
 
-    // 出しているフィールド
-    GameObject field;
+    // 攻撃範囲内にいる敵のリスト
+    List<GameObject> targetEnemyList_toFire = new List<GameObject>();
+
+    // アップグレードを行った回数
+    [System.NonSerialized] public int towerLevel_toUpgradeShots = 1;
+
+    // 有効かを示すフラグ
+    public bool isActive_toActivateUpdate = true;
+
+    // 射撃してから経過した時間
+    float timeFromLastShot_toCompareReloadTime = 0f;
+
+    // 武装のリロードにかかる時間
+    float reloadTime_toCompareTimeFromLastShot = 1f;
 
     // フィールドを出したか示すフラグ
-    bool isFieldActive = false;
+    bool isActivatedField = false;
 
 
     /// <summary>
-    /// アウトラインの表示・非表示を設定する
+    /// アウトラインの表示・非表示を設定するプロパティ
     /// </summary>
     public bool outline
     {
@@ -75,132 +49,94 @@ public class TowerFloorController : BuildableObject
     }
 
 
-
-    public override void Awake()
+    private void Update()
     {
-        base.Awake();
-        tc = transform.parent.GetComponent<TowerController>();
-        //rangeController = transform.GetChild(0).GetComponent<TowerRangeController>();
-    }
-
-
-    void Update()
-    {
-        if (isBuilding)
+        if (!isActive_toActivateUpdate)
             return;
-
-        if (!isActive)
-            return;
-
 
         RotateToEnemy();
-
-        // 弾の種類で動作を変える
-        if (bulletType == BulletType.SlowField)
-        {
-            GenerateField();
-        }
-        else
-        {
-            Shoot();
-        }
+        Shot();
     }
 
 
-    // 攻撃可能リストに追加する処理
-    public void SetTargetEnemy(GameObject enemy)
+    public void AddEnemyToTargetList(GameObject addEnemy)
     {
-        enemiesInRange = true;
-        targetEnemyList.Add(enemy);
+        targetEnemyList_toFire.Add(addEnemy);
     }
 
 
-    // 攻撃可能リストから除外する処理
-    public void RemoveTargetEnemy(GameObject enemy)
+    public void RemoveEnemyFromTargetList(GameObject removeEnemy)
     {
-        int i = targetEnemyList.IndexOf(enemy);
-        if (i != -1)
-        {
-            targetEnemyList.RemoveAt(i);
-        }
+        int indexNum = targetEnemyList_toFire.IndexOf(removeEnemy);
 
-        if (targetEnemyList.Count == 0)
+        if (indexNum == -1)
         {
-            enemiesInRange = false;
+            Debug.LogError("This enemy is not contained in targetEnemyList.");
+            return;
         }
+        targetEnemyList_toFire.RemoveAt(indexNum);
     }
 
 
-    /// <summary>
-    /// 敵に砲身を向ける関数
-    /// </summary>
-    void RotateToEnemy()
+    private void RotateToEnemy()
     {
-        if (enemiesInRange)
-        {
-            if (!(targetEnemyList[0].transform.position == new Vector3(50, 50, 50)))
-            {
-                transform.LookAt(targetEnemyList[0].transform.position);
-                transform.rotation = Quaternion.Euler(new Vector3(0, transform.eulerAngles.y, transform.eulerAngles.z));
-            }
-        }
+        if (targetEnemyList_toFire.Count == 0)
+            return;
+
+        transform.LookAt(targetEnemyList_toFire[0].transform.position);
+        // X軸方向の角度を0にして、上下を向かないようにする。
+        transform.rotation = Quaternion.Euler(new Vector3(0, transform.eulerAngles.y, transform.eulerAngles.z));
     }
 
 
-
-    /// <summary>
-    /// リロード時間の管理と弾を発射するまでの処理を行う関数
-    /// </summary>
-    void Shoot()
+    private void Shot()
     {
-        timeFromLastShot += Time.deltaTime;
+        timeFromLastShot_toCompareReloadTime += Time.deltaTime;
 
-        if (enemiesInRange)
+        if (targetEnemyList_toFire.Count == 0)
+            return;
+
+        if (timeFromLastShot_toCompareReloadTime < reloadTime_toCompareTimeFromLastShot)
+            return;
+
+        switch (bulletType_toChangeShot)
         {
-            if (timeFromLastShot > reloadTime)
-            {
-                switch (bulletType)
+            case BulletManager.BulletType.NormalBullet:
+                BulletManager.Instance.CreateNormalBullet(this);
+                break;
+
+            case BulletManager.BulletType.ExplosionBullet:
+                BulletManager.Instance.CreateExplosionBullet(this);
+                break;
+
+            case BulletManager.BulletType.PiercingBullet:
+                BulletManager.Instance.CreatePiercingBullet(this);
+                break;
+
+            case BulletManager.BulletType.ShockWave:
+                BulletManager.Instance.CreateShockWave(this);
+                break;
+
+            case BulletManager.BulletType.SlowField:
+                if (isActivatedField == false)
                 {
-                    case BulletType.NormalBullet:
-                        BulletManager.Instance.CreateNormalBullet(this);
-                        break;
-
-                    case BulletType.ExplosionBullet:
-                        BulletManager.Instance.CreateExplosionBullet(this);
-                        break;
-
-                    case BulletType.PiercingBullet:
-                        BulletManager.Instance.CreatePiercingBullet(this);
-                        break;
-
-                    case BulletType.ShockWave:
-                        BulletManager.Instance.CreateShockWave(this);
-                        break;
-
+                    BulletManager.Instance.CreateSlowField(this);
+                    isActivatedField = true;
                 }
+                break;
 
-                timeFromLastShot = 0f;
-            }
         }
-    }
 
-
-    /// <summary>
-    /// 1度しか発射しないフィールドを生成する
-    /// </summary>
-    void GenerateField()
-    {
-        if (!isFieldActive)
-        {
-            BulletManager.Instance.CreateSlowField(this);
-            isFieldActive = true;
-        }
+        timeFromLastShot_toCompareReloadTime = 0f;
     }
 
 
     public GameObject GetFirstTargetableEnemy()
     {
-        return targetEnemyList[0];
+        if (targetEnemyList_toFire.Count == 0)
+            Debug.LogError("no objects in targetEnemyList.");
+
+        return targetEnemyList_toFire[0];
     }
 
 
@@ -210,42 +146,29 @@ public class TowerFloorController : BuildableObject
     }
 
 
-    /// <summary>
-    /// 改造を始める関数
-    /// </summary>
-    public override void StartBuild()
+    public void StartUpgrade()
     {
-        if (isBuilding || !isActive)
+        if (isActive_toActivateUpdate == false)
             return;
 
-        base.StartBuild();
+        ConstructionSiteController tempCsc_toCallSometime = ConstructionManager.Instance.CreateContructionTowerSite(transform.parent.position, 10 + towerLevel_toUpgradeShots * 2);
+        tempCsc_toCallSometime.onCompleteBuildFuncs_toCallback.AddListener(CompleteUpgrade);
 
-        // transform.GetChild(0).GetComponent<Renderer>().material = towerFloorMaterials[0];
-        bcc.SetCount(10);
-        bcc.onCompleteBuild.AddListener(CompleteBuild);
-
-        tc.SetAllFloorsActive(false);
+        transform.parent.GetComponent<TowerController>().SetAllFloorsIsActive(false);
     }
 
 
     /// <summary>
-    /// 改造が終わったとき、コールバックされる関数
+    /// アップグレードが終わったとき、コールバックされる関数
     /// </summary>
-    public override void CompleteBuild()
+    public void CompleteUpgrade()
     {
-        base.CompleteBuild();
+        // TODO. アップグレード内容を考える
+        reloadTime_toCompareTimeFromLastShot -= 0.1f;
+        towerLevel_toUpgradeShots += 1;
 
-        // transform.GetChild(0).GetComponent<Renderer>().material = towerFloorMaterials[1];
-
-        // 試験用のアップグレード内容
-        reloadTime -= 0.1f;
-
-        tc.SetAllFloorsActive(true);
-
-        bcc.onCompleteBuild.RemoveAllListeners();
+        transform.parent.GetComponent<TowerController>().SetAllFloorsIsActive(true);
 
         UIManager.Instance.UpdateInfo();
-
-        towerLevel += 1;
     }
 }

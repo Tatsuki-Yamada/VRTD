@@ -123,7 +123,7 @@ public class InputManager : MonoBehaviour
         // タワー以外を選択したときにUIの非表示が絡むため、この書き方にしている
         if (hit.collider.CompareTag("Tower"))
         {
-            hit.collider.GetComponent<TowerController>().OnSelected();
+            hit.collider.GetComponent<TowerController>().OnSelectedThisTower();
         }
         else
         {
@@ -144,7 +144,7 @@ public class InputManager : MonoBehaviour
         {
             if (hit.collider.CompareTag("ConstructionSite"))
             {
-                hit.collider.GetComponent<ConstructionSiteController>().Hit(10);
+                hit.collider.GetComponent<ConstructionSiteController>().DecreaseCountAndStartAnim(10);
             }
         }
 
@@ -167,10 +167,10 @@ public class InputManager : MonoBehaviour
     {
         if (Utils.CompareTags(hit.collider.tag, tileTags))
         {
-            if (!hit.collider.GetComponent<TileController>().isMovable)
+            if (!hit.collider.GetComponent<TileController>().isPlayerMovable)
                 return;
 
-            callBackMovePos = hit.collider.GetComponent<TileController>().GetPos();
+            callBackMovePos = hit.collider.GetComponent<TileController>().GetSurfacePos();
             FadeManager.Instance.onFadeInComplete.AddListener(OnFadeComplete);
             FadeManager.Instance.Fade();
         }
@@ -232,7 +232,7 @@ public class InputManager : MonoBehaviour
             if (Utils.CompareTags(hit.collider.tag, tileTags))
             {
                 rightSelector.SetActive(true);
-                rightSelector.transform.position = hit.collider.GetComponent<TileController>().GetPos(0);
+                rightSelector.transform.position = hit.collider.GetComponent<TileController>().GetSurfacePos(0);
             }
             else
             {
@@ -261,10 +261,10 @@ public class InputManager : MonoBehaviour
             leftLinePointerObject.transform.position = hit.point;
 
             // Rayが当たった先がタイルなら
-            if (Utils.CompareTags(hit.collider.tag, tileTags) && hit.collider.GetComponent<TileController>().isMovable)
+            if (Utils.CompareTags(hit.collider.tag, tileTags) && hit.collider.GetComponent<TileController>().isPlayerMovable)
             {
                 leftSelector.SetActive(true);
-                leftSelector.transform.position = hit.collider.GetComponent<TileController>().GetPos(0);
+                leftSelector.transform.position = hit.collider.GetComponent<TileController>().GetSurfacePos(0);
                 DrawMoveLine(hit.collider.gameObject);
             }
             else
@@ -286,7 +286,7 @@ public class InputManager : MonoBehaviour
 
         int middlePoints = 10;
 
-        Vector3 endPos = targetTile.GetComponent<TileController>().GetPos();
+        Vector3 endPos = targetTile.GetComponent<TileController>().GetSurfacePos();
 
         Vector3 control = (VRPlayer.transform.position + endPos) / 2 + Vector3.up;
 

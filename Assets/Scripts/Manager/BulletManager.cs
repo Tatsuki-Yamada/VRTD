@@ -5,6 +5,15 @@ using Bullet;
 
 public class BulletManager : SingletonMonoBehaviour<BulletManager>
 {
+    public enum BulletType
+    {
+        NormalBullet = 0,
+        ExplosionBullet = 1,
+        PiercingBullet = 2,
+        ShockWave = 3,
+        SlowField = 4,
+    }
+
     // 生成する弾のPrefabリスト
     [SerializeField] GameObject[] bulletPrefabList_toInstantiate;
 

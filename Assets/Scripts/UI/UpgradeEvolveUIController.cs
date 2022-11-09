@@ -2,7 +2,7 @@
 
 public class UpgradeEvolveUIController : MonoBehaviour
 {
-    [SerializeField] TowerFloorController.BulletType[] bulletTypes;
+    [SerializeField] BulletManager.BulletType[] bulletTypes;
 
     int selectedIndex = -1;
 
@@ -29,7 +29,18 @@ public class UpgradeEvolveUIController : MonoBehaviour
         if (selectedIndex == -1)
             return;
 
-        targetTC.ChangeFloor(targetFloorNum, bulletTypes[selectedIndex]);
+        switch (targetFloorNum)
+        {
+            case 0:
+                targetTC.ChangeBotFloor(bulletTypes[selectedIndex]);
+                break;
+            case 1:
+                targetTC.ChangeMidFloor(bulletTypes[selectedIndex]);
+                break;
+            case 2:
+                targetTC.ChangeTopFloor(bulletTypes[selectedIndex]);
+                break;
+        }
     }
 
 }

@@ -28,7 +28,7 @@ public class UpgradeUIController : MonoBehaviour
     public void SetTargetTower(TowerController tc)
     {
         targetTC = tc;
-        targetTFCs = targetTC.GetTFCs();
+        targetTFCs = targetTC.GetChiledTFCs();
 
         UpdateInfo();
     }
@@ -41,25 +41,25 @@ public class UpgradeUIController : MonoBehaviour
     {
         for (int i = 0; i < targetTFCs.Length; i++)
         {
-            switch (targetTFCs[i].bulletType)
+            switch (targetTFCs[i].bulletType_toChangeShot)
             {
-                case TowerFloorController.BulletType.NormalBullet:
+                case BulletManager.BulletType.NormalBullet:
                     floorImages[i].color = floorColors[0];
                     break;
 
-                case TowerFloorController.BulletType.ExplosionBullet:
+                case BulletManager.BulletType.ExplosionBullet:
                     floorImages[i].color = floorColors[1];
                     break;
 
-                case TowerFloorController.BulletType.PiercingBullet:
+                case BulletManager.BulletType.PiercingBullet:
                     floorImages[i].color = floorColors[2];
                     break;
 
-                case TowerFloorController.BulletType.ShockWave:
+                case BulletManager.BulletType.ShockWave:
                     floorImages[i].color = floorColors[3];
                     break;
 
-                case TowerFloorController.BulletType.SlowField:
+                case BulletManager.BulletType.SlowField:
                     floorImages[i].color = floorColors[4];
                     break;
 
@@ -71,7 +71,7 @@ public class UpgradeUIController : MonoBehaviour
 
         for (int i = 0; i < towerLevels.Length; i++)
         {
-            if (towerLevels[i] >= 6)
+            if (towerLevels[i] >= 5)
             {
                 upgradeButtons[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "進化";
             }
@@ -98,8 +98,8 @@ public class UpgradeUIController : MonoBehaviour
         }
         else
         {
-            upgradeStatusUIControllers[(int)targetTFCs[floorNum].bulletType].gameObject.SetActive(true);
-            upgradeStatusUIControllers[(int)targetTFCs[floorNum].bulletType].ShowUpgradeStatus(targetTC, floorNum, targetTFCs[floorNum].towerLevel);
+            upgradeStatusUIControllers[(int)targetTFCs[floorNum].bulletType_toChangeShot].gameObject.SetActive(true);
+            upgradeStatusUIControllers[(int)targetTFCs[floorNum].bulletType_toChangeShot].ShowUpgradeStatus(targetTC, floorNum, targetTFCs[floorNum].towerLevel_toUpgradeShots);
         }
     }
 }

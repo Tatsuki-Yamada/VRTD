@@ -28,7 +28,7 @@ public class TowerRangeController : MonoBehaviour
         {
             if (other.gameObject.CompareTag("Enemy"))
             {
-                towerFloorController.SetTargetEnemy(other.gameObject);
+                towerFloorController.AddEnemyToTargetList(other.gameObject);
             }
         }
     }
@@ -44,7 +44,7 @@ public class TowerRangeController : MonoBehaviour
         {
             if (other.gameObject.CompareTag("Enemy"))
             {
-                towerFloorController.RemoveTargetEnemy(other.gameObject);
+                towerFloorController.RemoveEnemyFromTargetList(other.gameObject);
             }
         }
     }

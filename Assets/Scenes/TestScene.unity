@@ -224,6 +224,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 169756055018238149, guid: fc792edf3d958484ba17340d27748eac, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 169756055018238149, guid: fc792edf3d958484ba17340d27748eac, type: 3}
+      propertyPath: m_FillMethod
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1055129927831341712, guid: fc792edf3d958484ba17340d27748eac, type: 3}
       propertyPath: m_Name
       value: NormalEnemy

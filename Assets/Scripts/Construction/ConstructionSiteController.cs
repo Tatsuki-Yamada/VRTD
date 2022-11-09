@@ -1,42 +1,89 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
+using TMPro;
+
 
 public class ConstructionSiteController : MonoBehaviour
 {
-    BuildCounterController targetBcc;
-    int count = 0;
+    [SerializeField] TextMeshPro myTextMesh_toShowCount;
+
+    int count_toCompleteBuild;
+
+    bool isEnableJustHitAnim = false;
+
+    public bool isActive_toJudgeReusable = true;
+
+    // このEventに登録された関数が、カウンターが0になったとき呼ばれる。
+    public UnityEvent onCompleteBuildFuncs_toCallback = new UnityEvent();
 
 
-    /// <summary>
-    /// ConstructionSiteが生成される際、この関数を通してカウンターが受け渡される
-    /// </summary>
-    /// <param name="bcc"></param>
-    /// <param name="needCount"></param>
-    public void SetBcc(BuildCounterController bcc, int needCount)
+    private void Awake()
     {
-        targetBcc = bcc;
-        count = needCount;
+        AttatchNullCheck();
     }
 
 
-    /// <summary>
-    /// ハンマーで叩いたときの処理をまとめた関数
-    /// </summary>
-    public void Hit(int hitCount = 1)
+    public void Init(Vector3 pos_toSetThisPosition, int needCount_toSetCounter)
     {
-        targetBcc.DecreaseCount(hitCount);
-        count -= hitCount;
-        if (count <= 0)
-        {
-            Destroy(gameObject);
-        }
+        transform.position = pos_toSetThisPosition;
+        count_toCompleteBuild = needCount_toSetCounter;
+        UpdateText();
+
+        isActive_toJudgeReusable = true;
     }
 
 
-    void OnTriggerEnter(Collider other)
+    private void Update()
+    {
+        if (!isEnableJustHitAnim)
+            return;
+
+        // TODO. ジャストヒットのアニメーション処理を書く。
+    }
+
+
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Hammer"))
         {
-            Hit();
+            DecreaseCountAndStartAnim();
         }
+    }
+
+
+    public void DecreaseCountAndStartAnim(int amountOfDecrease = 1)
+    {
+        if (!isEnableJustHitAnim)
+            isEnableJustHitAnim = true;
+
+        count_toCompleteBuild -= amountOfDecrease;
+        UpdateText();
+
+        if (count_toCompleteBuild <= 0)
+        {
+            onCompleteBuildFuncs_toCallback.Invoke();
+            Disable();
+        }
+    }
+
+    private void UpdateText()
+    {
+        myTextMesh_toShowCount.text = count_toCompleteBuild.ToString();
+    }
+
+
+    private void Disable()
+    {
+        onCompleteBuildFuncs_toCallback.RemoveAllListeners();
+
+        transform.position = new Vector3(300, 300, 300);
+        isActive_toJudgeReusable = false;
+    }
+
+
+    private void AttatchNullCheck()
+    {
+        Debug.Log("ConstructionSiteController Null Checking.");
+        if (!myTextMesh_toShowCount) Debug.LogError("No attached error.");
     }
 }

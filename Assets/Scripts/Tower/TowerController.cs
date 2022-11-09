@@ -1,80 +1,88 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 public class TowerController : MonoBehaviour
 {
-    TowerFloorController[] tfc = new TowerFloorController[3];
+    TowerFloorController[] myTowerFloorControllers = new TowerFloorController[3];
 
-    [SerializeField] GameObject[] towerFloorPrefabs;
+    [FormerlySerializedAs("towerFloorPrefabs")]
+    [SerializeField] GameObject[] towerFloorPrefabs_toChangeShot;
 
 
-    void Awake()
+    private void Awake()
     {
-        ResetTFCs();
+        myTowerFloorControllers[0] = transform.Find("TowerFloor_1").GetComponent<TowerFloorController>();
+        myTowerFloorControllers[1] = transform.Find("TowerFloor_2").GetComponent<TowerFloorController>();
+        myTowerFloorControllers[2] = transform.Find("TowerFloor_3").GetComponent<TowerFloorController>();
     }
 
 
-    public void ResetTFCs()
+    public void UpgradeTopFloor()
     {
-        tfc[0] = transform.Find("TowerFloor_1").GetComponent<TowerFloorController>();
-        tfc[1] = transform.Find("TowerFloor_2").GetComponent<TowerFloorController>();
-        tfc[2] = transform.Find("TowerFloor_3").GetComponent<TowerFloorController>();
+        UpgradeFloor(2);
+    }
+
+    public void UpgradeMidFloor()
+    {
+        UpgradeFloor(1);
+    }
+
+    public void UpgradeBotFloor()
+    {
+        UpgradeFloor(0);
+    }
+
+    private void UpgradeFloor(int floorNum_toUpgradeThisIndexFloor)
+    {
+        myTowerFloorControllers[floorNum_toUpgradeThisIndexFloor].StartUpgrade();
     }
 
 
-    /// <summary>
-    /// 指定したフロアのアップグレードを開始する
-    /// </summary>
-    /// <param name="floorNum"></param>
-    public void UpgradeFloor(int floorNum)
+    public void ChangeTopFloor(BulletManager.BulletType bulletType_toChange)
     {
-        tfc[floorNum].StartBuild();
-        ConstructionManager.Instance.CreateConstructionSite(transform.position, tfc[floorNum].bcc, 10, true);
+        ChangeFloor(2, bulletType_toChange);
+    }
+
+    public void ChangeMidFloor(BulletManager.BulletType bulletType_toChange)
+    {
+        ChangeFloor(1, bulletType_toChange);
+    }
+
+    public void ChangeBotFloor(BulletManager.BulletType bulletType_toChange)
+    {
+        ChangeFloor(0, bulletType_toChange);
+    }
+
+    private void ChangeFloor(int floorNum_toChangeThisIndexTower, BulletManager.BulletType bulletType)
+    {
+        GameObject newFloor = Instantiate(towerFloorPrefabs_toChangeShot[(int)bulletType], myTowerFloorControllers[floorNum_toChangeThisIndexTower].transform.position, Quaternion.identity, transform);
+        newFloor.name = "TowerFloor_" + (floorNum_toChangeThisIndexTower + 1).ToString();
+        Destroy(myTowerFloorControllers[floorNum_toChangeThisIndexTower].gameObject);
+        myTowerFloorControllers[floorNum_toChangeThisIndexTower] = newFloor.GetComponent<TowerFloorController>();
     }
 
 
-    public void ChangeFloor(int floorNum, TowerFloorController.BulletType bulletType)
+    public void SetAllFloorsIsActive(bool flag_toSetThis)
     {
-        GameObject newFloor = Instantiate(towerFloorPrefabs[(int)bulletType], tfc[floorNum].transform.position, Quaternion.identity, transform);
-        newFloor.name = "TowerFloor_" + (floorNum + 1).ToString();
-        Destroy(tfc[floorNum].gameObject);
-        tfc[floorNum] = newFloor.GetComponent<TowerFloorController>();
-    }
-
-
-    /// <summary>
-    /// 全フロアのisActiveを変更する関数
-    /// </summary>
-    /// <param name="b"></param>
-    public void SetAllFloorsActive(bool b)
-    {
-        foreach (TowerFloorController tf in tfc)
+        foreach (TowerFloorController tf in myTowerFloorControllers)
         {
-            tf.isActive = b;
+            tf.isActive_toActivateUpdate = flag_toSetThis;
         }
     }
 
 
-    /// <summary>
-    /// 全フロアのoutlineを変更する関数
-    /// </summary>
-    /// <param name="b"></param>
-    public void SetAllFloorsOutline(bool b)
+    public void SetAllFloorsOutline(bool flag_toSetThis)
     {
-        foreach (TowerFloorController tf in tfc)
+        foreach (TowerFloorController tf in myTowerFloorControllers)
         {
-            tf.outline = b;
+            tf.outline = flag_toSetThis;
         }
     }
 
 
-    /// <summary>
-    /// 全フロアのTowerFloorControllerを返す関数
-    /// </summary>
-    /// <returns></returns>
-    public TowerFloorController[] GetTFCs()
+    public TowerFloorController[] GetChiledTFCs()
     {
-        return tfc;
+        return myTowerFloorControllers;
     }
 
 
@@ -84,16 +92,16 @@ public class TowerController : MonoBehaviour
     /// <returns></returns>
     public int[] GetAllFloorsLevel()
     {
-        int[] r = { tfc[0].towerLevel, tfc[1].towerLevel, tfc[2].towerLevel };
-        return r;
+        int[] return_list = { myTowerFloorControllers[0].towerLevel_toUpgradeShots, myTowerFloorControllers[1].towerLevel_toUpgradeShots, myTowerFloorControllers[2].towerLevel_toUpgradeShots };
+        return return_list;
     }
 
 
     /// <summary>
     /// タワーが選択されたときに呼ばれる関数
     /// </summary>
-    public void OnSelected()
+    public void OnSelectedThisTower()
     {
         UIManager.Instance.SetTowerController(this);
-    }  
+    }
 }

@@ -87,6 +87,17 @@ public class UpgradeStatusUIController : MonoBehaviour
 
     public void OnUpgradeClick()
     {
-        targetTC.UpgradeFloor(targetFloorNum);
+        switch (targetFloorNum)
+        {
+            case 0:
+                targetTC.UpgradeBotFloor();
+                break;
+            case 1:
+                targetTC.UpgradeMidFloor();
+                break;
+            case 2:
+                targetTC.UpgradeTopFloor();
+                break;
+        }
     }
 }
