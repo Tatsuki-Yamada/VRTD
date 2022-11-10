@@ -2,7 +2,7 @@
 https://qiita.com/tbpgr/items/989c6badefff69377da7
 
 
-# TODO
+# TODO.
 
 ## 考えること
 - 弾の種類
@@ -49,3 +49,7 @@ https://qiita.com/tbpgr/items/989c6badefff69377da7
 
 ## 全部終わってからやること
 - ConstructionSite2種のレイヤーをCanHitRayからDefaultに戻す
+
+
+## 些細なバグ
+- ConstructionSite_Towerとタワーが浮いてる

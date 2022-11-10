@@ -7,9 +7,13 @@ public class ConstructionSiteController : MonoBehaviour
 {
     [SerializeField] TextMeshPro myTextMesh_toShowCount;
 
+    [SerializeField] Animator justHitAnimator_toSetFlags;
+
+    [SerializeField] Canvas justHitCanvas_toSwitchVisible;
+
     int count_toCompleteBuild;
 
-    bool isEnableJustHitAnim = false;
+    bool isJustHit_toMultiplyHitCount = false;
 
     public bool isActive_toJudgeReusable = true;
 
@@ -33,15 +37,6 @@ public class ConstructionSiteController : MonoBehaviour
     }
 
 
-    private void Update()
-    {
-        if (!isEnableJustHitAnim)
-            return;
-
-        // TODO. ジャストヒットのアニメーション処理を書く。
-    }
-
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Hammer"))
@@ -53,8 +48,14 @@ public class ConstructionSiteController : MonoBehaviour
 
     public void DecreaseCountAndStartAnim(int amountOfDecrease = 1)
     {
-        if (!isEnableJustHitAnim)
-            isEnableJustHitAnim = true;
+        justHitCanvas_toSwitchVisible.enabled = true;
+        justHitAnimator_toSetFlags.SetBool("Move_Onetime", true);
+
+        if (isJustHit_toMultiplyHitCount)
+        {
+            amountOfDecrease *= 3;
+            isJustHit_toMultiplyHitCount = false;
+        }
 
         count_toCompleteBuild -= amountOfDecrease;
         UpdateText();
@@ -72,6 +73,25 @@ public class ConstructionSiteController : MonoBehaviour
     }
 
 
+    public void AnimationFirstFrameFunc()
+    {
+        justHitAnimator_toSetFlags.SetBool("Move_Onetime", false);
+    }
+
+
+    public void AnimationEnterJustCircleFunc()
+    {
+        isJustHit_toMultiplyHitCount = true;
+    }
+
+
+    public void AnimationEndFrameFunc()
+    {
+        isJustHit_toMultiplyHitCount = false;
+        justHitCanvas_toSwitchVisible.enabled = false;
+    }
+
+
     private void Disable()
     {
         onCompleteBuildFuncs_toCallback.RemoveAllListeners();
@@ -85,5 +105,7 @@ public class ConstructionSiteController : MonoBehaviour
     {
         Debug.Log("ConstructionSiteController Null Checking.");
         if (!myTextMesh_toShowCount) Debug.LogError("No attached error.");
+        if (!justHitAnimator_toSetFlags) Debug.LogError("No attached error.");
+        if (!justHitCanvas_toSwitchVisible) Debug.LogError("No attached error.");
     }
 }

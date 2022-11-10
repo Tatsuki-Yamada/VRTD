@@ -16,12 +16,12 @@ public class TileController : MonoBehaviour
     /// </summary>
     /// <returns></returns>
     /// TODO. offsetYの意味を調べる
-    public Vector3 GetSurfacePos(float offsetY = 0.2f)
+    public Vector3 GetSurfacePos(float tileHeight_toAddPos = 0.2f)
     {
         if (Utils.CompareTags(tag, halfTileTags_toChangeOffsetY))
-            offsetY -= 0.1f;
+            tileHeight_toAddPos -= 0.1f;
 
-        Vector3 offset = new Vector3(0, offsetY, 0);
+        Vector3 offset = new Vector3(0, tileHeight_toAddPos, 0);
         return transform.position + offset;
     }
 
@@ -34,7 +34,8 @@ public class TileController : MonoBehaviour
         switch (tag)
         {
             case "Tile_None":
-                ConstructionSiteController tempCSC_toCallSometime = ConstructionManager.Instance.CreateConstructionSite(GetSurfacePos(), 25);
+                // 座標の追加分はConstructioniSiteの足をタイルの表面につけるため。
+                ConstructionSiteController tempCSC_toCallSometime = ConstructionManager.Instance.CreateConstructionSite(GetSurfacePos() + new Vector3(0, 0.25f, 0), 25);
                 tempCSC_toCallSometime.onCompleteBuildFuncs_toCallback.AddListener(CompleteBuild);
                 break;
 
