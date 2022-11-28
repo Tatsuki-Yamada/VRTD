@@ -163,9 +163,121 @@ public class TowerFloorController : MonoBehaviour
     /// </summary>
     public void CompleteUpgrade()
     {
+        towerLevel_toUpgradeShots += 1;
+
+        switch (bulletType_toChangeShot)
+        {
+            case BulletManager.BulletType.NormalBullet:
+                switch (towerLevel_toUpgradeShots)
+                {
+                    case 2:
+                        // ダメージ1.5x
+                        break;
+                    case 3:
+                        // ダメージ2x
+                        // 攻撃範囲1.5x
+                        break;
+                    case 4:
+                        // ダメージ2.5x
+                        break;
+                    case 5:
+                        // ダメージ3x
+                        // 攻撃範囲2x
+                        break;
+                }
+                break;
+
+            case BulletManager.BulletType.ExplosionBullet:
+                switch (towerLevel_toUpgradeShots)
+                {
+                    case 2:
+                        // ダメージ1.25x
+                        break;
+                    case 3:
+                        // ダメージ1.5x
+                        // 爆発範囲1.5x
+                        break;
+                    case 4:
+                        // 爆発範囲1.75x
+                        break;
+                    case 5:
+                        // ダメージ2.0x
+                        // 爆発範囲2.0x
+                        break;
+                }
+                break;
+
+            case BulletManager.BulletType.PiercingBullet:
+                switch (towerLevel_toUpgradeShots)
+                {
+                    case 2:
+                        // ダメージ1.25x
+                        break;
+                    case 3:
+                        // ダメージ1.5x
+                        // 弾速1.25x
+                        break;
+                    case 4:
+                        // ダメージ2x
+                        // 弾速1.5x
+                        break;
+                    case 5:
+                        // ダメージ3.0x
+                        // 弾速2.0x
+                        break;
+                }
+                break;
+
+            case BulletManager.BulletType.ShockWave:
+                switch (towerLevel_toUpgradeShots)
+                {
+                    case 2:
+                        // 攻撃範囲1.1x
+                        break;
+                    case 3:
+                        // ダメージ1.25x
+                        // 攻撃範囲1.25x
+                        break;
+                    case 4:
+                        // ダメージ1.5x
+                        // 攻撃範囲1.35x
+                        break;
+                    case 5:
+                        // ダメージ2.0x
+                        // 攻撃範囲1.5x
+                        break;
+                }
+                break;
+
+            case BulletManager.BulletType.SlowField:
+                switch (towerLevel_toUpgradeShots)
+                {
+                    case 2:
+                        // 遅延効果30%
+                        break;
+                    case 3:
+                        // 遅延効果40%
+                        // 効果範囲1.25x
+                        break;
+                    case 4:
+                        // 遅延効果50%
+                        break;
+                    case 5:
+                        // 遅延効果60%
+                        // 効果範囲1.5x
+                        break;
+                }
+                break;
+        }
+
+
+
+
+
+
+
         // TODO. アップグレード内容を考える
         reloadTime_toCompareTimeFromLastShot -= 0.1f;
-        towerLevel_toUpgradeShots += 1;
 
         transform.parent.GetComponent<TowerController>().SetAllFloorsIsActive(true);
 

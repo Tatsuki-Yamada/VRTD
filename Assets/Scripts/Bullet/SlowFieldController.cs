@@ -4,7 +4,7 @@ namespace Bullet
 {
     public class SlowFieldController : BulletController
     {
-        public override void Init(TowerFloorController tfc_toGetEnemyAndBarrelData)
+        public override void Init(TowerFloorController tfc_toGetEnemyAndBarrelData, int damage_toDealEnemy = 50)
         {
             transform.position = tfc_toGetEnemyAndBarrelData.transform.position;
 
@@ -19,7 +19,7 @@ namespace Bullet
         {
             if (other.CompareTag("Enemy"))
             {
-                other.GetComponent<EnemyController>().TakeSlow(50f);
+                other.GetComponent<EnemyController>().TakeSlow((float)damage_toDealEnemy);
             }
         }
 

@@ -41,10 +41,12 @@ namespace Bullet
         /// 生成・再利用時の初期化処理を行う関数
         /// </summary>
         /// <param name="targetEnemy_toSetTarget"></param>
-        public virtual void Init(TowerFloorController tfc_toGetEnemyAndMuzzleData)
+        public virtual void Init(TowerFloorController tfc_toGetEnemyAndMuzzleData, int damage_toDealEnemy = 5)
         {
             targetEnemy_toFly = tfc_toGetEnemyAndMuzzleData.GetFirstTargetableEnemy();
             transform.position = tfc_toGetEnemyAndMuzzleData.GetMuzzlePosition();
+
+            this.damage_toDealEnemy = damage_toDealEnemy;
 
             myCollider_toSwitchEnable.enabled = true;
             myRigidbody_toMove.isKinematic = false;

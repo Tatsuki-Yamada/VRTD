@@ -15,7 +15,6 @@ public class TileController : MonoBehaviour
     /// タイルの表面の座標を返す関数
     /// </summary>
     /// <returns></returns>
-    /// TODO. offsetYの意味を調べる
     public Vector3 GetSurfacePos(float tileHeight_toAddPos = 0.2f)
     {
         if (Utils.CompareTags(tag, halfTileTags_toChangeOffsetY))
