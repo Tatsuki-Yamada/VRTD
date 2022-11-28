@@ -55,7 +55,7 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
     /// </summary>
     /// <param name="tfc_toGetEnemyAndBarrelData"></param>
     /// <typeparam name="T"></typeparam>
-    void CreateBullet<T>(TowerFloorController tfc_toGetEnemyAndBarrelData) where T : BulletController
+    private void CreateBullet<T>(TowerFloorController tfc_toGetEnemyAndBarrelData) where T : BulletController
     {
         // bulletListからTだけのリストを作成する。
         List<T> oneTypeList_toSearchDisableBullet = bulletList_toReuse.OfType<T>().ToList();

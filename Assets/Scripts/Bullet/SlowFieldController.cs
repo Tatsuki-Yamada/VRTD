@@ -19,7 +19,7 @@ namespace Bullet
         {
             if (other.CompareTag("Enemy"))
             {
-                other.GetComponent<EnemyController>().TakeSlow(0.5f);
+                other.GetComponent<EnemyController>().TakeSlow(50f);
             }
         }
 

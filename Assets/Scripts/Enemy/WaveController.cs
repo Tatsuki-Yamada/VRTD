@@ -17,6 +17,9 @@ public class WaveController : MonoBehaviour
     float waitTime = 0f;
 
 
+    float timeToNextWave_sec = 15f;
+
+
     /// <summary>
     /// キューに指定したWaveを登録する初期化処理
     /// </summary>
@@ -26,7 +29,22 @@ public class WaveController : MonoBehaviour
         switch (waveIndex)
         {
             case 1:
-                AddQueue("normal : 1, walk : 1, fly : 1, wait : 3, normal : 2 ");
+                AddQueue("normal : 3, wait : 2, normal : 3");
+                break;
+            case 2:
+                AddQueue("normal : 6, wait : 2, normal : 6");
+                break;
+            case 3:
+                AddQueue("walk : 3, wait : 2, normal : 3");
+                break;
+            case 4:
+                AddQueue("walk : 6, wait : 2, walk : 6");
+                break;
+            case 5:
+                AddQueue("fly : 3, wait : 2, fly : 3");
+                break;
+            default:
+                Debug.Log("Wave End.");
                 break;
         }
     }
@@ -38,6 +56,7 @@ public class WaveController : MonoBehaviour
     /// <param name="data"></param>
     void AddQueue(string data)
     {
+        data += ", wait : " + timeToNextWave_sec.ToString();
         data = data.Replace(" ", "");
         string[] splitData = data.Split(",");
 
@@ -116,17 +135,17 @@ public class WaveController : MonoBehaviour
                 break;
 
             case 1:
-                EnemyManager.Instance.CreateEnemy(0);
+                EnemyManager.Instance.CreateNormalEnemy();
                 waitTime = 1f;
                 break;
 
             case 2:
-                EnemyManager.Instance.CreateEnemy(1);
+                EnemyManager.Instance.CreateWalkEnemy();
                 waitTime = 1f;
                 break;
 
             case 3:
-                EnemyManager.Instance.CreateEnemy(2);
+                EnemyManager.Instance.CreateFlyEnemy();
                 waitTime = 1f;
                 break;
         }

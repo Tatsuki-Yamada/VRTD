@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3271809411174005711}
   - component: {fileID: 3271809411174005708}
   - component: {fileID: 3271809411174005709}
-  - component: {fileID: 6990644903239122511}
+  - component: {fileID: 8499037540194732279}
   m_Layer: 0
   m_Name: Enemy_Flier
   m_TagString: Enemy
@@ -124,7 +124,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &6990644903239122511
+--- !u!114 &8499037540194732279
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,13 +133,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3271809411174005706}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4253e5440d014e647be10490088482d4, type: 3}
+  m_Script: {fileID: 11500000, guid: edfb3d9f5a2f147bda085a543c6d662d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HPGauge: {fileID: 3599773386337910406}
-  maxHP: 100
-  currentHP: 100
-  isActive: 0
+  myHpGauge_toChangeFillAmount: {fileID: 3599773386337910406}
+  maxHP_toCompareCurrentHP: 100
+  currentHP_toCompareMaxHP: 100
+  isActive_toJudgeReuse: 0
 --- !u!1 &3271809411344119960
 GameObject:
   m_ObjectHideFlags: 0

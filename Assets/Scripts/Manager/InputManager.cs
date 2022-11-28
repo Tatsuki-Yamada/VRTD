@@ -54,6 +54,9 @@ public class InputManager : MonoBehaviour
     // ScreenPointがズレる対処用のポインター
     [SerializeField] GameObject pointerObj;
 
+    // フラグがTrueのとき、ハンマーの効率が10倍になる。
+    [SerializeField] bool Debug_is10xHammer;
+
 
     void Start()
     {
@@ -144,7 +147,10 @@ public class InputManager : MonoBehaviour
         {
             if (hit.collider.CompareTag("ConstructionSite"))
             {
-                hit.collider.GetComponent<ConstructionSiteController>().DecreaseCountAndStartAnim(10);
+                if (Debug_is10xHammer)
+                    hit.collider.GetComponent<ConstructionSiteController>().DecreaseCountAndStartAnim(10);
+                else
+                    hit.collider.GetComponent<ConstructionSiteController>().DecreaseCountAndStartAnim(1);
             }
         }
 
@@ -378,15 +384,9 @@ public class InputManager : MonoBehaviour
             Debug_HideControllers();
         }
 
-        // 敵の出現
-        if (Input.GetKeyDown(KeyCode.P) || OVRInput.GetDown(OVRInput.RawButton.B))
-        {
-            EnemyManager.Instance.CreateEnemy(0);
-        }
-
 
         // マウスで左右人差し指ボタンの再現
-        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.M))
         {
             Ray ray = leftEyeCamera.ScreenPointToRay(Input.mousePosition);
 

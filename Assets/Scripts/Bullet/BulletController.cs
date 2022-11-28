@@ -7,8 +7,6 @@ namespace Bullet
 {
     public class BulletController : MonoBehaviour
     {
- 
-
         // 攻撃目標となる敵のオブジェクト
         GameObject targetEnemy_toFly;
 

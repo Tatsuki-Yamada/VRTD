@@ -62,9 +62,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d115f25c69879f439340250e686bfa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerFloorPrefabs:
+  towerFloorPrefabs_toChangeShot:
   - {fileID: 8617540975670318129, guid: b189701b30a34e94db74d4f4095aefe7, type: 3}
   - {fileID: 8617540975670318129, guid: a5ec6513d07aea84faf6d1748bc41d86, type: 3}
+  - {fileID: 8617540975670318129, guid: 1ea79342b319048b795b5d6420029f45, type: 3}
   - {fileID: 8617540975670318129, guid: 10930a878e5c79347a091475d2047a70, type: 3}
   - {fileID: 8617540975670318129, guid: 1e13a3321cbcfa447a6db9784ced0b82, type: 3}
 --- !u!1001 &3520427931058782568

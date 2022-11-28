@@ -477,7 +477,7 @@ GameObject:
   - component: {fileID: 452768369768862529}
   - component: {fileID: 452768369768862590}
   - component: {fileID: 452768369768862530}
-  - component: {fileID: 7753806645018836818}
+  - component: {fileID: 2056442300257859473}
   m_Layer: 0
   m_Name: Enemy_Walker
   m_TagString: Enemy
@@ -588,7 +588,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &7753806645018836818
+--- !u!114 &2056442300257859473
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -597,13 +597,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 452768369768862591}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4253e5440d014e647be10490088482d4, type: 3}
+  m_Script: {fileID: 11500000, guid: f6687da22c29a433a8a3706e60a2ee42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HPGauge: {fileID: 5406603279800890598}
-  maxHP: 100
-  currentHP: 100
-  isActive: 0
+  myHpGauge_toChangeFillAmount: {fileID: 5406603279800890598}
+  maxHP_toCompareCurrentHP: 100
+  currentHP_toCompareMaxHP: 100
+  isActive_toJudgeReuse: 0
 --- !u!1 &860322933144259505
 GameObject:
   m_ObjectHideFlags: 0

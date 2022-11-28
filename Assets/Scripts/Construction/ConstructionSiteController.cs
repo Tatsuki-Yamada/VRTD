@@ -49,7 +49,7 @@ public class ConstructionSiteController : MonoBehaviour
     public void DecreaseCountAndStartAnim(int amountOfDecrease = 1)
     {
         justHitCanvas_toSwitchVisible.enabled = true;
-        justHitAnimator_toSetFlags.SetBool("Move_Onetime", true);
+        justHitAnimator_toSetFlags.SetBool("MoveStart", true);
 
         if (isJustHit_toMultiplyHitCount)
         {
@@ -75,7 +75,7 @@ public class ConstructionSiteController : MonoBehaviour
 
     public void AnimationFirstFrameFunc()
     {
-        justHitAnimator_toSetFlags.SetBool("Move_Onetime", false);
+        justHitAnimator_toSetFlags.SetBool("MoveStart", false);
     }
 
 

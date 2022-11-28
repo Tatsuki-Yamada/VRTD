@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3559,9 +3559,9 @@ MonoBehaviour:
   - {fileID: 4824994196657784799, guid: f07124ed240ca47449d110ddc8ebaa23, type: 3}
   TilesParent: {fileID: 747245953}
   enemyBasePosX: 0
-  enemyBasePosY: 0
+  enemyBasePosZ: 0
   playerBasePosX: 0
-  playerBasePosY: 0
+  playerBasePosZ: 0
 --- !u!4 &370316073
 Transform:
   m_ObjectHideFlags: 0
@@ -8457,6 +8457,7 @@ MonoBehaviour:
   towerStatusUICanvases:
   - {fileID: 1261116937}
   - {fileID: 2080790208}
+  - {fileID: 626533660}
   - {fileID: 1794666940}
   - {fileID: 1579392020}
   towerEvolveUICanvas:
@@ -9437,7 +9438,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &878690568
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12556,7 +12557,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1261116936
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18330,7 +18331,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1697095448
 RectTransform:
   m_ObjectHideFlags: 0

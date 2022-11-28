@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 4855710410757972434}
   - component: {fileID: 9157882915368612202}
   - component: {fileID: 7316942541861734059}
-  - component: {fileID: 1011473919582457538}
+  - component: {fileID: 3347342873328780229}
   m_Layer: 0
   m_Name: Enemy_Normal
   m_TagString: Enemy
@@ -275,7 +275,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1011473919582457538
+--- !u!114 &3347342873328780229
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -284,13 +284,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1055129927831341712}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4253e5440d014e647be10490088482d4, type: 3}
+  m_Script: {fileID: 11500000, guid: 496a6720e560a4c5badde022837f0ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HPGauge: {fileID: 169756055018238149}
-  maxHP: 100
-  currentHP: 100
-  isActive: 0
+  myHpGauge_toChangeFillAmount: {fileID: 169756055018238149}
+  maxHP_toCompareCurrentHP: 100
+  currentHP_toCompareMaxHP: 100
+  isActive_toJudgeReuse: 0
 --- !u!1 &3287140588710807514
 GameObject:
   m_ObjectHideFlags: 0

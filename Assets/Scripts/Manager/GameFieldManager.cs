@@ -28,11 +28,11 @@ public class GameFieldManager : SingletonMonoBehaviour<GameFieldManager>
 
     // 敵拠点の座標が入る変数。
     public int enemyBasePosX = 0;
-    public int enemyBasePosY = 0;
+    public int enemyBasePosZ = 0;
 
     // 自拠点の座標が入る変数。
     public int playerBasePosX = 0;
-    public int playerBasePosY = 0;
+    public int playerBasePosZ = 0;
 
     // タイルを並べる際のオフセット。
     [System.NonSerialized] public float createFieldOffsetX = -4f;
@@ -58,12 +58,12 @@ public class GameFieldManager : SingletonMonoBehaviour<GameFieldManager>
                 if (field[y, x] == 3)
                 {
                     enemyBasePosX = x;
-                    enemyBasePosY = y;
+                    enemyBasePosZ = y;
                 }
                 else if (field[y, x] == 4)
                 {
                     playerBasePosX = x;
-                    playerBasePosY = y;
+                    playerBasePosZ = y;
                 }
             }
         }
@@ -72,9 +72,9 @@ public class GameFieldManager : SingletonMonoBehaviour<GameFieldManager>
         enemyPath = new int[field.GetLength(0), field.GetLength(1)];
 
         // 敵拠点に始点の1を登録する。
-        enemyPath[enemyBasePosY, enemyBasePosX] = 1;
+        enemyPath[enemyBasePosZ, enemyBasePosX] = 1;
 
-        int distance = 1; 
+        int distance = 1;
 
         // 敵拠点から各マスの距離を測る。
         while (true)
@@ -110,7 +110,7 @@ public class GameFieldManager : SingletonMonoBehaviour<GameFieldManager>
             }
 
             // 経路が自拠点まで伸びたら終了する。
-            if (enemyPath[playerBasePosY, playerBasePosX] != 0)
+            if (enemyPath[playerBasePosZ, playerBasePosX] != 0)
             {
                 break;
             }
@@ -118,7 +118,7 @@ public class GameFieldManager : SingletonMonoBehaviour<GameFieldManager>
 
 
         int tempX = playerBasePosX;
-        int tempY = playerBasePosY;
+        int tempY = playerBasePosZ;
         // 距離から最短経路を1で繋ぐ。
         while (distance > 1)
         {
@@ -185,7 +185,7 @@ public class GameFieldManager : SingletonMonoBehaviour<GameFieldManager>
     public Vector3 GetEnemySpawnPos()
     {
         // Yの+0.5fはタイルに被らないためのオフセット
-        Vector3 pos = new Vector3(enemyBasePosX + createFieldOffsetX, createFieldOffsetY + 0.5f, enemyBasePosY + createFieldOffsetZ);
+        Vector3 pos = new Vector3(enemyBasePosX + createFieldOffsetX, createFieldOffsetY + 0.5f, enemyBasePosZ + createFieldOffsetZ);
 
         return pos;
     }
