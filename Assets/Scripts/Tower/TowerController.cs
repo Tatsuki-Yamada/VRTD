@@ -79,12 +79,10 @@ public class TowerController : MonoBehaviour
         }
     }
 
-
     public TowerFloorController[] GetChiledTFCs()
     {
         return myTowerFloorControllers;
     }
-
 
     /// <summary>
     /// 全フロアのアップグレード回数を配列で返す関数

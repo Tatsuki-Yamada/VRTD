@@ -13,7 +13,7 @@ namespace Bullet
         }
 
 
-        public override void Init(TowerFloorController tfc_toGetEnemyAndBarrelData)
+        public override void Init(TowerFloorController tfc_toGetEnemyAndBarrelData, int damage_toDealEnemy = 5)
         {
             base.Init(tfc_toGetEnemyAndBarrelData);
 

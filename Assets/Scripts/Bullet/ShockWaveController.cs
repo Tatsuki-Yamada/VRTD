@@ -16,7 +16,7 @@ namespace Bullet
         protected override void FixedUpdate() { }
 
 
-        public override void Init(TowerFloorController tfc_toGetEnemyAndBarrelData)
+        public override void Init(TowerFloorController tfc_toGetEnemyAndBarrelData, int damage_toDealEnemy = 5)
         {
             transform.position = tfc_toGetEnemyAndBarrelData.transform.position;
 
