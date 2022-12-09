@@ -24,29 +24,29 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
     List<Object> bulletList_toReuse = new List<Object>();
 
 
-    public void CreateNormalBullet(TowerFloorController tfc_toGetEnemyAndBarrelData)
+    public void CreateNormalBullet(TowerFloorController tfc_toGetEnemyAndBarrelData, float bulletDamage = 5f)
     {
-        CreateBullet<NormalBulletController>(tfc_toGetEnemyAndBarrelData);
+        CreateBullet<NormalBulletController>(tfc_toGetEnemyAndBarrelData, bulletDamage);
     }
 
-    public void CreateExplosionBullet(TowerFloorController tfc_toGetEnemyAndBarrelData)
+    public void CreateExplosionBullet(TowerFloorController tfc_toGetEnemyAndBarrelData, float bulletDamage = 5f)
     {
-        CreateBullet<ExplosionBulletController>(tfc_toGetEnemyAndBarrelData);
+        CreateBullet<ExplosionBulletController>(tfc_toGetEnemyAndBarrelData, bulletDamage);
     }
 
-    public void CreatePiercingBullet(TowerFloorController tfc_toGetEnemyAndBarrelData)
+    public void CreatePiercingBullet(TowerFloorController tfc_toGetEnemyAndBarrelData, float bulletDamage = 5f)
     {
-        CreateBullet<PiercingBulletController>(tfc_toGetEnemyAndBarrelData);
+        CreateBullet<PiercingBulletController>(tfc_toGetEnemyAndBarrelData, bulletDamage);
     }
 
-    public void CreateShockWave(TowerFloorController tfc_toGetEnemyAndBarrelData)
+    public void CreateShockWave(TowerFloorController tfc_toGetEnemyAndBarrelData, float bulletDamage = 5f)
     {
-        CreateBullet<ShockWaveController>(tfc_toGetEnemyAndBarrelData);
+        CreateBullet<ShockWaveController>(tfc_toGetEnemyAndBarrelData, bulletDamage);
     }
 
-    public void CreateSlowField(TowerFloorController tfc_toGetEnemyAndBarrelData)
+    public void CreateSlowField(TowerFloorController tfc_toGetEnemyAndBarrelData, float bulletDamage = 5f)
     {
-        CreateBullet<SlowFieldController>(tfc_toGetEnemyAndBarrelData);
+        CreateBullet<SlowFieldController>(tfc_toGetEnemyAndBarrelData, bulletDamage);
     }
 
 
@@ -55,7 +55,7 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
     /// </summary>
     /// <param name="tfc_toGetEnemyAndBarrelData"></param>
     /// <typeparam name="T"></typeparam>
-    private void CreateBullet<T>(TowerFloorController tfc_toGetEnemyAndBarrelData) where T : BulletController
+    private void CreateBullet<T>(TowerFloorController tfc_toGetEnemyAndBarrelData, float bulletDamage = 5f) where T : BulletController
     {
         // bulletListからTだけのリストを作成する。
         List<T> oneTypeList_toSearchDisableBullet = bulletList_toReuse.OfType<T>().ToList();
@@ -65,7 +65,7 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
         {
             if (type.isActive_toActivateUpdate == false)
             {
-                type.Init(tfc_toGetEnemyAndBarrelData);
+                type.Init(tfc_toGetEnemyAndBarrelData, (int)bulletDamage);
                 return;
             }
         }
@@ -87,7 +87,7 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
             Debug.LogError("BulletManager: toInstantiateObj = null");
 
         T typeObj_toAddList = Instantiate(toInstantiateObj, parent: bulletsParent_toGroup).GetComponent<T>();
-        typeObj_toAddList.Init(tfc_toGetEnemyAndBarrelData);
+        typeObj_toAddList.Init(tfc_toGetEnemyAndBarrelData, (int)bulletDamage);
         bulletList_toReuse.Add(typeObj_toAddList);
     }
 

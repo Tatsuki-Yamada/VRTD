@@ -375,6 +375,8 @@ MonoBehaviour:
   bulletType_toChangeShot: 1
   muzzleTransform_toSetFirePos: {fileID: 3709170335094684351}
   outlineObject: {fileID: 5782235180166402964}
+  myRangeController: {fileID: 4640554738503245639}
+  rangeScale: {x: 4, y: 1, z: 4}
   isActive_toActivateUpdate: 1
 --- !u!136 &5020890585271621095
 CapsuleCollider:

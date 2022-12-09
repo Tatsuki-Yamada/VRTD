@@ -13,11 +13,18 @@ public class TowerFloorController : MonoBehaviour
     // アウトライン
     [SerializeField] GameObject outlineObject;
 
+    [SerializeField] TowerRangeController myRangeController;
+    [SerializeField] Vector3 rangeScale = new Vector3(4, 1, 4);
+
     // 攻撃範囲内にいる敵のリスト
     List<GameObject> targetEnemyList_toFire = new List<GameObject>();
 
     // アップグレードを行った回数
     [System.NonSerialized] public int towerLevel_toUpgradeShots = 1;
+
+    float baseAttackDamage = 5;
+
+    float multiplyAttackDamage = 1f;
 
     // 有効かを示すフラグ
     public bool isActive_toActivateUpdate = true;
@@ -102,25 +109,25 @@ public class TowerFloorController : MonoBehaviour
         switch (bulletType_toChangeShot)
         {
             case BulletManager.BulletType.NormalBullet:
-                BulletManager.Instance.CreateNormalBullet(this);
+                BulletManager.Instance.CreateNormalBullet(this, baseAttackDamage * multiplyAttackDamage);
                 break;
 
             case BulletManager.BulletType.ExplosionBullet:
-                BulletManager.Instance.CreateExplosionBullet(this);
+                BulletManager.Instance.CreateExplosionBullet(this, baseAttackDamage * multiplyAttackDamage);
                 break;
 
             case BulletManager.BulletType.PiercingBullet:
-                BulletManager.Instance.CreatePiercingBullet(this);
+                BulletManager.Instance.CreatePiercingBullet(this, baseAttackDamage * multiplyAttackDamage);
                 break;
 
             case BulletManager.BulletType.ShockWave:
-                BulletManager.Instance.CreateShockWave(this);
+                BulletManager.Instance.CreateShockWave(this, baseAttackDamage * multiplyAttackDamage);
                 break;
 
             case BulletManager.BulletType.SlowField:
                 if (isActivatedField == false)
                 {
-                    BulletManager.Instance.CreateSlowField(this);
+                    BulletManager.Instance.CreateSlowField(this, baseAttackDamage * multiplyAttackDamage);
                     isActivatedField = true;
                 }
                 break;
@@ -171,18 +178,18 @@ public class TowerFloorController : MonoBehaviour
                 switch (towerLevel_toUpgradeShots)
                 {
                     case 2:
-                        // ダメージ1.5x
+                        multiplyAttackDamage = 1.25f;
                         break;
                     case 3:
-                        // ダメージ2x
-                        // 攻撃範囲1.5x
+                        multiplyAttackDamage = 2.0f;
+                        myRangeController.gameObject.transform.localScale = rangeScale * 1.25f;
                         break;
                     case 4:
-                        // ダメージ2.5x
+                        multiplyAttackDamage = 2.5f;
                         break;
                     case 5:
-                        // ダメージ3x
-                        // 攻撃範囲2x
+                        multiplyAttackDamage = 3f;
+                        myRangeController.gameObject.transform.localScale = rangeScale * 2f;
                         break;
                 }
                 break;

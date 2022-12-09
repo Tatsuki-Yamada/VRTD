@@ -372,15 +372,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64814fa982a0de14b89043567ab74052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildCounter: {fileID: 5821174962469451911}
-  bcc: {fileID: 0}
-  barrelTransform: {fileID: 3709170335094684351}
-  towerFloorMaterials:
-  - {fileID: 2100000, guid: 3427aaac95273e3489735c6da50a0668, type: 2}
-  - {fileID: 2100000, guid: 1efb3aa455661b1418a2f37d5838fa78, type: 2}
-  bulletType: 2
-  towerLevel: 1
+  bulletType_toChangeShot: 2
+  muzzleTransform_toSetFirePos: {fileID: 0}
   outlineObject: {fileID: 5782235180166402964}
+  myRangeController: {fileID: 4640554738503245639}
+  rangeScale: {x: 4, y: 1, z: 4}
+  isActive_toActivateUpdate: 1
 --- !u!136 &5020890585271621095
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -651,14 +648,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b3c50b68acbe1e84185984845afaef60, type: 3}
---- !u!114 &5821174962469451911 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 166134234105451930, guid: b3c50b68acbe1e84185984845afaef60, type: 3}
-  m_PrefabInstance: {fileID: 5946666848752807197}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
