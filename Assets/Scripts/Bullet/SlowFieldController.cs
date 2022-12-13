@@ -4,7 +4,7 @@ namespace Bullet
 {
     public class SlowFieldController : BulletController
     {
-        public override void Init(TowerFloorController tfc_toGetEnemyAndBarrelData, int damage_toDealEnemy = 50)
+        public override void Init(TowerFloorController tfc_toGetEnemyAndBarrelData, int damage_toDealEnemy = 20)
         {
             transform.position = tfc_toGetEnemyAndBarrelData.transform.position;
 
@@ -31,6 +31,11 @@ namespace Bullet
             {
                 other.GetComponent<EnemyController>().CureSlow();
             }
+        }
+
+        public void ChangeSlowRatio(int ratio)
+        {
+            damage_toDealEnemy = ratio;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Serialization;
+using Bullet;
 
 public class TowerFloorController : MonoBehaviour
 {
@@ -22,9 +23,12 @@ public class TowerFloorController : MonoBehaviour
     // アップグレードを行った回数
     [System.NonSerialized] public int towerLevel_toUpgradeShots = 1;
 
+
     float baseAttackDamage = 5;
 
     float multiplyAttackDamage = 1f;
+
+    float explosionRange_toMultiply = 1f;
 
     // 有効かを示すフラグ
     public bool isActive_toActivateUpdate = true;
@@ -36,7 +40,7 @@ public class TowerFloorController : MonoBehaviour
     float reloadTime_toCompareTimeFromLastShot = 1f;
 
     // フィールドを出したか示すフラグ
-    bool isActivatedField = false;
+    SlowFieldController mySlowField;
 
 
     /// <summary>
@@ -125,10 +129,9 @@ public class TowerFloorController : MonoBehaviour
                 break;
 
             case BulletManager.BulletType.SlowField:
-                if (isActivatedField == false)
+                if (mySlowField == null)
                 {
-                    BulletManager.Instance.CreateSlowField(this, baseAttackDamage * multiplyAttackDamage);
-                    isActivatedField = true;
+                    mySlowField = BulletManager.Instance.CreateSlowField(this, baseAttackDamage * multiplyAttackDamage);
                 }
                 break;
 
@@ -198,18 +201,18 @@ public class TowerFloorController : MonoBehaviour
                 switch (towerLevel_toUpgradeShots)
                 {
                     case 2:
-                        // ダメージ1.25x
+                        multiplyAttackDamage = 1.25f;
                         break;
                     case 3:
-                        // ダメージ1.5x
-                        // 爆発範囲1.5x
+                        multiplyAttackDamage = 1.5f;
+                        explosionRange_toMultiply = 1.5f;
                         break;
                     case 4:
-                        // 爆発範囲1.75x
+                        explosionRange_toMultiply = 1.75f;
                         break;
                     case 5:
-                        // ダメージ2.0x
-                        // 爆発範囲2.0x
+                        multiplyAttackDamage = 2.0f;
+                        explosionRange_toMultiply = 2.0f;
                         break;
                 }
                 break;
@@ -218,18 +221,18 @@ public class TowerFloorController : MonoBehaviour
                 switch (towerLevel_toUpgradeShots)
                 {
                     case 2:
-                        // ダメージ1.25x
+                        multiplyAttackDamage = 1.25f;
                         break;
                     case 3:
-                        // ダメージ1.5x
+                        multiplyAttackDamage = 1.5f;
                         // 弾速1.25x
                         break;
                     case 4:
-                        // ダメージ2x
+                        multiplyAttackDamage = 2.0f;
                         // 弾速1.5x
                         break;
                     case 5:
-                        // ダメージ3.0x
+                        multiplyAttackDamage = 3.0f;
                         // 弾速2.0x
                         break;
                 }
@@ -239,19 +242,19 @@ public class TowerFloorController : MonoBehaviour
                 switch (towerLevel_toUpgradeShots)
                 {
                     case 2:
-                        // 攻撃範囲1.1x
+                        myRangeController.gameObject.transform.localScale = rangeScale * 1.1f;
                         break;
                     case 3:
-                        // ダメージ1.25x
-                        // 攻撃範囲1.25x
+                        multiplyAttackDamage = 1.25f;
+                        myRangeController.gameObject.transform.localScale = rangeScale * 1.25f;
                         break;
                     case 4:
-                        // ダメージ1.5x
-                        // 攻撃範囲1.35x
+                        multiplyAttackDamage = 1.5f;
+                        myRangeController.gameObject.transform.localScale = rangeScale * 1.35f;
                         break;
                     case 5:
-                        // ダメージ2.0x
-                        // 攻撃範囲1.5x
+                        multiplyAttackDamage = 2.0f;
+                        myRangeController.gameObject.transform.localScale = rangeScale * 1.5f;
                         break;
                 }
                 break;
@@ -260,18 +263,18 @@ public class TowerFloorController : MonoBehaviour
                 switch (towerLevel_toUpgradeShots)
                 {
                     case 2:
-                        // 遅延効果30%
+                        mySlowField.ChangeSlowRatio(30);
                         break;
                     case 3:
-                        // 遅延効果40%
-                        // 効果範囲1.25x
+                        mySlowField.ChangeSlowRatio(40);
+                        myRangeController.gameObject.transform.localScale = rangeScale * 1.25f;
                         break;
                     case 4:
-                        // 遅延効果50%
+                        mySlowField.ChangeSlowRatio(50);
                         break;
                     case 5:
-                        // 遅延効果60%
-                        // 効果範囲1.5x
+                        mySlowField.ChangeSlowRatio(50);
+                        myRangeController.gameObject.transform.localScale = rangeScale * 1.5f;
                         break;
                 }
                 break;
@@ -284,7 +287,7 @@ public class TowerFloorController : MonoBehaviour
 
 
         // TODO. アップグレード内容を考える
-        reloadTime_toCompareTimeFromLastShot -= 0.1f;
+        reloadTime_toCompareTimeFromLastShot -= 0.05f;
 
         transform.parent.GetComponent<TowerController>().SetAllFloorsIsActive(true);
 

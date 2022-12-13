@@ -44,9 +44,9 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
         CreateBullet<ShockWaveController>(tfc_toGetEnemyAndBarrelData, bulletDamage);
     }
 
-    public void CreateSlowField(TowerFloorController tfc_toGetEnemyAndBarrelData, float bulletDamage = 5f)
+    public SlowFieldController CreateSlowField(TowerFloorController tfc_toGetEnemyAndBarrelData, float bulletDamage = 5f)
     {
-        CreateBullet<SlowFieldController>(tfc_toGetEnemyAndBarrelData, bulletDamage);
+        return CreateBullet<SlowFieldController>(tfc_toGetEnemyAndBarrelData, bulletDamage);
     }
 
 
@@ -55,7 +55,7 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
     /// </summary>
     /// <param name="tfc_toGetEnemyAndBarrelData"></param>
     /// <typeparam name="T"></typeparam>
-    private void CreateBullet<T>(TowerFloorController tfc_toGetEnemyAndBarrelData, float bulletDamage = 5f) where T : BulletController
+    private T CreateBullet<T>(TowerFloorController tfc_toGetEnemyAndBarrelData, float bulletDamage = 5f) where T : BulletController
     {
         // bulletListからTだけのリストを作成する。
         List<T> oneTypeList_toSearchDisableBullet = bulletList_toReuse.OfType<T>().ToList();
@@ -66,7 +66,7 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
             if (type.isActive_toActivateUpdate == false)
             {
                 type.Init(tfc_toGetEnemyAndBarrelData, (int)bulletDamage);
-                return;
+                return type;
             }
         }
 
@@ -89,6 +89,7 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
         T typeObj_toAddList = Instantiate(toInstantiateObj, parent: bulletsParent_toGroup).GetComponent<T>();
         typeObj_toAddList.Init(tfc_toGetEnemyAndBarrelData, (int)bulletDamage);
         bulletList_toReuse.Add(typeObj_toAddList);
+        return typeObj_toAddList;
     }
 
 }

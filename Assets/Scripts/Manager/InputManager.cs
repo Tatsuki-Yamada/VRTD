@@ -151,6 +151,8 @@ public class InputManager : MonoBehaviour
                     hit.collider.GetComponent<ConstructionSiteController>().DecreaseCountAndStartAnim(10);
                 else
                     hit.collider.GetComponent<ConstructionSiteController>().DecreaseCountAndStartAnim(1);
+
+                SoundManager.Instance.PlaySound(hit.transform.position, 0);
             }
         }
 
