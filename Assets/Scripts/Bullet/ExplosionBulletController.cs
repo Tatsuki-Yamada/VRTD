@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Enemy;
 
 namespace Bullet
 {
@@ -22,7 +23,7 @@ namespace Bullet
         {
             foreach (GameObject enemy_toTakeDamage in rangeController_toSpreadDamage.inRangedEnemies_toSpreadDamage)
             {
-                enemy_toTakeDamage.GetComponent<EnemyController>().TakeDamage(damage_toDealEnemy);
+                enemy_toTakeDamage.GetComponent<EnemyControllerBase>().TakeDamage(damage_toDealEnemy);
             }
         }
     }

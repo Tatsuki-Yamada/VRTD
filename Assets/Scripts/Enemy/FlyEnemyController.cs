@@ -2,7 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlyEnemyController : EnemyController
+namespace Enemy
 {
+    public class FlyEnemyController : EnemyControllerBase
+    {
+        public override void Init()
+        {
+            base.Init();
 
+            transform.Translate(0, 1, 0);
+        }
+    }
 }

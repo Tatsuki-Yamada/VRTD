@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using Enemy;
 
 public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
 {
@@ -38,12 +39,12 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
 
     public void CreateFlyEnemy()
     {
-        CreateEnemy<FlyEnemyController>(1f);
+        CreateEnemy<FlyEnemyController>();
     }
 
     /*
         // 敵を生成・再利用する
-        private void CreateEnem(int enemyIndex, float offsetY_toAddDefaultPosition = 0)
+        private void CreateEnem(int enemyIndex, float  = 0)
         {
 
 
@@ -51,9 +52,9 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
             // 無効状態の弾があれば再利用する
             foreach (EnemyController e in enemyList_toReuse)
             {
-                if (!e.isActive_toJudgeReuse)
+                if (!e.isActive)
                 {
-                    e.Init(offsetY_toAddDefaultPosition);
+                    e.Init();
                     return;
                 }
             }
@@ -62,14 +63,14 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
             EnemyController tempEnemy = Instantiate(EnemyPrefabs[enemyIndex], parent: enemyParent).GetComponent<EnemyController>();
 
             // 経路を初期化する
-            tempEnemy.Init(offsetY_toAddDefaultPosition);
+            tempEnemy.Init();
 
             // 管理リストに登録する
             enemyList_toReuse.Add(tempEnemy);
         }
     */
 
-    private void CreateEnemy<T>(float offsetY_toAddDefaultPosition = 0) where T : EnemyController
+    private void CreateEnemy<T>() where T : EnemyControllerBase
     {
         // enemyListからTだけのリストを作成する。
         List<T> oneTypeList_toSearchDisableEnemy = enemyList_toReuse.OfType<T>().ToList();
@@ -77,9 +78,9 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         // 無効状態の敵がいれば再利用する。
         foreach (T type in oneTypeList_toSearchDisableEnemy)
         {
-            if (type.isActive_toJudgeReuse == false)
+            if (type.isActive == false)
             {
-                type.Init(offsetY_toAddDefaultPosition);
+                type.Init();
                 return;
             }
         }
@@ -101,7 +102,7 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
             Debug.LogError("EnemyManager: toInstantiateObj = null");
 
         T typeObj_toAddList = Instantiate(toInstantiateObj, parent: enemyParent).GetComponent<T>();
-        typeObj_toAddList.Init(offsetY_toAddDefaultPosition);
+        typeObj_toAddList.Init();
         enemyList_toReuse.Add(typeObj_toAddList);
     }
 

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Enemy;
 
 /// <summary>
 /// 弾すべての基底クラス
@@ -103,7 +104,7 @@ namespace Bullet
         /// <param name="hitEnemy"></param>
         protected virtual void Hit(Collider hitEnemy)
         {
-            hitEnemy.GetComponent<EnemyController>().TakeDamage(damage_toDealEnemy);
+            hitEnemy.GetComponent<EnemyControllerBase>().TakeDamage(damage_toDealEnemy);
 
         }
 

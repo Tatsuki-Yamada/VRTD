@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NormalEnemyController : EnemyController
+namespace Enemy
 {
+    public class NormalEnemyController : EnemyControllerBase
+    {
 
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Enemy;
 
 namespace Bullet
 {
@@ -19,7 +20,7 @@ namespace Bullet
         {
             if (other.CompareTag("Enemy"))
             {
-                other.GetComponent<EnemyController>().TakeSlow((float)damage_toDealEnemy);
+                other.GetComponent<EnemyControllerBase>().TakeSlow((float)damage_toDealEnemy);
             }
         }
 
@@ -29,7 +30,7 @@ namespace Bullet
         {
             if (other.CompareTag("Enemy"))
             {
-                other.GetComponent<EnemyController>().CureSlow();
+                other.GetComponent<EnemyControllerBase>().TakeSlow(0);
             }
         }
 
