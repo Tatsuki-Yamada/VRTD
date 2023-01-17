@@ -21,7 +21,7 @@ namespace Bullet
         [SerializeField] protected int damage_toDealEnemy = 5;
 
         // 弾が飛翔するスピード
-        [SerializeField] protected float moveSpeed_toMultiplyMoveVec = 3f;
+        [SerializeField] public float moveSpeed_toMultiplyMoveVec = 3f;
 
         // 弾が生きているかを示すフラグ
         public bool isActive_toActivateUpdate = true;
@@ -53,6 +53,8 @@ namespace Bullet
             myRigidbody_toMove.isKinematic = false;
 
             isActive_toActivateUpdate = true;
+
+            this.GetComponent<Renderer>().enabled = true;
         }
 
 
@@ -94,7 +96,7 @@ namespace Bullet
         protected virtual void Move()
         {
             transform.LookAt(targetEnemy_toFly.transform.position);
-            myRigidbody_toMove.AddRelativeForce(Vector3.forward * moveSpeed_toMultiplyMoveVec);
+            myRigidbody_toMove.AddRelativeForce(Vector3.forward * 3 * moveSpeed_toMultiplyMoveVec);
         }
 
 
@@ -112,7 +114,7 @@ namespace Bullet
         /// <summary>
         /// オブジェクトを無効状態にする関数
         /// </summary>
-        protected void Disable()
+        protected virtual void Disable()
         {
             myCollider_toSwitchEnable.enabled = false;
             myRigidbody_toMove.isKinematic = true;
@@ -120,6 +122,8 @@ namespace Bullet
             myRigidbody_toMove.velocity = new Vector3(0, 0, 0);
 
             isActive_toActivateUpdate = false;
+
+            this.GetComponent<Renderer>().enabled = false;
         }
     }
 }

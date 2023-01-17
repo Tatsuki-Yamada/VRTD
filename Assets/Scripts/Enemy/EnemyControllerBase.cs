@@ -24,7 +24,7 @@ namespace Enemy
 
         // 最大HPと現在HP
         [System.NonSerialized]
-        public int maxHP = 100;
+        public int maxHP = 50;
         private IntReactiveProperty currentHP = new IntReactiveProperty(0);
 
         // 現在HPのObservable
@@ -81,12 +81,13 @@ namespace Enemy
         public void TakeDamage(int damageAmount)
         {
             currentHP.Value -= damageAmount;
+            SoundManager.Instance.PlaySound(this.transform.position, 2);
         }
 
 
         public void TakeSlow(float slowRatio)
         {
-            myMoveSequence.timeScale = slowRatio / 100;
+            myMoveSequence.timeScale = 1 - slowRatio / 100;
         }
 
 

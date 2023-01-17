@@ -67,18 +67,22 @@ public class UpgradeUIController : MonoBehaviour
         }
 
         // アップグレード回数に応じた挙動の変更
+        TowerFloorController[] tfcs = targetTC.GetChiledTFCs();
         int[] towerLevels = targetTC.GetAllFloorsLevel();
 
         for (int i = 0; i < towerLevels.Length; i++)
         {
-            if (towerLevels[i] >= 5)
+            if (towerLevels[i] >= 5 && tfcs[i].bulletType_toChangeShot == BulletManager.BulletType.NormalBullet)
             {
                 upgradeButtons[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "進化";
             }
             else
             {
                 upgradeButtons[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "アップグレード";
+                if (towerLevels[i] >= 5)
+                    upgradeButtons[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().color = new Color32(128, 128, 128, 255);
             }
+
         }
 
     }
@@ -89,12 +93,18 @@ public class UpgradeUIController : MonoBehaviour
     /// <param name="floorNum"></param>
     public void OnUpgradeClick(int floorNum)
     {
+        UIManager.Instance.InvisibleUI_NotIncludeCanvas();
+
+        TowerFloorController[] tfcs = targetTC.GetChiledTFCs();
         int[] towerLevels = targetTC.GetAllFloorsLevel();
 
-        if (towerLevels[floorNum] >= 6)
+        if (towerLevels[floorNum] >= 5)
         {
-            upgradeEvolveUIControllers[floorNum].gameObject.SetActive(true);
-            upgradeEvolveUIControllers[floorNum].ShowEvovleUI(targetTC, floorNum);
+            if (tfcs[floorNum].bulletType_toChangeShot == BulletManager.BulletType.NormalBullet)
+            {
+                upgradeEvolveUIControllers[floorNum].gameObject.SetActive(true);
+                upgradeEvolveUIControllers[floorNum].ShowEvovleUI(targetTC, floorNum);
+            }
         }
         else
         {

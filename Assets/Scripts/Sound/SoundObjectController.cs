@@ -32,10 +32,11 @@ public class SoundObjectController : MonoBehaviour
     }
 
 
-    public void SetSoundAndStart(AudioClip sound)
+    public void SetSoundAndStart(AudioClip sound, bool RandamizeFlag = false)
     {
         audioSource.clip = sound;
-        audioSource.pitch = Random.Range(0.8f, 1.2f);
+        if (RandamizeFlag)
+            audioSource.pitch = Random.Range(0.8f, 1.2f);
         audioSource.Play();
 
         isActive = true;

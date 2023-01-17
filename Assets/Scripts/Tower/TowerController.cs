@@ -73,6 +73,7 @@ public class TowerController : MonoBehaviour
 
     public void SetAllFloorsOutline(bool flag_toSetThis)
     {
+        return;
         foreach (TowerFloorController tf in myTowerFloorControllers)
         {
             tf.outline = flag_toSetThis;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using System.Text.RegularExpressions;
 
 public class WaveController : MonoBehaviour
 {
@@ -29,22 +30,47 @@ public class WaveController : MonoBehaviour
         switch (waveIndex)
         {
             case 1:
-                AddQueue("normal : 3, wait : 2, normal : 3");
+                AddQueue("normal : 2, wait : 2, normal : 2");
                 break;
             case 2:
-                AddQueue("normal : 6, wait : 2, normal : 6");
+                AddQueue("normal : 4, wait : 2, normal : 4");
                 break;
             case 3:
-                AddQueue("walk : 3, wait : 2, normal : 3");
+                AddQueue("normal : 6, wait : 2, normal : 6");
                 break;
             case 4:
-                AddQueue("walk : 6, wait : 2, walk : 6");
+                AddQueue("walk : 2, wait : 2, normal : 2");
                 break;
             case 5:
-                AddQueue("fly : 3, wait : 2, fly : 3");
+                AddQueue("walk : 4, wait : 2, walk : 4");
+                break;
+            case 6:
+                AddQueue("walk : 6, wait : 2, walk : 6");
+                break;
+            case 7:
+                AddQueue("fly : 2, wait : 2, fly : 2");
+                break;
+            case 8:
+                AddQueue("fly : 4, wait : 2, fly : 4");
+                break;
+            case 9:
+                AddQueue("fly : 6, wait : 2, fly : 6");
                 break;
             default:
-                Debug.Log("Wave End.");
+                string queueString = "";
+                int maxSpawnOneTime = 4 + waveIndex / 4;
+
+                int setAmount = Random.Range(2, 5 + waveIndex / 8);
+                for (int i = 0; i < setAmount; i++)
+                {
+                    queueString += Utils.GetRandom<string>(new List<string> { "normal", "walk", "fly" });
+                    queueString += ":";
+                    queueString += Random.Range(1, maxSpawnOneTime + 1).ToString();
+                    queueString += ",";
+                    queueString += "wait : 2, ";
+                }
+
+                AddQueue(queueString);
                 break;
         }
     }
@@ -56,13 +82,31 @@ public class WaveController : MonoBehaviour
     /// <param name="data"></param>
     void AddQueue(string data)
     {
+        // Debug.Log(data);
+
+
         data += ", wait : " + timeToNextWave_sec.ToString();
         data = data.Replace(" ", "");
         string[] splitData = data.Split(",");
 
+        int waitSecs = 2;
+        foreach (string d in splitData)
+        {
+            if (d == "")
+                continue;
+
+            if (int.TryParse(d.Split(":")[1], out int num))
+            {
+                waitSecs += num;
+            }
+        }
+
+        UIManager.Instance.SetWaveTimer(waitSecs);
 
         foreach (string d in splitData)
         {
+            if (d == "")
+                continue;
             string first = d.Split(":")[0];
             int second = int.Parse(d.Split(":")[1]);
 

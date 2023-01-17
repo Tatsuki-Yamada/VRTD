@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using Enemy;
+using TMPro;
 
 public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
 {
@@ -18,6 +19,8 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
     int waveCount = 1;
 
     [System.NonSerialized] public float enemyBaseHP_toIncreaseByWave = 100;
+
+    [SerializeField] TextMeshPro waveCountText;
 
 
     // TODO  最初のWave生成をGameManagerとかに移す
@@ -115,6 +118,8 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         WaveController waveController = this.gameObject.AddComponent<WaveController>();
         waveController.Init(wave);
         waveController.onCompleteWave.AddListener(CompleteWave);
+
+        UIManager.Instance.waveCountText.text = $"現在のウェーブ：{waveCount}";
     }
 
 

@@ -23,4 +23,10 @@ public static class Utils
         return false;
     }
 
+
+    public static T GetRandom<T>(List<T> list)
+    {
+        return list[Random.Range(0, list.Count)];
+    }
+
 }

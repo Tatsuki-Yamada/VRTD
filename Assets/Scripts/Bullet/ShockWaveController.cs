@@ -4,6 +4,8 @@ namespace Bullet
 {
     public class ShockWaveController : BulletController
     {
+        [SerializeField] ParticleSystem effect;
+
         Animator myAnimator_toChangeSize;
 
         protected override void Awake()
@@ -21,6 +23,7 @@ namespace Bullet
             transform.position = tfc_toGetEnemyAndBarrelData.transform.position;
 
             myAnimator_toChangeSize.SetTrigger("AnimTrigger");
+            effect.Play();
 
             isActive_toActivateUpdate = true;
         }

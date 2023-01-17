@@ -372,7 +372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64814fa982a0de14b89043567ab74052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletType_toChangeShot: 2
+  bulletType_toChangeShot: 3
   muzzleTransform_toSetFirePos: {fileID: 0}
   outlineObject: {fileID: 5782235180166402964}
   myRangeController: {fileID: 4640554738503245639}

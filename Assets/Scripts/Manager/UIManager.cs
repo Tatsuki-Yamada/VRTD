@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using TMPro;
+using System.Collections;
 
 public class UIManager : SingletonMonoBehaviour<UIManager>
 {
@@ -9,7 +11,10 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
 
     // 選択しているタワーコントローラー
     TowerController selectedTowerController;
-    
+
+    [SerializeField] public TextMeshProUGUI waveCountText;
+    [SerializeField] public TextMeshProUGUI nextWaveTimeText;
+
 
 
 
@@ -62,9 +67,9 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
     /// <summary>
     /// UIを非表示にする関数
     /// </summary>
-    void InvisibleUI()
+    public void InvisibleUI()
     {
-        towerUICanvas.gameObject.SetActive (false);
+        towerUICanvas.gameObject.SetActive(false);
 
         foreach (UpgradeStatusUIController ui in towerStatusUICanvases)
         {
@@ -74,6 +79,38 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
         foreach (UpgradeEvolveUIController ev in towerEvolveUICanvas)
         {
             ev.gameObject.SetActive(false);
+        }
+    }
+
+
+    public void InvisibleUI_NotIncludeCanvas()
+    {
+        foreach (UpgradeStatusUIController ui in towerStatusUICanvases)
+        {
+            ui.gameObject.SetActive(false);
+        }
+
+        foreach (UpgradeEvolveUIController ev in towerEvolveUICanvas)
+        {
+            ev.gameObject.SetActive(false);
+        }
+    }
+
+
+    public void SetWaveTimer(int time)
+    {
+        StartCoroutine(WaveTimer(time));
+    }
+
+
+    private IEnumerator WaveTimer(int time)
+    {
+        Debug.Log(time);
+        while (time > 0)
+        {
+            nextWaveTimeText.text = $"次のウェーブ開始まで：{time}秒";
+            time -= 1;
+            yield return new WaitForSeconds(1);
         }
     }
 }

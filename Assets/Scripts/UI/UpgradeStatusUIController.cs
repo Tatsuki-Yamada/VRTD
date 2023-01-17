@@ -24,11 +24,14 @@ public class UpgradeStatusUIController : MonoBehaviour
 
     StatusData statusData;
 
+    [SerializeField] int[] param1;
+    [SerializeField] int[] param2;
+
 
     void Awake()
     {
-        statusData.param1 = new int[] { 1, 2, 2, 2, 3 };
-        statusData.param2 = new int[] { 1, 2, 3, 4, 5 };
+        statusData.param1 = param1;
+        statusData.param2 = param2;
         statusData.param3 = null;
     }
 
@@ -99,5 +102,7 @@ public class UpgradeStatusUIController : MonoBehaviour
                 targetTC.UpgradeTopFloor();
                 break;
         }
+
+        UIManager.Instance.InvisibleUI();
     }
 }

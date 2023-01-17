@@ -41,6 +41,8 @@ public class UpgradeEvolveUIController : MonoBehaviour
                 targetTC.ChangeTopFloor(bulletTypes[selectedIndex]);
                 break;
         }
+
+        UIManager.Instance.InvisibleUI();
     }
 
 }

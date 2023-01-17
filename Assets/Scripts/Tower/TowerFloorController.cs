@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.Serialization;
 using Bullet;
+using Enemy;
 
 public class TowerFloorController : MonoBehaviour
 {
@@ -41,6 +42,8 @@ public class TowerFloorController : MonoBehaviour
 
     // フィールドを出したか示すフラグ
     SlowFieldController mySlowField;
+
+    float bulletSpeedMult = 1f;
 
 
     /// <summary>
@@ -94,7 +97,9 @@ public class TowerFloorController : MonoBehaviour
         if (targetEnemyList_toFire.Count == 0)
             return;
 
-        transform.LookAt(targetEnemyList_toFire[0].transform.position);
+        if (targetEnemyList_toFire[0].GetComponent<EnemyControllerBase>().isActive)
+            transform.LookAt(targetEnemyList_toFire[0].transform.position);
+
         // X軸方向の角度を0にして、上下を向かないようにする。
         transform.rotation = Quaternion.Euler(new Vector3(0, transform.eulerAngles.y, transform.eulerAngles.z));
     }
@@ -110,6 +115,8 @@ public class TowerFloorController : MonoBehaviour
         if (timeFromLastShot_toCompareReloadTime < reloadTime_toCompareTimeFromLastShot)
             return;
 
+        SoundManager.Instance.PlaySound(muzzleTransform_toSetFirePos.position, 1);
+
         switch (bulletType_toChangeShot)
         {
             case BulletManager.BulletType.NormalBullet:
@@ -117,11 +124,11 @@ public class TowerFloorController : MonoBehaviour
                 break;
 
             case BulletManager.BulletType.ExplosionBullet:
-                BulletManager.Instance.CreateExplosionBullet(this, baseAttackDamage * multiplyAttackDamage);
+                BulletManager.Instance.CreateExplosionBullet(this, baseAttackDamage * multiplyAttackDamage).ChangeExplosionSize(explosionRange_toMultiply);
                 break;
 
             case BulletManager.BulletType.PiercingBullet:
-                BulletManager.Instance.CreatePiercingBullet(this, baseAttackDamage * multiplyAttackDamage);
+                BulletManager.Instance.CreatePiercingBullet(this, baseAttackDamage * multiplyAttackDamage).moveSpeed_toMultiplyMoveVec *= bulletSpeedMult;
                 break;
 
             case BulletManager.BulletType.ShockWave:
@@ -225,15 +232,15 @@ public class TowerFloorController : MonoBehaviour
                         break;
                     case 3:
                         multiplyAttackDamage = 1.5f;
-                        // 弾速1.25x
+                        bulletSpeedMult = 1.25f;
                         break;
                     case 4:
                         multiplyAttackDamage = 2.0f;
-                        // 弾速1.5x
+                        bulletSpeedMult = 1.5f;
                         break;
                     case 5:
                         multiplyAttackDamage = 3.0f;
-                        // 弾速2.0x
+                        bulletSpeedMult = 2f;
                         break;
                 }
                 break;
@@ -273,7 +280,7 @@ public class TowerFloorController : MonoBehaviour
                         mySlowField.ChangeSlowRatio(50);
                         break;
                     case 5:
-                        mySlowField.ChangeSlowRatio(50);
+                        mySlowField.ChangeSlowRatio(60);
                         myRangeController.gameObject.transform.localScale = rangeScale * 1.5f;
                         break;
                 }

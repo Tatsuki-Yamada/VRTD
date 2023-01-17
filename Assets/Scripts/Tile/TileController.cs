@@ -32,7 +32,7 @@ public class TileController : MonoBehaviour
 
         switch (tag)
         {
-            case "Tile_None":
+            case "Tile_CanBuild":
                 // 座標の追加分はConstructioniSiteの足をタイルの表面につけるため。
                 ConstructionSiteController tempCSC_toCallSometime = ConstructionManager.Instance.CreateConstructionSite(GetSurfacePos() + new Vector3(0, 0.25f, 0), 25);
                 tempCSC_toCallSometime.onCompleteBuildFuncs_toCallback.AddListener(CompleteBuild);
@@ -59,7 +59,7 @@ public class TileController : MonoBehaviour
     {
         switch (tag)
         {
-            case "Tile_None":
+            case "Tile_CanBuild":
                 TowerManager.Instance.CreateTower(transform.position);
                 break;
 
@@ -72,6 +72,5 @@ public class TileController : MonoBehaviour
                 */
         }
 
-        isBuilding_toAvoidMultiBuildIng = false;
     }
 }

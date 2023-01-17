@@ -237,7 +237,7 @@ public class InputManager : MonoBehaviour
             rightLinePointerObject.transform.position = hit.point;
 
             // Rayが当たった先がタイルなら
-            if (Utils.CompareTags(hit.collider.tag, tileTags))
+            if (hit.collider.CompareTag("Tile_CanBuild"))
             {
                 rightSelector.SetActive(true);
                 rightSelector.transform.position = hit.collider.GetComponent<TileController>().GetSurfacePos(0);

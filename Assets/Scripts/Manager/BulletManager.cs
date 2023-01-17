@@ -29,14 +29,14 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
         CreateBullet<NormalBulletController>(tfc_toGetEnemyAndBarrelData, bulletDamage);
     }
 
-    public void CreateExplosionBullet(TowerFloorController tfc_toGetEnemyAndBarrelData, float bulletDamage = 5f)
+    public ExplosionBulletController CreateExplosionBullet(TowerFloorController tfc_toGetEnemyAndBarrelData, float bulletDamage = 5f)
     {
-        CreateBullet<ExplosionBulletController>(tfc_toGetEnemyAndBarrelData, bulletDamage);
+        return CreateBullet<ExplosionBulletController>(tfc_toGetEnemyAndBarrelData, bulletDamage);
     }
 
-    public void CreatePiercingBullet(TowerFloorController tfc_toGetEnemyAndBarrelData, float bulletDamage = 5f)
+    public PiercingBulletController CreatePiercingBullet(TowerFloorController tfc_toGetEnemyAndBarrelData, float bulletDamage = 5f)
     {
-        CreateBullet<PiercingBulletController>(tfc_toGetEnemyAndBarrelData, bulletDamage);
+        return CreateBullet<PiercingBulletController>(tfc_toGetEnemyAndBarrelData, bulletDamage);
     }
 
     public void CreateShockWave(TowerFloorController tfc_toGetEnemyAndBarrelData, float bulletDamage = 5f)
