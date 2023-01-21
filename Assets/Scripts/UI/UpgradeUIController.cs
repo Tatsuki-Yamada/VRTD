@@ -75,6 +75,7 @@ public class UpgradeUIController : MonoBehaviour
             if (towerLevels[i] >= 5 && tfcs[i].bulletType_toChangeShot == BulletManager.BulletType.NormalBullet)
             {
                 upgradeButtons[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "進化";
+                upgradeButtons[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().color = new Color32(255, 255, 255, 255);
             }
             else
             {
