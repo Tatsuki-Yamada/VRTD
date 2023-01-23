@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Linq;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class InputManager : MonoBehaviour
 {
@@ -113,6 +114,11 @@ public class InputManager : MonoBehaviour
         if (OVRInput.GetDown(OVRInput.RawButton.RThumbstickRight) || OVRInput.GetDown(OVRInput.RawButton.RThumbstickLeft))
         {
             RThumbStick();
+        }
+
+        if (OVRInput.GetDown(OVRInput.RawButton.LThumbstick))
+        {
+            SceneManager.LoadScene("TitleScene");
         }
     }
 

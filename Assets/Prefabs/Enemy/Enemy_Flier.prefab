@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3271809411174005708}
   - component: {fileID: 3271809411174005709}
   - component: {fileID: 8499037540194732279}
+  - component: {fileID: 2649869873589919205}
   m_Layer: 0
   m_Name: Enemy_Flier
   m_TagString: Enemy
@@ -137,6 +138,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActive: 0
+--- !u!119 &2649869873589919205
+Projector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3271809411174005706}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_NearClipPlane: 0.1
+  m_FarClipPlane: 100
+  m_FieldOfView: 60
+  m_AspectRatio: 1
+  m_Orthographic: 0
+  m_OrthographicSize: 10
+  m_Material: {fileID: 0}
+  m_IgnoreLayers:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &3271809411344119960
 GameObject:
   m_ObjectHideFlags: 0

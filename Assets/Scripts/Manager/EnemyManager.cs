@@ -16,7 +16,7 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
     List<Object> enemyList_toReuse = new List<Object>();
 
     // 現在のWave数
-    int waveCount = 1;
+    [SerializeField] int waveCount = 1;
 
     [System.NonSerialized] public float enemyBaseHP_toIncreaseByWave = 100;
 

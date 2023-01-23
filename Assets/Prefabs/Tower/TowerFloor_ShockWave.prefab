@@ -373,7 +373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletType_toChangeShot: 3
-  muzzleTransform_toSetFirePos: {fileID: 0}
+  muzzleTransform_toSetFirePos: {fileID: 3709170335094684351}
   outlineObject: {fileID: 5782235180166402964}
   myRangeController: {fileID: 4640554738503245639}
   rangeScale: {x: 4, y: 1, z: 4}

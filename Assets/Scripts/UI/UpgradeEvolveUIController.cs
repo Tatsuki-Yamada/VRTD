@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class UpgradeEvolveUIController : MonoBehaviour
 {
     [SerializeField] BulletManager.BulletType[] bulletTypes;
+    [SerializeField] Toggle[] toggles;
 
     int selectedIndex = -1;
 
@@ -20,6 +22,13 @@ public class UpgradeEvolveUIController : MonoBehaviour
     public void OnSelectButtonClick(int selectIndex)
     {
         selectedIndex = selectIndex;
+
+        foreach (Toggle t in toggles)
+        {
+            t.isOn = false;
+        }
+
+        toggles[selectedIndex].isOn = true;
     }
 
 

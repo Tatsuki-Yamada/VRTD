@@ -8,6 +8,8 @@ public class GameFieldManager : SingletonMonoBehaviour<GameFieldManager>
 
     [SerializeField] GameObject TilesParent;
 
+    [SerializeField] int stageNum = 0;
+
     /// <summary>
     /// フィールドを定義する。
     /// 0が無し、1が道、2が設置可能、3が敵拠点、4が自拠点。
@@ -42,8 +44,55 @@ public class GameFieldManager : SingletonMonoBehaviour<GameFieldManager>
 
     void Start()
     {
+        InitField();
         SearchPath();
         CreateField();
+    }
+
+
+    private void InitField()
+    {
+        switch (stageNum)
+        {
+            case 1:
+                field = new int[,]
+                {
+                    { 9, 9, 9, 9, 9, 9, 9, 9, 9, },
+                    { 9, 0, 0, 0, 0, 0, 0, 0, 9, },
+                    { 9, 0, 2, 0, 0, 0, 2, 0, 9, },
+                    { 9, 3, 1, 1, 1, 1, 1, 4, 9, },
+                    { 9, 0, 0, 0, 0, 2, 0, 0, 9, },
+                    { 9, 0, 0, 0, 0, 0, 0, 0, 9, },
+                    { 9, 9, 9, 9, 9, 9, 9, 9, 9, },
+                };
+                break;
+
+            case 2:
+                field = new int[,]
+                {
+                    { 9, 9, 9, 9, 9, 9, 9, 9, 9, },
+                    { 9, 0, 0, 0, 2, 0, 0, 0, 9, },
+                    { 9, 0, 1, 1, 1, 0, 0, 0, 9, },
+                    { 9, 3, 1, 2, 1, 0, 1, 4, 9, },
+                    { 9, 0, 0, 0, 1, 2, 1, 0, 9, },
+                    { 9, 0, 0, 0, 1, 1, 1, 0, 9, },
+                    { 9, 9, 9, 9, 9, 9, 9, 9, 9, },
+                };
+                break;
+
+            case 3:
+                field = new int[,]
+                {
+                    { 9, 9, 9, 9, 9, 9, 9, 9, 9, },
+                    { 9, 0, 0, 0, 1, 1, 1, 2, 9, },
+                    { 9, 3, 1, 1, 1, 0, 1, 1, 9, },
+                    { 9, 0, 0, 2, 0, 0, 0, 1, 9, },
+                    { 9, 4, 1, 1, 1, 0, 0, 1, 9, },
+                    { 9, 0, 0, 2, 1, 1, 1, 1, 9, },
+                    { 9, 9, 9, 9, 9, 9, 9, 9, 9, },
+                };
+                break;
+        }
     }
 
 
