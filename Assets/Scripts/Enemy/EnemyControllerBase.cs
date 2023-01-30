@@ -24,14 +24,14 @@ namespace Enemy
 
         // 最大HPと現在HP
         [System.NonSerialized]
-        public int maxHP = 50;
+        public int maxHP = 40;
         private IntReactiveProperty currentHP = new IntReactiveProperty(0);
 
         // 現在HPのObservable
         public IReadOnlyReactiveProperty<int> CurrentHP => currentHP;
 
 
-        private void Awake()
+        protected virtual void Awake()
         {
             SetManagerRefs();
 

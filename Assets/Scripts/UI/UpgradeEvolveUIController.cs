@@ -38,18 +38,15 @@ public class UpgradeEvolveUIController : MonoBehaviour
         if (selectedIndex == -1)
             return;
 
-        switch (targetFloorNum)
-        {
-            case 0:
-                targetTC.ChangeBotFloor(bulletTypes[selectedIndex]);
-                break;
-            case 1:
-                targetTC.ChangeMidFloor(bulletTypes[selectedIndex]);
-                break;
-            case 2:
-                targetTC.ChangeTopFloor(bulletTypes[selectedIndex]);
-                break;
-        }
+        ConstructionSiteController tempCsc_toCallSometime = ConstructionManager.Instance.CreateContructionTowerSite(targetTC.transform.position, 30);
+        tempCsc_toCallSometime.targetTC = targetTC;
+        tempCsc_toCallSometime.toChangeType = bulletTypes[selectedIndex];
+        tempCsc_toCallSometime.floorNum = targetFloorNum;
+
+        targetTC.SetAllFloorsIsActive(false);
+
+        tempCsc_toCallSometime.onCompleteBuildFuncs_toCallback.AddListener(tempCsc_toCallSometime.Evolve);
+
 
         UIManager.Instance.InvisibleUI();
     }

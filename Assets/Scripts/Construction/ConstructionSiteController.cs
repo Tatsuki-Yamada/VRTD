@@ -17,6 +17,12 @@ public class ConstructionSiteController : MonoBehaviour
 
     public bool isActive_toJudgeReusable = true;
 
+    public BulletManager.BulletType toChangeType;
+
+    public TowerController targetTC;
+
+    public int floorNum;
+
     // このEventに登録された関数が、カウンターが0になったとき呼ばれる。
     public UnityEvent onCompleteBuildFuncs_toCallback = new UnityEvent();
 
@@ -101,9 +107,28 @@ public class ConstructionSiteController : MonoBehaviour
     }
 
 
+    public void Evolve()
+    {
+        switch (floorNum)
+        {
+            case 0:
+                targetTC.ChangeBotFloor(toChangeType);
+                break;
+            case 1:
+                targetTC.ChangeMidFloor(toChangeType);
+                break;
+            case 2:
+                targetTC.ChangeTopFloor(toChangeType);
+                break;
+        }
+
+        targetTC.SetAllFloorsIsActive(true);
+    }
+
+
     private void AttatchNullCheck()
     {
-        Debug.Log("ConstructionSiteController Null Checking.");
+        // Debug.Log("ConstructionSiteController Null Checking.");
         if (!myTextMesh_toShowCount) Debug.LogError("No attached error.");
         if (!justHitAnimator_toSetFlags) Debug.LogError("No attached error.");
         if (!justHitCanvas_toSwitchVisible) Debug.LogError("No attached error.");

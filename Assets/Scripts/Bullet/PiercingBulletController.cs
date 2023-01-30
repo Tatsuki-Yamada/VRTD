@@ -29,5 +29,9 @@ namespace Bullet
         {
             myRigidbody_toMove.AddRelativeForce(Vector3.forward * 3 * moveSpeed_toMultiplyMoveVec);
         }
+
+        protected override void CheckTargetActive()
+        {
+        }
     }
 }

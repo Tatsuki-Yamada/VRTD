@@ -128,7 +128,7 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
     {
         Destroy(this.gameObject.GetComponent<WaveController>());
 
-        enemyBaseHP_toIncreaseByWave *= 1.7f;
+        enemyBaseHP_toIncreaseByWave *= 1.5f;
         waveCount += 1;
 
         // TODO. 最終的に消す

@@ -65,11 +65,15 @@ namespace Bullet
             if (isActive_toActivateUpdate)
             {
                 Move();
+                CheckTargetActive();
+            }
+        }
 
-                if (targetEnemy_toFly.transform.position == new Vector3(50, 50, 50))
-                {
-                    Disable();
-                }
+        protected virtual void CheckTargetActive()
+        {
+            if (targetEnemy_toFly.transform.position == new Vector3(50, 50, 50))
+            {
+                Disable();
             }
         }
 

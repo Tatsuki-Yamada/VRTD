@@ -16,7 +16,7 @@ public class TowerFloorController : MonoBehaviour
     [SerializeField] GameObject outlineObject;
 
     [SerializeField] TowerRangeController myRangeController;
-    [SerializeField] Vector3 rangeScale = new Vector3(4, 1, 4);
+    Vector3 rangeScale = new Vector3(3, 0.19f, 3);
 
     // 攻撃範囲内にいる敵のリスト
     List<GameObject> targetEnemyList_toFire = new List<GameObject>();
@@ -168,7 +168,10 @@ public class TowerFloorController : MonoBehaviour
         if (isActive_toActivateUpdate == false)
             return;
 
-        ConstructionSiteController tempCsc_toCallSometime = ConstructionManager.Instance.CreateContructionTowerSite(transform.parent.position, 10 + towerLevel_toUpgradeShots * 2);
+        if (mySlowField != false)
+            mySlowField.gameObject.SetActive(false);
+
+        ConstructionSiteController tempCsc_toCallSometime = ConstructionManager.Instance.CreateContructionTowerSite(transform.parent.position, 20 + towerLevel_toUpgradeShots * 4);
         tempCsc_toCallSometime.onCompleteBuildFuncs_toCallback.AddListener(CompleteUpgrade);
 
         transform.parent.GetComponent<TowerController>().SetAllFloorsIsActive(false);
@@ -180,6 +183,9 @@ public class TowerFloorController : MonoBehaviour
     /// </summary>
     public void CompleteUpgrade()
     {
+        if (mySlowField != false)
+            mySlowField.gameObject.SetActive(true);
+
         towerLevel_toUpgradeShots += 1;
 
         switch (bulletType_toChangeShot)
@@ -274,14 +280,18 @@ public class TowerFloorController : MonoBehaviour
                         break;
                     case 3:
                         mySlowField.ChangeSlowRatio(40);
-                        myRangeController.gameObject.transform.localScale = rangeScale * 1.25f;
+                        myRangeController.gameObject.transform.localScale = rangeScale * 1.1f;
+                        mySlowField.gameObject.transform.localScale = rangeScale * 1.1f;
+                        mySlowField.gameObject.transform.localScale = new Vector3(mySlowField.gameObject.transform.localScale.x, 0.19f, mySlowField.gameObject.transform.localScale.z);
                         break;
                     case 4:
                         mySlowField.ChangeSlowRatio(50);
                         break;
                     case 5:
                         mySlowField.ChangeSlowRatio(60);
-                        myRangeController.gameObject.transform.localScale = rangeScale * 1.5f;
+                        myRangeController.gameObject.transform.localScale = rangeScale * 1.25f;
+                        mySlowField.gameObject.transform.localScale = rangeScale * 1.25f;
+                        mySlowField.gameObject.transform.localScale = new Vector3(mySlowField.gameObject.transform.localScale.x, 0.19f, mySlowField.gameObject.transform.localScale.z);
                         break;
                 }
                 break;
