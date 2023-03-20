@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Bullet;
 
+
 public class BulletManager : SingletonMonoBehaviour<BulletManager>
 {
     public enum BulletType
@@ -91,5 +92,4 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
         bulletList_toReuse.Add(typeObj_toAddList);
         return typeObj_toAddList;
     }
-
 }
